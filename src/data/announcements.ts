@@ -1,0 +1,148 @@
+import type { Announcement } from '../types';
+
+export const announcements: Announcement[] = [
+  {
+    id: 'ann-1',
+    title: {
+      ar: 'افتتاح التسجيل في مركز حفظ القرآن الكريم',
+      en: 'Registration Opens at the Quran Memorization Center',
+      am: 'በቁርአን ማስታወሻ ማዕከል ምዝገባ ተከፍቷል',
+      om: 'Wiirtuu Hafzu Quraanaatti galmaa\'uun banameera',
+    },
+    departmentSlug: 'center-hifz',
+    date: '2025-01-15',
+    image: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
+    excerpt: {
+      ar: 'يُعلن مركز حفظ القرآن الكريم عن فتح باب التسجيل للدفعة الثانية، الهدف 30 طالبة',
+      en: 'The Quran Memorization Center announces registration for the second batch, target 30 students',
+      am: 'የቁርአን ማስታወሻ ማዕከል ለሁለተኑ ወረቀት ምዝገባ ክፍቷል',
+      om: 'Wiirtuun Hafzu Quraanaa galmaa\'insa dhabbata lammaffaa banuuteera',
+    },
+    content: {
+      ar: 'بسم الله الرحمن الرحيم. يُعلن مركز حفظ القرآن الكريم دار القرآن عن فتح باب التسجيل للدفعة الثانية من الطالبات الراغبات في حفظ كتاب الله كاملاً. يستقبل المركز 30 طالبة في هذه الدفعة، على أن يلتزمن بالبرنامج السكني المكثف لمدة سنتين. تُوفر إدارة المركز جميع احتياجات الطالبات من السكن والطعام والمواد التعليمية والرعاية الطبية. يُرجى التواصل عبر قناة التيليجرام الخاصة بالمركز للحصول على تفاصيل التسجيل.',
+      en: 'In the name of Allah, the Most Gracious, the Most Merciful. The Dar Al-Quran Memorization Center announces the opening of registration for the second batch of female students wishing to memorize the complete Quran. The center accepts 30 students in this batch, committing to the intensive residential program for two years. The center administration provides all student needs. Please contact via the center\'s Telegram channel for registration details.',
+      am: 'በአላህ ስም እንደምን እንዳናገኝ። የቁርአን ማስታወሻ ማዕከል ለሁለተኑ ወረቀት ምዝገባ ክፍቷል። 30 ተማሪዎችን ይቀበላል።',
+      om: 'Magaa Rabbiiin. Wiirtuun Hafzu Quraanaa galmaa\'insa dhabbata lammaffaa banuuteera. Barattoota 30 qabachuu ni danda\'a.',
+    },
+  },
+  {
+    id: 'ann-2',
+    title: {
+      ar: 'حفل تخريج الدفعة الأولى من الحافظات',
+      en: 'First Batch Hafizat Graduation Ceremony',
+      am: 'የመጀመሪያው ወረቀት የሂፍዝ ምሩቃን ምረቃ ሥነ ሥርዓት',
+      om: 'Dhabbata tokkoffaa Hafzuu milkaa\'ina shubbisa',
+    },
+    departmentSlug: 'center-hifz',
+    date: '2024-12-20',
+    image: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
+    excerpt: {
+      ar: 'احتفل المركز بتخريج 18 حافظة لكتاب الله كاملاً في حفل مهيب',
+      en: 'The center celebrated the graduation of 18 female Hafizat of the complete Quran in a grand ceremony',
+      am: 'ማዕከሉ 18 የቁርአን ምሩቃን በታላቅ ሥነ ሥርዓት አስተናገደ',
+      om: 'Wiirtuun Hafzu Quraanaa 18 milkaa\'intota shubbisa guddaan kabajjateera',
+    },
+    content: {
+      ar: 'في ليلة مباركة، احتفل مركز حفظ القرآن الكريم دار القرآن بتخريج الدفعة الأولى من الحافظات، حيث أتممن حفظ القرآن الكريم كاملاً بإتقان. بلغ عدد الخريجات 18 حافظة، تم تأهيلهن خلال سنتين من الدراسة المكثفة. شهد الحفل حضوراً كبيراً من أهالي الطالبات ومشايخ المنطقة وكلمات تأثيرية من الخريجات.',
+      en: 'On a blessed night, the Dar Al-Quran Memorization Center celebrated the graduation of the first batch of Hafizat, who completed the memorization of the entire Quran with mastery. 18 female students graduated after two years of intensive study. The ceremony was attended by students\' families, regional scholars, and featured impactful speeches from the graduates.',
+      am: 'በቡሩክ ምሽት፣ የቁርአን ማስታወሻ ማዕከል የመጀመሪያውን ወረቀት ምሩቃን አስተናገደ። 18 ተማሪዎች በሁለት ዓመት ጥናት ተመረቁ።',
+      om: 'Halkan barakaadha, Wiirtuun Hafzu Quraanaa dhabbata tokkoffaa milkaa\'intota kabajjateera. 18 dubartoota waggaa lama qoratanii milkaa\'anii ba\'an.',
+    },
+  },
+  {
+    id: 'ann-3',
+    title: {
+      ar: 'بدء العام الدراسي الجديد في المدرسة',
+      en: 'New School Year Begins',
+      am: 'አዲስ የትምህርት ዓመት ተጀምሯል',
+      om: 'Waggaa barumsaa haaraa eegaleera',
+    },
+    departmentSlug: 'school',
+    date: '2025-02-01',
+    image: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
+    excerpt: {
+      ar: 'استقبلت المدرسة أكثر من 642 طالباً وطالبة في بداية العام الدراسي الجديد',
+      en: 'The school welcomed over 642 students at the start of the new school year',
+      am: 'ትምህርት ቤቱ ከ642 በላይ ተማሪዎችን ተቀበለ',
+      om: 'Barumsi kun barattoota 642 ol fudhateera',
+    },
+    content: {
+      ar: 'بدأت مدرسة دار القرآن الكريم لخديجة بنت خويلد عامها الدراسي الجديد باستقبال أكثر من 642 طالباً وطالبة في مختلف الصفوف من التمهيد إلى الصف الخامس. تم تجهيز الفصول الدراسية وتوفير جميع المستلزمات التعليمية. كما تم استقبال معلمين جدد مؤهلين للانضمام إلى هيئة التدريس، ليصل عدد المعلمين إلى أكثر من 10 معلمين.',
+      en: 'Dar Al-Quran School for Khadija bint Khuwaylid began its new school year welcoming over 642 students across all grades from preparatory to Grade 5. Classrooms were prepared and all educational supplies provided. New qualified teachers were also welcomed, bringing the total to more than 10 teachers.',
+      am: 'ዳር አል-ቁርአን ትምህርት ቤት አዲሱን የትምህርት ዓመት ከ642 በላይ ተማሪዎችን ተቀበሎ ጀምሯል።',
+      om: 'Barumsi Daar Al-Quraan waggaa haaraa barattoota 642 ol fudhateera. Kutaa hunda qopheessiteera.',
+    },
+  },
+  {
+    id: 'ann-4',
+    title: {
+      ar: 'مشروع إفطار رمضان لـ 82 طفلاً',
+      en: 'Ramadan Iftar Project for 82 Children',
+      am: 'ለ82 ልጆች የረመዳን እርዳታ ፕሮጀክት',
+      om: 'Piroogiraamii iftaar Ramadaanaa ilmuu 82',
+    },
+    departmentSlug: 'charity',
+    date: '2025-03-01',
+    image: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
+    excerpt: {
+      ar: 'يواصل بيت الرحمة تقديم وجبة الإفطار اليومية لـ 82 طفلاً من الأطفال المساكين',
+      en: 'Bayt Al-Rahma continues providing daily Iftar meals for 82 poor children',
+      am: 'ቤት አል-ራህማ ለ82 ልጆች በየቀኑ የእርዳታ ምሳ መስጠቱን ይቀጥላል',
+      om: 'Bayt Al-Rahmaan nyaata iftaaraa guyyaa guyyaa ilmuu 82 kenna jira',
+    },
+    content: {
+      ar: 'يواصل بيت الرحمة الخيرية مشروعه الرمضاني المبارك بتقديم وجبة الإفطار اليومية لـ 82 طفلاً من الأطفال المساكين في المنطقة. يهدف المشروع إلى تخفيف معاناة الأسر الفقيرة وتوفير وجبة مغذية للأطفال خلال الشهر الفضيل. يدعو البيت جميع المحسنين للإسهام في هذا المشروع الخيري عبر قناة التيليجرام.',
+      en: 'Bayt Al-Rahma Charity continues its blessed Ramadan project providing daily Iftar meals for 82 poor children in the region. The project aims to alleviate the suffering of poor families and provide nutritious meals for children during the holy month. The charity invites all benefactors to contribute via its Telegram channel.',
+      am: 'ቤት አል-ራህማ የረመዳን ፕሮጀክቱን በመቀጠል ለ82 ልጆች በየቀኑ ምሳ ይሰጣል።',
+      om: 'Bayt Al-Rahmaan piroogiraamii Ramadaanaa itti fufiinsaan ilmuu 82 iftaara guyyaa kenna jira.',
+    },
+  },
+  {
+    id: 'ann-5',
+    title: {
+      ar: 'بدء دراسة كتاب جديد في حلقة دار القرآن',
+      en: 'New Book Study Begins in the Study Circle',
+      am: 'አዲስ መጽሐፍ ጥናት ተጀምሯል',
+      om: 'Qorannoo kitaaba haaraa eegaleera',
+    },
+    departmentSlug: 'halqa',
+    date: '2025-01-20',
+    image: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
+    excerpt: {
+      ar: 'تبدأ حلقة دار القرآن دراسة كتاب عمدة الأحكام بعد صلاة العصر',
+      en: 'The Study Circle begins studying Umdat al-Ahkam after Asr prayer',
+      am: 'የዳር አል-ቁርአን ክበብ ከአስር ሰዓት በኋላ አዲስ መጽሐፍ ጥናት ይጀምራል',
+      om: 'Marii qorannoon kitaaba Umdat al-Ahkaam eegaluu ni danda\'a',
+    },
+    content: {
+      ar: 'تُعلن حلقة دار القرآن عن بدء دراسة كتاب عمدة الأحكام في الحلقة العلمية التي تعقد بعد صلاة العصر إلى المغرب. يُدرّس الكتاب الشيخ بأسلوب مبسط يسهل على الطلاب فهم الأحكام الفقهية من مصادرها الأصلية. يُرحب الحلقة بانضمام طلاب العلم الجدد الراغبين في دراسة الفقه.',
+      en: 'The Dar Al-Quran Study Circle announces the beginning of studying Umdat al-Ahkam in the study circle held from Asr to Maghrib. The book is taught in a simplified style that helps students understand Fiqh rulings from their original sources. New students of knowledge interested in studying Fiqh are welcome to join.',
+      am: 'የዳር አል-ቁርአን ክበብ አዲስ መጽሐፍ ጥናት ይጀምራል። አዳዲስ ተማሪዎች እን��ᦞይቀበላል።',
+      om: 'Marii qorannoon kitaaba Umdat al-Ahkaam qorachuu eegaleera. Barattoota haaraa dhihaatan ni fudhanna.',
+    },
+  },
+  {
+    id: 'ann-6',
+    title: {
+      ar: 'ترميم منزل لعائلة محتاجة',
+      en: 'Home Renovation for a Needy Family',
+      am: 'ለተፈላጊ ቤተሰብ የቤት ጥገና',
+      om: 'Maatii hiyaanaa mana fooyya\'uu',
+    },
+    departmentSlug: 'charity',
+    date: '2025-02-15',
+    image: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
+    excerpt: {
+      ar: 'أكمل بيت الرحمة ترميم منزل سابع لعائلة محتاجة في المنطقة',
+      en: 'Bayt Al-Rahma completed renovating its seventh home for a needy family in the region',
+      am: 'ቤት አል-ራህማ የሰባተኛውን ቤት ጥገና አጠናቀቀ',
+      om: 'Bayt Al-Rahmaan mana torbaffaa fooyya\'eera',
+    },
+    content: {
+      ar: 'بفضل الله ثم بدعم المحسنين، أكمل بيت الرحمة الخيرية ترميم منزل سابع لعائلة محتاجة في المنطقة. يهدف المشروع إلى تحسين الظروف المعيشية للأسر الفقيرة وتوفير بيئة صحية وآمنة. يُشرف البيت على جميع مراحل الترميم من تقييم الاحتياج إلى التسليم.',
+      en: 'By Allah\'s grace and with the support of benefactors, Bayt Al-Rahma Charity completed renovating its seventh home for a needy family in the region. The project aims to improve living conditions for poor families and provide a healthy and safe environment. The charity oversees all renovation stages from needs assessment to delivery.',
+      am: 'በአላህ ምሕረት እና በተበራከቱ ድጋፍ፣ ቤት አል-ራህማ የሰባተኛውን ቤት ጥገና አጠናቀቀ።',
+      om: 'Tola Rabbii fi deggersa dhiiraan, Bayt Al-Rahmaan mana torbaffaa fooyya\'eera.',
+    },
+  },
+];

@@ -1,0 +1,118 @@
+import type { Post } from '../types';
+
+export const posts: Post[] = [
+  {
+    id: 'post-1',
+    type: 'image',
+    departmentSlug: 'center-hifz',
+    title: {
+      ar: 'صور من حفل تخريج الحافظات',
+      en: 'Photos from the Hafizat Graduation',
+      am: 'የሂፍዝ ምሩቃን ምረቃ ምስሎች',
+      om: 'Suuraa shubbisa hafzuu milkaa\'intotaa',
+    },
+    media: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
+    content: {
+      ar: 'لقطات مميزة من حفل تخريج الدفعة الأولى من حافظات القرآن الكريم بمركز دار القرآن. لحظات مؤثرة جمعت الفرح بالدموع، والشكر لله على نعمة حفظ كتابه.',
+      en: 'Special moments from the graduation ceremony of the first batch of Quran Hafizat at Dar Al-Quran Center. Touching moments combining joy with tears, and gratitude to Allah for the blessing of memorizing His Book.',
+      am: 'ከመጀመሪያው ወረቀት የቁርአን ምሩቃን ምረቃ ሥነ ሥርዓት ምስሎች።',
+      om: 'Suuraa shubbisa hafzuu milkaa\'intotaa kan eegale.',
+    },
+    date: '2024-12-20',
+  },
+  {
+    id: 'post-2',
+    type: 'video',
+    departmentSlug: 'school',
+    title: {
+      ar: 'تلاوة طالبة من الصف الثالث',
+      en: 'Recitation by a Grade 3 Student',
+      am: 'ከ3ኛ ክፍል ተማሪ የቁርአን ንባብ',
+      om: 'Qara\'i barattoota kutaa sadaffaa',
+    },
+    media: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
+    content: {
+      ar: 'تلاوة عطرة من القرآن الكريم بصوت إحدى طالبات الصف الثالث في مدرسة دار القرآن. تتجلى فيها ثمرة الجهد المبذول في تعليم التجويد للأطفال.',
+      en: 'A beautiful recitation of the Holy Quran by a Grade 3 student at Dar Al-Quran School, showcasing the fruits of effort invested in teaching Tajwid to children.',
+      am: 'ከ3ኛ ክፍል ተማሪ የቁርአን ንባብ።',
+      om: 'Qara\'i barattoota kutaa sadaffaa Quraana qara\'uu.',
+    },
+    date: '2025-02-10',
+  },
+  {
+    id: 'post-3',
+    type: 'article',
+    departmentSlug: 'halqa',
+    title: {
+      ar: 'أهمية دراسة كتب التراث الإسلامي',
+      en: 'The Importance of Studying Classical Islamic Texts',
+      am: 'የእስላም የቅርስ መጻሕፍትን ማጥናት አስፈላጊነት',
+      om: 'Barbaachisummaa qorannoo kitaabota Islaamaa dulloo',
+    },
+    media: '',
+    content: {
+      ar: 'تعد دراسة كتب التراث الإسلامي من أهم وسائل فهم الدين الإسلامي فهماً صحيحاً. فهذه الكتب التي ألفها علماء الأمة عبر القرون تمثل خلاصة فهمهم للنصوص الشرعية وتطبيقها في واقع الحياة. في حلقة دار القرآن، نحرص على دراسة هذه الكتب بمنهجية واضحة تجمع بين الفهم النظري والتطبيق العملي.',
+      en: 'Studying classical Islamic texts is one of the most important means of understanding the Islamic religion correctly. These books, authored by the nation\'s scholars over centuries, represent the essence of their understanding of religious texts and their application in life. In the Dar Al-Quran Study Circle, we ensure studying these books with a clear methodology combining theoretical understanding with practical application.',
+      am: 'የእስላም የቅርስ መጻሕፍትን ማጥናት ከልዩ አስፈላጊነት ይኖራል።',
+      om: 'Qorannoon kitaabota Islaamaa dulloo barbaachisaa dha.',
+    },
+    date: '2025-01-25',
+  },
+  {
+    id: 'post-4',
+    type: 'image',
+    departmentSlug: 'charity',
+    title: {
+      ar: 'توزيع ملابس العيد على الأطفال',
+      en: 'Eid Clothing Distribution to Children',
+      am: 'ለልጆች የኢድ ልብስ ስበራ',
+      om: 'Uffata Iidaa ilmuuf qabachuu',
+    },
+    media: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
+    content: {
+      ar: 'وزع بيت الرحمة الخيرية ملابس العيد على أطفال الأسر المحتاجة، لإدخال الفرح والسرور على قلوبهم في يوم العيد. شارك في التوزيع عدد من المتطوعين.',
+      en: 'Bayt Al-Rahma Charity distributed Eid clothing to children of needy families, bringing joy and happiness to their hearts on Eid day. Several volunteers participated in the distribution.',
+      am: 'ቤት አል-ራህማ ለልጆች የኢድ ልብስ ሰበረ።',
+      om: 'Bayt Al-Rahmaan uffata Iidaa ilmuuf qabeera.',
+    },
+    date: '2025-02-28',
+  },
+  {
+    id: 'post-5',
+    type: 'video',
+    departmentSlug: 'center-hifz',
+    title: {
+      ar: 'كلمة من إحدى الخريجات',
+      en: 'A Word from One of the Graduates',
+      am: 'ከአንዱ ምሩቅ ቃል',
+      om: 'Jecha milkaa\'intota tokko',
+    },
+    media: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
+    content: {
+      ar: 'كلمة مؤثرة من إحدى خريجات مركز حفظ القرآن الكريم، تتحدث فيها عن رحلتها في حفظ كتاب الله والتحديات والإنجازات.',
+      en: 'A touching speech from one of the Quran Memorization Center graduates, talking about her journey in memorizing the Book of Allah, the challenges, and the achievements.',
+      am: 'ከአንዱ ምሩቅ ቃል።',
+      om: 'Jecha milkaa\'intota tokko.',
+    },
+    date: '2024-12-22',
+  },
+  {
+    id: 'post-6',
+    type: 'article',
+    departmentSlug: 'school',
+    title: {
+      ar: 'منهجية تعليم القاعدة النورانية للأطفال',
+      en: 'Methodology of Teaching Qaida Nuraniyyah to Children',
+      am: 'ለልጆች ቃዒደ ኑራኒያ የማስተማር ዘዴ',
+      om: 'Qaida Nuraaniyyaa ilmuuf barsiisuu mala',
+    },
+    media: '',
+    content: {
+      ar: 'تُعد القاعدة النورانية من أهم الوسائل لتعليم الأطفال قراءة القرآن الكريم بالتجويد. في مدرسة دار القرآن، نتبع منهجية متدرجة تبدأ بتعليم الحروف وأصواتها، ثم الكلمات، ثم الآيات. هذه المنهجية أثبتت فعاليتها في تخريج طلاب قادرين على قراءة القرآن بإتقان.',
+      en: 'Qaida Nuraniyyah is one of the most important tools for teaching children to read the Holy Quran with Tajwid. At Dar Al-Quran School, we follow a progressive methodology starting with letters and their sounds, then words, then verses. This methodology has proven effective in graduating students capable of reading the Quran with mastery.',
+      am: 'ቃዒደ ኑራኒያ ለልጆች ቁርአንን በተጅዊድ ለማስተማር ከልዩ አስፈላጊነት ይኖራል።',
+      om: 'Qaida Nuraaniyyaa ilmuuf Quraana Tajwiidaan barsiisuuf mala barbaachisaa dha.',
+    },
+    date: '2025-02-05',
+  },
+];

@@ -1,0 +1,116 @@
+import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import { departments as initialDepartments } from '../data/departments';
+import { announcements as initialAnnouncements } from '../data/announcements';
+import { posts as initialPosts } from '../data/posts';
+import { registrations as initialRegistrations, siteSettings as initialSettings } from '../data/misc';
+import type { Department, Announcement, Post, Registration, SiteSettings, RegistrationStatus } from '../types';
+
+interface AdminStoreValue {
+  departments: Department[];
+  announcements: Announcement[];
+  posts: Post[];
+  registrations: Registration[];
+  settings: SiteSettings;
+  updateDepartment: (id: string, updates: Partial<Department>) => void;
+  addAnnouncement: (a: Omit<Announcement, 'id'>) => void;
+  updateAnnouncement: (id: string, updates: Partial<Announcement>) => void;
+  deleteAnnouncement: (id: string) => void;
+  addPost: (p: Omit<Post, 'id'>) => void;
+  updatePost: (id: string, updates: Partial<Post>) => void;
+  deletePost: (id: string) => void;
+  updateRegistrationStatus: (id: string, status: Registration['status']) => void;
+  setRegistrationStatus: (slug: string, status: RegistrationStatus) => void;
+  updateSettings: (updates: Partial<SiteSettings>) => void;
+  updateDepartmentStat: (deptId: string, statIndex: number, value: number) => void;
+}
+
+const AdminStoreContext = createContext<AdminStoreValue | undefined>(undefined);
+
+export function AdminStoreProvider({ children }: { children: ReactNode }) {
+  const [departments, setDepartments] = useState<Department[]>(initialDepartments);
+  const [announcements, setAnnouncements] = useState<Announcement[]>(initialAnnouncements);
+  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const [registrations, setRegistrations] = useState<Registration[]>(initialRegistrations);
+  const [settings, setSettings] = useState<SiteSettings>(initialSettings);
+
+  const updateDepartment = useCallback((id: string, updates: Partial<Department>) => {
+    setDepartments((prev) => prev.map((d) => (d.id === id ? { ...d, ...updates } : d)));
+  }, []);
+
+  const addAnnouncement = useCallback((a: Omit<Announcement, 'id'>) => {
+    setAnnouncements((prev) => [{ ...a, id: `ann-${Date.now()}` }, ...prev]);
+  }, []);
+
+  const updateAnnouncement = useCallback((id: string, updates: Partial<Announcement>) => {
+    setAnnouncements((prev) => prev.map((a) => (a.id === id ? { ...a, ...updates } : a)));
+  }, []);
+
+  const deleteAnnouncement = useCallback((id: string) => {
+    setAnnouncements((prev) => prev.filter((a) => a.id !== id));
+  }, []);
+
+  const addPost = useCallback((p: Omit<Post, 'id'>) => {
+    setPosts((prev) => [{ ...p, id: `post-${Date.now()}` }, ...prev]);
+  }, []);
+
+  const updatePost = useCallback((id: string, updates: Partial<Post>) => {
+    setPosts((prev) => prev.map((p) => (p.id === id ? { ...p, ...updates } : p)));
+  }, []);
+
+  const deletePost = useCallback((id: string) => {
+    setPosts((prev) => prev.filter((p) => p.id !== id));
+  }, []);
+
+  const updateRegistrationStatus = useCallback((id: string, status: Registration['status']) => {
+    setRegistrations((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+  }, []);
+
+  const setRegistrationStatus = useCallback((slug: string, status: RegistrationStatus) => {
+    setDepartments((prev) => prev.map((d) => (d.slug === slug ? { ...d, registrationStatus: status } : d)));
+  }, []);
+
+  const updateSettings = useCallback((updates: Partial<SiteSettings>) => {
+    setSettings((prev) => ({ ...prev, ...updates }));
+  }, []);
+
+  const updateDepartmentStat = useCallback((deptId: string, statIndex: number, value: number) => {
+    setDepartments((prev) =>
+      prev.map((d) =>
+        d.id === deptId
+          ? { ...d, stats: d.stats.map((s, i) => (i === statIndex ? { ...s, value } : s)) }
+          : d
+      )
+    );
+  }, []);
+
+  return (
+    <AdminStoreContext.Provider
+      value={{
+        departments,
+        announcements,
+        posts,
+        registrations,
+        settings,
+        updateDepartment,
+        addAnnouncement,
+        updateAnnouncement,
+        deleteAnnouncement,
+        addPost,
+        updatePost,
+        deletePost,
+        updateRegistrationStatus,
+        setRegistrationStatus,
+        updateSettings,
+        updateDepartmentStat,
+      }}
+    >
+      {children}
+    </AdminStoreContext.Provider>
+  );
+}
+
+export function useAdminStore() {
+  const ctx = useContext(AdminStoreContext);
+  if (!ctx) throw new Error('useAdminStore must be used within AdminStoreProvider');
+  return ctx;
+}
