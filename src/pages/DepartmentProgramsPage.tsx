@@ -29,15 +29,15 @@ export function DepartmentProgramsPage() {
   const gold = department.accentColor.accent;
   const isSchool = department.slug === 'school';
 
-  // School grade groupings
-  const gradeGroups = isSchool ? [
-    { key: 'temhid-1', label: { ar: 'تمهيد الأول', en: 'Temhid Al-Awwal', am: '', om: '' }, indices: [0] },
-    { key: 'temhid-2', label: { ar: 'تمهيد الأخير', en: 'Temhid Al-Akhir', am: '', om: '' }, indices: [1] },
-    { key: 'grade-1', label: { ar: 'الصف الأول', en: 'Grade 1', am: '', om: '' }, indices: [2, 3, 4] },
-    { key: 'grade-2', label: { ar: 'الصف الثاني', en: 'Grade 2', am: '', om: '' }, indices: [5, 6] },
-    { key: 'grade-3', label: { ar: 'الصف الثالث', en: 'Grade 3', am: '', om: '' }, indices: [7, 8] },
-    { key: 'grade-4', label: { ar: 'الصف الرابع', en: 'Grade 4', am: '', om: '' }, indices: [9] },
-    { key: 'grade-5', label: { ar: 'الصف الخامس', en: 'Grade 5', am: '', om: '' }, indices: [10] },
+  // School grade groupings — used for display labels
+  const gradeGroupLabels = isSchool ? [
+    { key: 'temhid-1', label: { ar: 'تمهيد الأول', en: 'Temhid Al-Awwal', am: '', om: '' } },
+    { key: 'temhid-2', label: { ar: 'تمهيد الأخير', en: 'Temhid Al-Akhir', am: '', om: '' } },
+    { key: 'grade-1', label: { ar: 'الصف الأول', en: 'Grade 1', am: '', om: '' } },
+    { key: 'grade-2', label: { ar: 'الصف الثاني', en: 'Grade 2', am: '', om: '' } },
+    { key: 'grade-3', label: { ar: 'الصف الثالث', en: 'Grade 3', am: '', om: '' } },
+    { key: 'grade-4', label: { ar: 'الصف الرابع', en: 'Grade 4', am: '', om: '' } },
+    { key: 'grade-5', label: { ar: 'الصف الخامس', en: 'Grade 5', am: '', om: '' } },
   ] : null;
 
   return (
@@ -87,8 +87,8 @@ export function DepartmentProgramsPage() {
       {/* Programs listing */}
       <section className="section-pad">
         <div className="container-page max-w-5xl">
-          {isSchool && gradeGroups ? (
-            <SchoolProgramsGroups department={department} gradeGroups={gradeGroups} accent={accent} gold={gold} />
+          {isSchool && gradeGroupLabels ? (
+            <SchoolProgramsGroups department={department} gradeGroups={gradeGroupLabels} accent={accent} gold={gold} />
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {department.programs.map((program, i) => (
@@ -153,7 +153,7 @@ function SchoolProgramsGroups({
   gold,
 }: {
   department: typeof departments[0];
-  gradeGroups: { key: string; label: { ar: string; en: string; am: string; om: string }; indices: number[] }[];
+  gradeGroups: { key: string; label: { ar: string; en: string; am: string; om: string } }[];
   accent: string;
   gold: string;
 }) {
@@ -164,9 +164,7 @@ function SchoolProgramsGroups({
     <div className="space-y-4">
       {gradeGroups.map((group) => {
         const isOpen = openGrade === group.key;
-        const programs = group.indices
-          .map((i) => department.programs[i])
-          .filter(Boolean);
+        const programs = department.programs.filter((p) => p.gradeGroup === group.key);
 
         return (
           <motion.div

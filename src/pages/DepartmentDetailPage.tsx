@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Target, Eye, Gem, ListChecks, ArrowRight, ArrowLeft, Send, BookOpen, FileText } from 'lucide-react';
+import { Target, Eye, Gem, ListChecks, ArrowRight, ArrowLeft, Send, BookOpen, FileText, Megaphone } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { departments } from '../data/departments';
+import { announcements } from '../data/announcements';
 import { localize } from '../utils/localize';
 import { Button } from '../components/ui/Button';
 import { RegistrationStatusBanner } from '../components/RegistrationStatusBanner';
@@ -195,6 +196,18 @@ export function DepartmentDetailPage() {
       {/* Stats Bar */}
       <section className="section-pad">
         <div className="container-page">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-10"
+          >
+            <h2 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: accent }}>
+              {lang === 'ar' ? 'إحصائيات القسم' : 'Department Statistics'}
+            </h2>
+            <p className="text-brand-ink-soft">{lang === 'ar' ? 'أرقام تعكس مسيرة القسم وإنجازاته' : 'Numbers reflecting the department\'s journey and achievements'}</p>
+          </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {department.stats.map((stat, i) => (
               <motion.div
@@ -216,6 +229,9 @@ export function DepartmentDetailPage() {
           </div>
         </div>
       </section>
+
+      {/* Department Announcements */}
+      <DeptAnnouncements slug={department.slug} accent={accent} />
 
       {/* Posts explore card */}
       <section className="section-pad">
@@ -301,5 +317,69 @@ export function DepartmentDetailPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+function DeptAnnouncements({ slug, accent }: { slug: string; accent: string }) {
+  const { lang, dir } = useI18n();
+  const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
+  const deptAnnouncements = announcements.filter(a => a.departmentSlug === slug);
+
+  if (deptAnnouncements.length === 0) return null;
+
+  return (
+    <section className="section-pad bg-brand-bg-alt/50">
+      <div className="container-page max-w-4xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-10"
+        >
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <Megaphone size={20} style={{ color: accent }} />
+            <h2 className="text-2xl font-bold" style={{ color: accent }}>
+              {lang === 'ar' ? 'إعلانات القسم' : 'Department Announcements'}
+            </h2>
+          </div>
+          <p className="text-brand-ink-soft">{lang === 'ar' ? 'آخر أخبار وأنشطة القسم' : 'Latest news and activities'}</p>
+        </motion.div>
+
+        <div className="space-y-4">
+          {deptAnnouncements.slice(0, 4).map((ann, i) => {
+            const date = new Date(ann.date);
+            const day = date.getDate();
+            const month = date.toLocaleDateString(lang === 'ar' ? 'ar' : 'en', { month: 'short' });
+            return (
+              <motion.div
+                key={ann.id}
+                initial={{ opacity: 0, x: dir === 'rtl' ? 20 : -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+              >
+                <Link
+                  to={`/announcements/${ann.id}`}
+                  className="group flex items-center gap-4 bg-white rounded-2xl p-5 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  <div className="flex flex-col items-center justify-center w-14 h-14 rounded-xl shrink-0 text-white" style={{ background: `linear-gradient(135deg, ${accent}, ${accent}dd)` }}>
+                    <span className="text-lg font-bold leading-none">{day}</span>
+                    <span className="text-[10px] font-semibold uppercase mt-0.5">{month}</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-brand-ink leading-snug mb-1 line-clamp-1">{localize(ann.title, lang)}</h3>
+                    <p className="text-sm text-brand-ink-soft leading-relaxed line-clamp-1">{localize(ann.excerpt, lang)}</p>
+                  </div>
+                  <div className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all group-hover:scale-110" style={{ backgroundColor: accent + '10' }}>
+                    <Arrow size={16} style={{ color: accent }} />
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }

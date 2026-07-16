@@ -85,8 +85,6 @@ export function DepartmentsPage() {
           </div>
         </div>
       </section>
-
-      {/* Posts explore card */}
       <section className="section-pad">
         <div className="container-page">
           <motion.div
@@ -167,25 +165,43 @@ function ProgramCard({ department, icon: Icon, delay }: { department: Department
         </div>
 
         <div className="p-6 relative">
-          {/* Icon */}
-          <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110"
-            style={{ backgroundColor: accent + '15' }}
-          >
-            <Icon size={24} style={{ color: accent }} />
+          {/* Icon + name */}
+          <div className="flex items-center gap-3 mb-4">
+            <div
+              className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
+              style={{ backgroundColor: accent + '15' }}
+            >
+              <Icon size={24} style={{ color: accent }} />
+            </div>
+            <div>
+              <h3 className="font-bold text-brand-ink text-sm leading-snug">
+                {localize(department.name, lang)}
+              </h3>
+              <div className="flex items-center gap-1.5 text-xs text-brand-ink-muted mt-0.5">
+                <Sparkles size={12} style={{ color: department.accentColor.accent }} />
+                <span>{department.programs.length} {lang === 'ar' ? 'برنامج متاح' : 'programs available'}</span>
+              </div>
+            </div>
           </div>
 
-          <h3 className="font-bold text-brand-ink text-sm leading-snug mb-2 line-clamp-2">
-            {localize(department.name, lang)}
-          </h3>
-          <p className="text-xs text-brand-ink-soft leading-relaxed mb-4 line-clamp-2">
+          {/* Description */}
+          <p className="text-xs text-brand-ink-soft leading-relaxed mb-4 line-clamp-3">
             {localize(department.shortDescription, lang)}
           </p>
 
-          {/* Program count */}
-          <div className="flex items-center gap-1.5 text-xs text-brand-ink-muted mb-4">
-            <Sparkles size={14} style={{ color: department.accentColor.accent }} />
-            <span>{department.programs.length} {lang === 'ar' ? 'برنامج متاح' : 'programs available'}</span>
+          {/* Program preview list */}
+          <div className="space-y-1.5 mb-4">
+            {department.programs.slice(0, 3).map((prog, i) => (
+              <div key={i} className="flex items-center gap-2 text-xs text-brand-ink-soft">
+                <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: accent }} />
+                <span className="line-clamp-1">{localize(prog.name, lang)}</span>
+              </div>
+            ))}
+            {department.programs.length > 3 && (
+              <div className="text-xs font-semibold pt-0.5" style={{ color: accent }}>
+                +{department.programs.length - 3} {lang === 'ar' ? 'المزيد' : 'more'}
+              </div>
+            )}
           </div>
 
           {/* Explore Programs button */}

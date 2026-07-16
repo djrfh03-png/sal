@@ -8,15 +8,15 @@ import { Modal } from '../components/ui/Modal';
 import { localize } from '../utils/localize';
 import type { DepartmentProgram, DepartmentSlug } from '../types';
 
-// School grade groupings — must match DepartmentProgramsPage
+// School grade groupings — used for display and editing
 const schoolGradeGroups = [
-  { key: 'temhid-1', label: { ar: 'تمهيد الأول', en: 'Temhid Al-Awwal', am: '', om: '' }, indices: [0] },
-  { key: 'temhid-2', label: { ar: 'تمهيد الأخير', en: 'Temhid Al-Akhir', am: '', om: '' }, indices: [1] },
-  { key: 'grade-1', label: { ar: 'الصف الأول', en: 'Grade 1', am: '', om: '' }, indices: [2, 3, 4] },
-  { key: 'grade-2', label: { ar: 'الصف الثاني', en: 'Grade 2', am: '', om: '' }, indices: [5, 6] },
-  { key: 'grade-3', label: { ar: 'الصف الثالث', en: 'Grade 3', am: '', om: '' }, indices: [7, 8] },
-  { key: 'grade-4', label: { ar: 'الصف الرابع', en: 'Grade 4', am: '', om: '' }, indices: [9] },
-  { key: 'grade-5', label: { ar: 'الصف الخامس', en: 'Grade 5', am: '', om: '' }, indices: [10] },
+  { key: 'temhid-1', label: { ar: 'تمهيد الأول', en: 'Temhid Al-Awwal', am: '', om: '' } },
+  { key: 'temhid-2', label: { ar: 'تمهيد الأخير', en: 'Temhid Al-Akhir', am: '', om: '' } },
+  { key: 'grade-1', label: { ar: 'الصف الأول', en: 'Grade 1', am: '', om: '' } },
+  { key: 'grade-2', label: { ar: 'الصف الثاني', en: 'Grade 2', am: '', om: '' } },
+  { key: 'grade-3', label: { ar: 'الصف الثالث', en: 'Grade 3', am: '', om: '' } },
+  { key: 'grade-4', label: { ar: 'الصف الرابع', en: 'Grade 4', am: '', om: '' } },
+  { key: 'grade-5', label: { ar: 'الصف الخامس', en: 'Grade 5', am: '', om: '' } },
 ];
 
 export function AdminProgramsPage() {
@@ -139,9 +139,9 @@ export function AdminProgramsPage() {
             <div className="space-y-3">
               {schoolGradeGroups.map((group) => {
                 const isOpen = openGrades.has(group.key);
-                const programs = group.indices
-                  .map(i => ({ program: selectedDepartment.programs[i], index: i }))
-                  .filter(p => p.program);
+                const programs = selectedDepartment.programs
+                  .map((p, index) => ({ program: p, index }))
+                  .filter(({ program }) => program.gradeGroup === group.key);
 
                 return (
                   <div key={group.key} className="bg-white rounded-2xl shadow-card overflow-hidden border border-brand-line">
@@ -186,19 +186,19 @@ export function AdminProgramsPage() {
                   </div>
                 );
               })}
-              {/* Programs beyond grade groups */}
-              {selectedDepartment.programs.length > 11 && (
+              {/* Programs without a grade group */}
+              {selectedDepartment.programs.some((p) => !p.gradeGroup) && (
                 <div className="bg-white rounded-2xl shadow-card overflow-hidden border border-brand-line p-4 space-y-2">
                   <p className="text-xs font-semibold text-brand-ink-muted mb-2">
-                    {lang === 'ar' ? 'برامج إضافية' : 'Additional Programs'}
+                    {lang === 'ar' ? 'برامج غير مصنفة' : 'Uncategorized Programs'}
                   </p>
-                  {selectedDepartment.programs.slice(11).map((program, i) => (
+                  {selectedDepartment.programs.map((program, i) => !program.gradeGroup && (
                     <ProgramRow
-                      key={i + 11}
+                      key={i}
                       program={program}
                       accent={selectedDepartment.accentColor.base}
-                      onEdit={() => setEditing({ deptSlug: selectedDepartment.slug, index: i + 11, program: { ...program } })}
-                      onDelete={() => setDeleteState({ deptSlug: selectedDepartment.slug, index: i + 11 })}
+                      onEdit={() => setEditing({ deptSlug: selectedDepartment.slug, index: i, program: { ...program } })}
+                      onDelete={() => setDeleteState({ deptSlug: selectedDepartment.slug, index: i })}
                     />
                   ))}
                 </div>
@@ -245,6 +245,21 @@ export function AdminProgramsPage() {
               />
             </div>
             <div>
+              {editing.deptSlug === 'school' && (
+                <div>
+                  <label className="block text-sm font-semibold text-brand-ink mb-1.5">{lang === 'ar' ? 'الصف الدراسي' : 'Grade Group'}</label>
+                  <select
+                    value={editing.program.gradeGroup ?? ''}
+                    onChange={(e) => setEditing(prev => prev ? { ...prev, program: { ...prev.program, gradeGroup: e.target.value || undefined } } : prev)}
+                    className={inputClass}
+                  >
+                    <option value="">{lang === 'ar' ? 'بدون تصنيف' : 'No grade'}</option>
+                    {schoolGradeGroups.map(g => (
+                      <option key={g.key} value={g.key}>{localize(g.label, lang)}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <label className="block text-sm font-semibold text-brand-ink mb-1.5">{lang === 'ar' ? 'الوصف' : 'Description'} ({lang})</label>
               <textarea
                 rows={3}

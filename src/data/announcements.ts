@@ -2,15 +2,15 @@ import type { Announcement } from '../types';
 
 export const announcements: Announcement[] = [
   {
-    id: 'ann-1',
+    id: 'ann-org-1',
     title: {
       ar: 'افتتاح التسجيل في مركز حفظ القرآن الكريم',
       en: 'Registration Opens at the Quran Memorization Center',
       am: 'በቁርአን ማስታወሻ ማዕከል ምዝገባ ተከፍቷል',
       om: 'Wiirtuu Hafzu Quraanaatti galmaa\'uun banameera',
     },
-    departmentSlug: 'center-hifz',
-    date: '2025-01-15',
+    departmentSlug: 'org',
+    date: '2025-04-10',
     image: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
     excerpt: {
       ar: 'يُعلن مركز حفظ القرآن الكريم عن فتح باب التسجيل للدفعة الثانية، الهدف 30 طالبة',
@@ -26,14 +26,38 @@ export const announcements: Announcement[] = [
     },
   },
   {
-    id: 'ann-2',
+    id: 'ann-org-2',
+    title: {
+      ar: 'كلمة رئيس المؤسسة بمناسبة العام الجديد',
+      en: 'Message from the Institution President on the New Year',
+      am: 'የተቋሙ ፕሬዝዳንት በአዲሱ ዓመት መልዕክት',
+      om: 'Ergaa mootummaa ogeessa waggaa haaraa irraa',
+    },
+    departmentSlug: 'org',
+    date: '2025-03-15',
+    image: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
+    excerpt: {
+      ar: 'يتقدم رئيس المؤسسة بخالص الشكر والتقدير للمعلمين والمتبرعين وأهالي الطلاب',
+      en: 'The institution president extends gratitude to teachers, donors, and student families',
+      am: 'የተቋሙ ፕሬዝዳንት ለመምህራን፣ ለተበራከቱ እና ለቤተሰቦች ምስጋና ይግባኝ ይላሉ',
+      om: 'Caqaa dhaabbata kanaa ogeeyyii, deggersitoota fi maatii barattootaa galateeffata jira',
+    },
+    content: {
+      ar: 'بسم الله الرحمن الرحيم. يتقدم رئيس مؤسسة دار القرآن الكريم لخديجة بنت خويلد بخالص الشكر والتقدير لجميع المعلمين والمعلمات والمتبرعين وأهالي الطلاب على جهودهم المخلصة في خدمة كتاب الله تعالى. إن المؤسسة تسعى دائماً لتقديم الأفضل لأبنائنا وبناتنا في جميع الأقسام. نسأل الله التوفيق والسداد.',
+      en: 'In the name of Allah. The president of Dar Al-Quran Al-Kareem Institution extends sincere gratitude to all teachers, donors, and student families for their dedicated efforts in serving the Book of Allah. The institution continuously strives to provide the best for our children across all departments. We ask Allah for success and guidance.',
+      am: 'በአላህ ስም። የዳር አል-ቁርአን ተቋም ፕሬዝዳንት ለሁሉም መምህራን፣ ለተበራከቱ እና ለቤተሰቦች እውነተኛ ምስጋና ያቀርባሉ።',
+      om: 'Magaa Rabbii. Caqaan dhaabbata Daar Al-Quraan ogeeyyii hunda, deggersitoota fi maatii barattootaa galateeffata jira.',
+    },
+  },
+  {
+    id: 'ann-org-3',
     title: {
       ar: 'حفل تخريج الدفعة الأولى من الحافظات',
       en: 'First Batch Hafizat Graduation Ceremony',
       am: 'የመጀመሪያው ወረቀት የሂፍዝ ምሩቃን ምረቃ ሥነ ሥርዓት',
       om: 'Dhabbata tokkoffaa Hafzuu milkaa\'ina shubbisa',
     },
-    departmentSlug: 'center-hifz',
+    departmentSlug: 'org',
     date: '2024-12-20',
     image: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
     excerpt: {
@@ -117,7 +141,7 @@ export const announcements: Announcement[] = [
     content: {
       ar: 'تُعلن حلقة دار القرآن عن بدء دراسة كتاب عمدة الأحكام في الحلقة العلمية التي تعقد بعد صلاة العصر إلى المغرب. يُدرّس الكتاب الشيخ بأسلوب مبسط يسهل على الطلاب فهم الأحكام الفقهية من مصادرها الأصلية. يُرحب الحلقة بانضمام طلاب العلم الجدد الراغبين في دراسة الفقه.',
       en: 'The Dar Al-Quran Study Circle announces the beginning of studying Umdat al-Ahkam in the study circle held from Asr to Maghrib. The book is taught in a simplified style that helps students understand Fiqh rulings from their original sources. New students of knowledge interested in studying Fiqh are welcome to join.',
-      am: 'የዳር አል-ቁርአን ክበብ አዲስ መጽሐፍ ጥናት ይጀምራል። አዳዲስ ተማሪዎች እን��ᦞይቀበላል።',
+      am: 'የዳር አል-ቁርአን ክበብ አዲስ መጽሐፍ ጥናት ይጀምራል። አዳዲስ ተማሪዎች እንግዳ ይቀበላል።',
       om: 'Marii qorannoon kitaaba Umdat al-Ahkaam qorachuu eegaleera. Barattoota haaraa dhihaatan ni fudhanna.',
     },
   },

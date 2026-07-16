@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { ArrowRight, ArrowLeft, BookOpen, Heart, Users, GraduationCap, Library, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowLeft, BookOpen, Heart, Users, GraduationCap, Library } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { StatCounter } from '../components/ui/StatCounter';
 import { DepartmentCard } from '../components/DepartmentCard';
-import { AnnouncementBoardCard } from '../components/AnnouncementCard';
 import { TestimonialCarousel } from '../components/TestimonialCard';
 import { departments } from '../data/departments';
 import { announcements } from '../data/announcements';
@@ -13,6 +12,13 @@ import { testimonials } from '../data/misc';
 import { siteSettings } from '../data/misc';
 import { localize } from '../utils/localize';
 import type { Department } from '../types';
+
+const deptIcons: Record<string, typeof BookOpen> = {
+  'center-hifz': BookOpen,
+  'school': GraduationCap,
+  'halqa': Users,
+  'charity': Heart,
+};
 
 export function HomePage() {
   const { lang, dir, t } = useI18n();
@@ -23,7 +29,7 @@ export function HomePage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   const deptMap = Object.fromEntries(departments.map((d) => [d.slug, d])) as Record<string, Department>;
-  const latestAnnouncements = announcements.slice(0, 3);
+  const generalAnnouncements = announcements.filter(a => a.departmentSlug === 'org');
 
   const impactStats = [
     { value: 642, label: t.home.students, color: '#0f4d3a' },
@@ -31,13 +37,6 @@ export function HomePage() {
     { value: 82, label: t.home.beneficiaries, color: '#1a56b8' },
     { value: 15, label: t.home.yearsService, color: '#c9a24b' },
   ];
-
-  const deptIcons: Record<string, typeof BookOpen> = {
-    'center-hifz': BookOpen,
-    'school': GraduationCap,
-    'halqa': Users,
-    'charity': Heart,
-  };
 
   return (
     <div>
@@ -127,21 +126,13 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Organization Structure — central org hub with departments */}
+      {/* Organization Structure — static circular hub with 4 departments linked around it */}
       <section className="section-pad relative overflow-hidden">
-        {/* Background decoration */}
         <div className="absolute inset-0 pattern-bg-gold opacity-[0.02]" />
-        <div className="absolute top-1/3 start-0 w-72 h-72 rounded-full bg-brand-primary/5 blur-3xl" />
-        <div className="absolute bottom-1/3 end-0 w-72 h-72 rounded-full bg-brand-secondary/5 blur-3xl" />
+        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-brand-primary/3 blur-3xl" />
 
         <div className="container-page relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-16"
-          >
+          <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="h-px w-12 bg-brand-secondary/40" />
               <span className="text-brand-secondary text-xs font-semibold tracking-widest uppercase">
@@ -151,138 +142,13 @@ export function HomePage() {
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-brand-ink mb-3">{t.home.aboutPreviewTitle}</h2>
             <p className="text-brand-ink-soft max-w-2xl mx-auto leading-relaxed">{t.home.aboutPreviewText}</p>
-          </motion.div>
-
-          {/* Org chart */}
-          <div className="flex flex-col items-center max-w-5xl mx-auto">
-            {/* Central organization hub */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="relative z-20"
-            >
-              <div className="relative bg-gradient-to-br from-brand-primary to-brand-primary-dark rounded-3xl px-10 py-8 shadow-card-hover text-center min-w-[300px] md:min-w-[400px]">
-                {/* Gold border ring */}
-                <div className="absolute inset-0 rounded-3xl border-2 border-brand-secondary/30 pointer-events-none" />
-                {/* Decorative corner patterns */}
-                <div className="absolute top-2 end-2 w-16 h-16 opacity-[0.08] pointer-events-none">
-                  <svg viewBox="0 0 64 64" fill="none" stroke="#c9a24b" strokeWidth="0.5">
-                    <path d="M32 0 L64 32 L32 64 L0 32 Z" />
-                    <path d="M32 8 L56 32 L32 56 L8 32 Z" />
-                    <circle cx="32" cy="32" r="6" />
-                  </svg>
-                </div>
-                <div className="absolute bottom-2 start-2 w-16 h-16 opacity-[0.08] pointer-events-none">
-                  <svg viewBox="0 0 64 64" fill="none" stroke="#c9a24b" strokeWidth="0.5">
-                    <path d="M32 0 L64 32 L32 64 L0 32 Z" />
-                    <path d="M32 8 L56 32 L32 56 L8 32 Z" />
-                    <circle cx="32" cy="32" r="6" />
-                  </svg>
-                </div>
-
-                <div className="relative z-10">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-brand-secondary/20 flex items-center justify-center border border-brand-secondary/40">
-                    <Library size={32} className="text-brand-secondary" />
-                  </div>
-                  <h3 className="text-lg md:text-xl font-bold text-white leading-snug mb-1">
-                    {lang === 'ar' ? 'دار القرآن الكريم لخديجة بنت خويلد' : 'Dar Al-Quran Al-Kareem for Khadija bint Khuwaylid'}
-                  </h3>
-                  <p className="text-xs text-white/60">{t.orgTagline}</p>
-                  {/* Stats inline */}
-                  <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t border-white/10">
-                    {impactStats.slice(0, 3).map((stat, i) => (
-                      <div key={i} className="text-center">
-                        <div className="text-lg font-bold text-brand-secondary">{stat.value.toLocaleString()}+</div>
-                        <div className="text-[10px] text-white/50">{stat.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Vertical connector from hub to horizontal line */}
-            <div className="w-px h-10 bg-gradient-to-b from-brand-secondary/40 to-brand-secondary/20" />
-
-            {/* Horizontal connector line + vertical drops */}
-            <div className="relative w-full max-w-4xl">
-              {/* Horizontal line spanning the 4 cards */}
-              <div className="absolute top-0 left-[12.5%] right-[12.5%] h-px bg-brand-secondary/20" />
-
-              {/* Cards grid */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 pt-8">
-                {departments.map((dept, i) => {
-                  const Icon = deptIcons[dept.slug] ?? BookOpen;
-                  const accent = dept.accentColor.base;
-                  return (
-                    <motion.div
-                      key={dept.slug}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: i * 0.1 }}
-                      className="relative"
-                    >
-                      {/* Vertical connector above each card */}
-                      <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-px h-8 bg-brand-secondary/20" />
-                      {/* Connector dot */}
-                      <div
-                        className="absolute -top-9 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full"
-                        style={{ backgroundColor: accent, boxShadow: `0 0 0 3px ${accent}20` }}
-                      />
-
-                      <Link to={`/departments/${dept.slug}`} className="block group">
-                        <div className="bg-white rounded-2xl p-5 shadow-card hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-300 h-full relative overflow-hidden">
-                          {/* Top gradient bar */}
-                          <div
-                            className="absolute top-0 inset-x-0 h-1"
-                            style={{ background: `linear-gradient(90deg, ${accent}, ${dept.accentColor.accent})` }}
-                          />
-                          {/* Decorative corner */}
-                          <div className="absolute top-2 end-2 w-12 h-12 opacity-[0.04] pointer-events-none">
-                            <svg viewBox="0 0 48 48" fill="none" stroke={accent} strokeWidth="0.5">
-                              <path d="M24 0 L48 24 L24 48 L0 24 Z" />
-                              <path d="M24 6 L42 24 L24 42 L6 24 Z" />
-                              <circle cx="24" cy="24" r="5" />
-                            </svg>
-                          </div>
-
-                          <div className="flex items-center gap-3 mb-3">
-                            <div
-                              className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
-                              style={{ backgroundColor: accent + '15' }}
-                            >
-                              <Icon size={22} style={{ color: accent }} />
-                            </div>
-                            <div
-                              className="h-1.5 w-8 rounded-full"
-                              style={{ background: `linear-gradient(90deg, ${accent}, ${dept.accentColor.accent})` }}
-                            />
-                          </div>
-                          <h4 className="text-sm font-bold text-brand-ink leading-snug mb-1.5 line-clamp-2">
-                            {localize(dept.name, lang)}
-                          </h4>
-                          <p className="text-xs text-brand-ink-soft leading-relaxed line-clamp-2 mb-3">
-                            {localize(dept.shortDescription, lang)}
-                          </p>
-                          {/* Program count badge */}
-                          <div className="flex items-center gap-1.5 text-xs text-brand-ink-muted">
-                            <Sparkles size={12} style={{ color: dept.accentColor.accent }} />
-                            <span>{dept.programs.length} {lang === 'ar' ? 'برنامج' : 'programs'}</span>
-                          </div>
-                        </div>
-                      </Link>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
           </div>
 
+          {/* Static org chart — center hub with 4 departments at top/right/bottom/left */}
+          <OrgStructureChart />
+
           {/* About CTA */}
-          <div className="flex justify-center mt-12">
+          <div className="flex justify-center mt-16">
             <Link
               to="/about"
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-primary text-white font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
@@ -345,28 +211,71 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Latest Announcements — newest few + See More card */}
+      {/* General Announcements — org-level only, simple list board */}
       <section className="section-pad bg-brand-bg-alt/50">
-        <div className="container-page">
-          <div className="flex items-center justify-between mb-12 flex-wrap gap-4">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-brand-ink">{t.common.latestAnnouncements}</h2>
+        <div className="container-page max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-10"
+          >
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="h-px w-12 bg-brand-secondary/40" />
+              <span className="text-brand-secondary text-xs font-semibold tracking-widest uppercase">
+                {t.common.latestAnnouncements}
+              </span>
+              <div className="h-px w-12 bg-brand-secondary/40" />
             </div>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {latestAnnouncements.map((ann) => (
-              <AnnouncementBoardCard key={ann.id} announcement={ann} department={deptMap[ann.departmentSlug]} />
-            ))}
-          </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-brand-ink mb-2">{t.nav.announcements}</h2>
+            <p className="text-brand-ink-soft">{lang === 'ar' ? 'إعلانات المؤسسة العامة' : 'General institution announcements'}</p>
+          </motion.div>
 
-          {/* See More button */}
-          <div className="flex justify-center mt-8">
+          {generalAnnouncements.length > 0 ? (
+            <div className="space-y-4">
+              {generalAnnouncements.slice(0, 4).map((ann, i) => {
+                const date = new Date(ann.date);
+                const day = date.getDate();
+                const month = date.toLocaleDateString(lang === 'ar' ? 'ar' : 'en', { month: 'short' });
+                return (
+                  <motion.div
+                    key={ann.id}
+                    initial={{ opacity: 0, x: dir === 'rtl' ? 20 : -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                  >
+                    <Link
+                      to={`/announcements/${ann.id}`}
+                      className="group flex items-center gap-4 bg-white rounded-2xl p-5 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300"
+                    >
+                      <div className="flex flex-col items-center justify-center w-14 h-14 rounded-xl shrink-0 text-white" style={{ background: 'linear-gradient(135deg, #0f4d3a, #0f4d3add)' }}>
+                        <span className="text-lg font-bold leading-none">{day}</span>
+                        <span className="text-[10px] font-semibold uppercase mt-0.5">{month}</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-brand-ink leading-snug mb-1 line-clamp-1">{localize(ann.title, lang)}</h3>
+                        <p className="text-sm text-brand-ink-soft leading-relaxed line-clamp-1">{localize(ann.excerpt, lang)}</p>
+                      </div>
+                      <div className="shrink-0 w-9 h-9 rounded-full bg-brand-primary/10 flex items-center justify-center transition-all group-hover:bg-brand-primary group-hover:scale-110">
+                        <Arrow size={16} className="text-brand-primary transition-colors group-hover:text-white" />
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-center text-brand-ink-muted py-12">{t.common.noResults}</p>
+          )}
+          <div className="text-center mt-8">
             <Link
               to="/announcements"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-primary text-white font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-bg-alt text-brand-ink-soft font-semibold text-sm hover:bg-brand-line hover:-translate-y-0.5 transition-all duration-300"
             >
-              {lang === 'ar' ? 'عرض كل الإعلانات' : 'See All Announcements'}
-              <Arrow size={18} className="transition-transform group-hover:translate-x-0.5" />
+              {t.common.viewAll}
+              <Arrow size={16} className="transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
         </div>
@@ -387,6 +296,120 @@ export function HomePage() {
           <TestimonialCarousel testimonials={testimonials} deptMap={deptMap} />
         </div>
       </section>
+    </div>
+  );
+}
+
+function OrgStructureChart() {
+  const { lang } = useI18n();
+  const accentSecondary = '#c9a24b';
+
+  // Positions: top, right, bottom, left
+  const positions = [
+    { top: '0%', left: '50%', transform: 'translate(-50%, 0)' },
+    { top: '50%', left: '100%', transform: 'translate(-100%, -50%)' },
+    { top: '100%', left: '50%', transform: 'translate(-50%, -100%)' },
+    { top: '50%', left: '0%', transform: 'translate(0, -50%)' },
+  ];
+
+  // SVG line endpoints from center (250,250) to each department
+  const lineEndpoints = [
+    { x2: 250, y2: 65 },
+    { x2: 435, y2: 250 },
+    { x2: 250, y2: 435 },
+    { x2: 65, y2: 250 },
+  ];
+
+  return (
+    <div className="relative mx-auto" style={{ maxWidth: '600px', aspectRatio: '1 / 1' }}>
+      {/* SVG connecting lines layer */}
+      <svg
+        viewBox="0 0 500 500"
+        className="absolute inset-0 w-full h-full pointer-events-none z-0"
+        fill="none"
+      >
+        {/* Decorative circles */}
+        <circle cx="250" cy="250" r="240" stroke={accentSecondary} strokeWidth="1" opacity="0.12" />
+        <circle cx="250" cy="250" r="200" stroke={accentSecondary} strokeWidth="0.5" opacity="0.08" strokeDasharray="4 6" />
+
+        {/* Connecting lines from center to each department */}
+        {lineEndpoints.map((ep, i) => (
+          <g key={i}>
+            <line x1="250" y1="250" x2={ep.x2} y2={ep.y2} stroke={accentSecondary} strokeWidth="1.5" opacity="0.3" />
+            <circle cx={ep.x2} cy={ep.y2} r="4" fill={accentSecondary} opacity="0.4" />
+            <circle cx="250" cy="250" r="3" fill={accentSecondary} opacity="0.5" />
+          </g>
+        ))}
+      </svg>
+
+      {/* Central organization hub */}
+      <div className="absolute z-20" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+        <div className="relative">
+          <div className="absolute inset-0 rounded-full border-2 border-brand-secondary/20 scale-110" />
+          <div className="absolute inset-0 rounded-full border border-brand-secondary/10 scale-125" />
+
+          <div className="relative w-36 h-36 md:w-44 md:h-44 rounded-full bg-gradient-to-br from-brand-primary to-brand-primary-dark shadow-card-hover flex flex-col items-center justify-center text-center p-6">
+            <div className="absolute inset-0 rounded-full border-2 border-brand-secondary/30" />
+
+            <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
+              <svg viewBox="0 0 100 100" className="w-full h-full opacity-[0.08]" fill="none" stroke="#c9a24b" strokeWidth="0.3">
+                <circle cx="50" cy="50" r="45" />
+                <circle cx="50" cy="50" r="38" />
+                <path d="M50 5 L50 95 M5 50 L95 50 M15 15 L85 85 M15 85 L85 15" />
+              </svg>
+            </div>
+
+            <div className="relative z-10">
+              <div className="w-10 h-10 mx-auto mb-2 rounded-xl bg-brand-secondary/20 flex items-center justify-center border border-brand-secondary/40">
+                <Library size={20} className="text-brand-secondary" />
+              </div>
+              <h3 className="text-xs md:text-sm font-bold text-white leading-snug">
+                {lang === 'ar' ? 'دار القرآن الكريم' : 'Dar Al-Quran'}
+              </h3>
+              <p className="text-[9px] text-white/40 mt-0.5">
+                {lang === 'ar' ? 'لخديجة بنت خويلد' : 'Khadija bint Khuwaylid'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Department nodes around the center */}
+      {departments.map((dept, i) => {
+        const Icon = deptIcons[dept.slug] ?? BookOpen;
+        const accent = dept.accentColor.base;
+        const pos = positions[i];
+        return (
+          <Link
+            key={dept.slug}
+            to={`/departments/${dept.slug}`}
+            className="group absolute z-10"
+            style={{ top: pos.top, left: pos.left, transform: pos.transform }}
+          >
+            <div className="relative bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 p-3 w-28 md:w-36">
+              <div className="absolute top-0 inset-x-0 h-1 rounded-t-2xl" style={{ background: `linear-gradient(90deg, ${accent}, ${dept.accentColor.accent})` }} />
+
+              <div className="flex flex-col items-center text-center pt-1.5">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-2 transition-transform group-hover:scale-110"
+                  style={{ backgroundColor: accent + '15' }}
+                >
+                  <Icon size={20} style={{ color: accent }} />
+                </div>
+                <h4 className="text-[11px] md:text-xs font-bold text-brand-ink leading-snug line-clamp-2 min-h-[2.4em]">
+                  {localize(dept.name, lang)}
+                </h4>
+                <div className="flex items-center gap-1 mt-1.5 text-[10px] text-brand-ink-muted">
+                  <span className="font-semibold" style={{ color: accent }}>
+                    {dept.programs.length}
+                  </span>
+                  <span>{lang === 'ar' ? 'برنامج' : 'programs'}</span>
+                </div>
+              </div>
+            </div>
+          </Link>
+        );
+      })}
     </div>
   );
 }

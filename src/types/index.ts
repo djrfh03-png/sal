@@ -17,6 +17,7 @@ export interface DepartmentStat {
 export interface DepartmentProgram {
   name: LocalizedName;
   description?: LocalizedName;
+  gradeGroup?: string;
 }
 
 export interface RegistrationField {
@@ -56,7 +57,7 @@ export interface Department {
 export interface Announcement {
   id: string;
   title: LocalizedName;
-  departmentSlug: DepartmentSlug;
+  departmentSlug: DepartmentSlug | 'org';
   date: string;
   image: string;
   excerpt: LocalizedName;
