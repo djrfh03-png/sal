@@ -32,6 +32,7 @@ export function AdminSidebar({ onLogout, variant, open = false, onClose }: Admin
     { to: '/admin/departments', label: t.admin.departments, icon: Building2 },
     { to: '/admin/announcements', label: t.admin.announcements, icon: Megaphone },
     { to: '/admin/posts', label: t.admin.posts, icon: FileText },
+    { to: '/admin/programs', label: t.common.programs, icon: BookOpen },
     { to: '/admin/registrations', label: t.admin.registrations, icon: ClipboardList },
   ];
 

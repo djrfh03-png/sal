@@ -42,10 +42,10 @@ export function DepartmentProgramsPage() {
 
   return (
     <div className="pt-16">
-      {/* Header with department color */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: accent }}>
-        <div className="absolute inset-0 pattern-bg-gold opacity-20" />
-        <div className="absolute top-1/4 end-0 w-80 h-80 rounded-full bg-white/5 blur-3xl" />
+      {/* Header — no colored background, color on text */}
+      <section className="relative overflow-hidden bg-brand-bg-alt/30" style={{ borderInlineStart: `4px solid ${accent}` }}>
+        <div className="absolute inset-0 pattern-bg-gold opacity-[0.03]" />
+        <div className="absolute top-1/4 end-0 w-80 h-80 rounded-full blur-3xl" style={{ backgroundColor: accent + '08' }} />
         <div className="container-page relative py-12 md:py-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -54,25 +54,29 @@ export function DepartmentProgramsPage() {
           >
             <Link
               to={`/departments/${department.slug}`}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-white/70 hover:text-white mb-6 transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold mb-6 transition-colors"
+              style={{ color: accent }}
             >
               <Arrow size={16} />
               {localize(department.name, lang)}
             </Link>
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center border border-white/20">
-                <BookOpen size={24} className="text-white" />
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center border"
+                style={{ backgroundColor: accent + '15', borderColor: accent + '30' }}
+              >
+                <BookOpen size={24} style={{ color: accent }} />
               </div>
-              <h1 className="text-2xl md:text-4xl font-bold text-white">
+              <h1 className="text-2xl md:text-4xl font-bold" style={{ color: accent }}>
                 {t.common.programs}
               </h1>
             </div>
-            <p className="text-white/80 max-w-2xl leading-relaxed">
+            <p className="max-w-2xl leading-relaxed text-brand-ink-soft">
               {localize(department.shortDescription, lang)}
             </p>
             <div className="flex items-center gap-2 mt-4">
               <Sparkles size={16} style={{ color: gold }} />
-              <span className="text-sm font-semibold text-white/90">
+              <span className="text-sm font-semibold" style={{ color: accent }}>
                 {department.programs.length} {lang === 'ar' ? 'برنامج متاح' : 'programs available'}
               </span>
             </div>

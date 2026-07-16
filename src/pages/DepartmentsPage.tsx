@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   BookOpen, GraduationCap, Users, Heart, ChevronRight, ChevronLeft,
-  ChevronDown, ArrowRight, ArrowLeft, FileText, Sparkles,
+  ArrowRight, ArrowLeft, FileText, Sparkles,
 } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { departments } from '../data/departments';
@@ -24,18 +23,12 @@ export function DepartmentsPage() {
 
   return (
     <div className="pt-16">
-      {/* Quran-themed hero */}
-      <section className="relative min-h-[50vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.pexels.com/photos/8170707/pexels-photo-8170707.jpeg?auto=compress&cs=tinysrgb&w=1920"
-            alt=""
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-primary-dark/85 via-brand-primary-dark/75 to-brand-primary-dark/90" />
-          <div className="absolute top-1/4 end-0 w-80 h-80 rounded-full bg-brand-secondary/10 blur-3xl" />
-        </div>
+      {/* Hero — no background color, color on text */}
+      <section className="relative min-h-[40vh] flex items-center overflow-hidden bg-brand-bg-alt/30">
+        {/* Subtle decorative pattern */}
+        <div className="absolute inset-0 pattern-bg-gold opacity-[0.03]" />
+        <div className="absolute top-1/4 end-0 w-80 h-80 rounded-full bg-brand-primary/5 blur-3xl" />
+        <div className="absolute bottom-0 start-0 w-80 h-80 rounded-full bg-brand-secondary/5 blur-3xl" />
 
         <div className="container-page relative z-10 py-20 text-center">
           <motion.div
@@ -50,8 +43,10 @@ export function DepartmentsPage() {
               </span>
               <div className="h-px w-10 bg-brand-secondary/50" />
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">{t.departments.title}</h1>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto">{t.departments.subtitle}</p>
+            <h1 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-brand-primary via-brand-primary-dark to-brand-primary bg-clip-text text-transparent">
+              {t.departments.title}
+            </h1>
+            <p className="text-lg text-brand-ink-soft max-w-2xl mx-auto">{t.departments.subtitle}</p>
           </motion.div>
         </div>
       </section>
@@ -88,13 +83,10 @@ export function DepartmentsPage() {
               <ProgramCard key={dept.slug} department={dept} icon={deptIcons[dept.slug] ?? BookOpen} delay={i * 0.1} />
             ))}
           </div>
-
-          {/* Madrasa exception: expandable grade sections */}
-          <MadrasaGrades />
         </div>
       </section>
 
-      {/* Posts feature card */}
+      {/* Posts explore card */}
       <section className="section-pad">
         <div className="container-page">
           <motion.div
@@ -206,117 +198,6 @@ function ProgramCard({ department, icon: Icon, delay }: { department: Department
           </div>
         </div>
       </Link>
-    </motion.div>
-  );
-}
-
-// Madrasa expandable grade sections
-function MadrasaGrades() {
-  const { lang } = useI18n();
-  const [openGrade, setOpenGrade] = useState<string | null>(null);
-  const school = departments.find((d) => d.slug === 'school');
-  if (!school) return null;
-
-  const accent = school.accentColor.base;
-
-  // Group school programs by grade levels
-  const gradeGroups = [
-    { key: 'temhid-1', label: { ar: 'تمهيد الأول', en: 'Temhid Al-Awwal', am: '', om: '' }, indices: [0] },
-    { key: 'temhid-2', label: { ar: 'تمهيد الأخير', en: 'Temhid Al-Akhir', am: '', om: '' }, indices: [1] },
-    { key: 'grade-1', label: { ar: 'الصف الأول', en: 'Grade 1', am: '', om: '' }, indices: [2, 3, 4] },
-    { key: 'grade-2', label: { ar: 'الصف الثاني', en: 'Grade 2', am: '', om: '' }, indices: [5, 6] },
-    { key: 'grade-3', label: { ar: 'الصف الثالث', en: 'Grade 3', am: '', om: '' }, indices: [7, 8] },
-    { key: 'grade-4', label: { ar: 'الصف الرابع', en: 'Grade 4', am: '', om: '' }, indices: [9] },
-    { key: 'grade-5', label: { ar: 'الصف الخامس', en: 'Grade 5', am: '', om: '' }, indices: [10] },
-  ];
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: 0.3 }}
-      className="mt-12"
-    >
-      <div className="text-center mb-8">
-        <h3 className="text-xl font-bold text-brand-ink mb-2">
-          {lang === 'ar' ? 'برامج المدرسة حسب المراحل' : 'School Programs by Grade Level'}
-        </h3>
-        <p className="text-sm text-brand-ink-soft">
-          {lang === 'ar' ? 'اضغط على كل مرحلة لعرض برامجها' : 'Click each grade to view its programs'}
-        </p>
-      </div>
-
-      <div className="max-w-3xl mx-auto space-y-3">
-        {gradeGroups.map((group) => {
-          const isOpen = openGrade === group.key;
-          const programs = group.indices
-            .map((i) => school.programs[i])
-            .filter(Boolean);
-
-          return (
-            <div
-              key={group.key}
-              className="bg-white rounded-2xl shadow-soft overflow-hidden border border-brand-line"
-            >
-              <button
-                onClick={() => setOpenGrade(isOpen ? null : group.key)}
-                className="w-full flex items-center justify-between p-4 hover:bg-brand-bg-alt/50 transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0"
-                    style={{ backgroundColor: accent + '15', color: accent }}
-                  >
-                    <GraduationCap size={18} />
-                  </div>
-                  <span className="font-semibold text-sm text-brand-ink">
-                    {localize(group.label, lang)}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-brand-ink-muted">{programs.length} {lang === 'ar' ? 'برامج' : 'programs'}</span>
-                  <ChevronDown
-                    size={18}
-                    className={`text-brand-ink-muted transition-transform ${isOpen ? 'rotate-180' : ''}`}
-                  />
-                </div>
-              </button>
-              <AnimatePresence>
-                {isOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="p-4 pt-0 space-y-2">
-                      {programs.map((program, i) => (
-                        <div
-                          key={i}
-                          className="flex items-center gap-3 p-3 rounded-xl bg-brand-bg-alt/50"
-                          style={{ borderInlineStart: `3px solid ${accent}` }}
-                        >
-                          <div
-                            className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0"
-                            style={{ backgroundColor: accent + '15', color: accent }}
-                          >
-                            {i + 1}
-                          </div>
-                          <span className="text-sm font-medium text-brand-ink">
-                            {localize(program.name, lang)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          );
-        })}
-      </div>
     </motion.div>
   );
 }

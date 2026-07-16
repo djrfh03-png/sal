@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Target, Eye, Gem, ListChecks, ArrowRight, ArrowLeft, Send } from 'lucide-react';
+import { Target, Eye, Gem, ListChecks, ArrowRight, ArrowLeft, Send, BookOpen, FileText } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { departments } from '../data/departments';
 import { localize } from '../utils/localize';
@@ -48,9 +48,10 @@ export function DepartmentDetailPage() {
 
   return (
     <div className="pt-16">
-      {/* Cover Header */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: accent }}>
-        <div className="absolute inset-0 pattern-bg-gold opacity-30" />
+      {/* Cover Header — no colored background, color on text */}
+      <section className="relative overflow-hidden bg-brand-bg-alt/30" style={{ borderInlineStart: `4px solid ${accent}` }}>
+        <div className="absolute inset-0 pattern-bg-gold opacity-[0.03]" />
+        <div className="absolute top-1/4 end-0 w-80 h-80 rounded-full blur-3xl" style={{ backgroundColor: accent + '08' }} />
         <div className="container-page relative py-16 md:py-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -58,19 +59,22 @@ export function DepartmentDetailPage() {
             transition={{ duration: 0.5 }}
             className="flex flex-col md:flex-row items-center gap-6"
           >
-            <div className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border-2 border-white/30 shrink-0">
+            <div
+              className="w-24 h-24 rounded-full flex items-center justify-center border-2 shrink-0"
+              style={{ backgroundColor: accent + '15', borderColor: accent + '30' }}
+            >
               <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center">
                 <span className="text-2xl font-bold" style={{ color: accent }}>
                   {localize(department.name, lang).charAt(0)}
                 </span>
               </div>
             </div>
-            <div className="text-center md:text-start text-white">
-              <div className="text-sm font-medium text-white/70 mb-1">{t.common.established} {department.establishedDate}</div>
-              <h1 className="text-2xl md:text-4xl font-bold leading-tight mb-2">
+            <div className="text-center md:text-start">
+              <div className="text-sm font-medium mb-1" style={{ color: accent }}>{t.common.established} {department.establishedDate}</div>
+              <h1 className="text-2xl md:text-4xl font-bold leading-tight mb-2" style={{ color: accent }}>
                 {localize(department.name, lang)}
               </h1>
-              <p className="text-white/80 max-w-2xl leading-relaxed">
+              <p className="text-brand-ink-soft max-w-2xl leading-relaxed">
                 {localize(department.shortDescription, lang)}
               </p>
             </div>
@@ -135,44 +139,55 @@ export function DepartmentDetailPage() {
         </div>
       </section>
 
-      {/* Programs — link to dedicated programs page */}
+      {/* Programs — single explore card linking to dedicated programs page */}
       <section className="section-pad bg-brand-bg-alt/50">
-        <div className="container-page">
+        <div className="container-page max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-brand-ink">{t.common.programs}</h2>
-              <Button to={`/departments/${department.slug}/programs`} variant="primary" accentColor={department.accentColor}>
-                {lang === 'ar' ? 'استكشف البرامج' : 'Explore Programs'}
-                <Arrow size={18} />
-              </Button>
-            </div>
-            <p className="text-brand-ink-soft mb-6">
-              {department.programs.length} {lang === 'ar' ? 'برنامج متاح' : 'programs available'}
-            </p>
-            {/* Preview of first 3 programs */}
-            <div className="grid sm:grid-cols-3 gap-4">
-              {department.programs.slice(0, 3).map((program, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="card-base p-5 flex items-center gap-3"
-                  style={{ borderInlineStart: `3px solid ${accent}` }}
+            <Link
+              to={`/departments/${department.slug}/programs`}
+              className="group relative block bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300"
+            >
+              {/* Top gradient bar */}
+              <div className="h-2" style={{ background: `linear-gradient(90deg, ${accent}, ${department.accentColor.accent})` }} />
+
+              {/* Decorative pattern */}
+              <div className="absolute top-4 end-4 w-24 h-24 opacity-[0.04] pointer-events-none">
+                <svg viewBox="0 0 96 96" fill="none" stroke={accent} strokeWidth="0.5">
+                  <path d="M48 0 L96 48 L48 96 L0 48 Z" />
+                  <path d="M48 12 L84 48 L48 84 L12 48 Z" />
+                  <circle cx="48" cy="48" r="10" />
+                </svg>
+              </div>
+
+              <div className="p-8 md:p-10 flex flex-col md:flex-row items-center gap-6">
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
+                  style={{ backgroundColor: accent + '15' }}
                 >
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-sm font-bold" style={{ backgroundColor: accent + '15', color: accent }}>
-                    {i + 1}
-                  </div>
-                  <span className="text-sm font-medium text-brand-ink">{localize(program.name, lang)}</span>
-                </motion.div>
-              ))}
-            </div>
+                  <BookOpen size={28} style={{ color: accent }} />
+                </div>
+                <div className="flex-1 text-center md:text-start">
+                  <h3 className="text-xl font-bold text-brand-ink mb-1.5">
+                    {t.common.programs}
+                  </h3>
+                  <p className="text-sm text-brand-ink-soft leading-relaxed">
+                    {department.programs.length} {lang === 'ar' ? 'برنامج متاح — استكشف جميع البرامج المتاحة في هذا القسم' : 'programs available — explore all programs offered by this department'}
+                  </p>
+                </div>
+                <div
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold shrink-0 transition-all group-hover:gap-3"
+                  style={{ backgroundColor: accent + '12', color: accent }}
+                >
+                  {lang === 'ar' ? 'استكشف البرامج' : 'Explore Programs'}
+                  <Arrow size={18} />
+                </div>
+              </div>
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -202,21 +217,66 @@ export function DepartmentDetailPage() {
         </div>
       </section>
 
+      {/* Posts explore card */}
+      <section className="section-pad">
+        <div className="container-page max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <Link
+              to={`/posts?dept=${department.slug}`}
+              className="group relative block bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300"
+            >
+              <div className="h-2" style={{ background: `linear-gradient(90deg, ${accent}, ${department.accentColor.accent})` }} />
+              <div className="absolute top-4 end-4 w-24 h-24 opacity-[0.04] pointer-events-none">
+                <svg viewBox="0 0 96 96" fill="none" stroke={accent} strokeWidth="0.5">
+                  <path d="M48 0 L96 48 L48 96 L0 48 Z" />
+                  <path d="M48 12 L84 48 L48 84 L12 48 Z" />
+                  <circle cx="48" cy="48" r="10" />
+                </svg>
+              </div>
+              <div className="p-8 md:p-10 flex flex-col md:flex-row items-center gap-6">
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
+                  style={{ backgroundColor: accent + '15' }}
+                >
+                  <FileText size={28} style={{ color: accent }} />
+                </div>
+                <div className="flex-1 text-center md:text-start">
+                  <h3 className="text-xl font-bold text-brand-ink mb-1.5">
+                    {lang === 'ar' ? 'منشورات القسم' : 'Department Posts'}
+                  </h3>
+                  <p className="text-sm text-brand-ink-soft leading-relaxed">
+                    {lang === 'ar'
+                      ? 'تابع آخر الأخبار والأنشطة والمنشورات من هذا القسم'
+                      : 'Follow the latest news, activities, and posts from this department'}
+                  </p>
+                </div>
+                <div
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold shrink-0 transition-all group-hover:gap-3"
+                  style={{ backgroundColor: accent + '12', color: accent }}
+                >
+                  {lang === 'ar' ? 'تصفح الآن' : 'Browse Now'}
+                  <Arrow size={18} />
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Registration Status */}
       <section className="pb-16">
         <div className="container-page max-w-4xl">
           <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
             <h2 className="text-2xl font-bold text-brand-ink">{t.common.registration}</h2>
-            <div className="flex gap-3 flex-wrap">
-              <Button to={`/posts?dept=${department.slug}`} variant="outline" accentColor={department.accentColor}>
-                {lang === 'ar' ? 'عرض المنشورات' : 'View Posts'}
-                <Arrow size={18} />
-              </Button>
-              <Button to={`/register?dept=${department.slug}`} variant="primary" accentColor={department.accentColor}>
-                {t.registration.applyNow}
-                <Arrow size={18} />
-              </Button>
-            </div>
+            <Button to={`/register?dept=${department.slug}`} variant="primary" accentColor={department.accentColor}>
+              {t.registration.applyNow}
+              <Arrow size={18} />
+            </Button>
           </div>
           <RegistrationStatusBanner status={department.registrationStatus} accentColor={department.accentColor} />
         </div>

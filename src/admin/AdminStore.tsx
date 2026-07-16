@@ -3,7 +3,7 @@ import { departments as initialDepartments } from '../data/departments';
 import { announcements as initialAnnouncements } from '../data/announcements';
 import { posts as initialPosts } from '../data/posts';
 import { registrations as initialRegistrations, siteSettings as initialSettings } from '../data/misc';
-import type { Department, Announcement, Post, Registration, SiteSettings, RegistrationStatus } from '../types';
+import type { Department, DepartmentProgram, Announcement, Post, Registration, SiteSettings, RegistrationStatus } from '../types';
 
 interface AdminStoreValue {
   departments: Department[];
@@ -22,6 +22,9 @@ interface AdminStoreValue {
   setRegistrationStatus: (slug: string, status: RegistrationStatus) => void;
   updateSettings: (updates: Partial<SiteSettings>) => void;
   updateDepartmentStat: (deptId: string, statIndex: number, value: number) => void;
+  addProgram: (deptSlug: string, program: Omit<DepartmentProgram, 'id'>) => void;
+  updateProgram: (deptSlug: string, programIndex: number, updates: Partial<DepartmentProgram>) => void;
+  deleteProgram: (deptSlug: string, programIndex: number) => void;
 }
 
 const AdminStoreContext = createContext<AdminStoreValue | undefined>(undefined);
@@ -83,6 +86,36 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const addProgram = useCallback((deptSlug: string, program: Omit<DepartmentProgram, 'id'>) => {
+    setDepartments((prev) =>
+      prev.map((d) =>
+        d.slug === deptSlug
+          ? { ...d, programs: [...d.programs, program] }
+          : d
+      )
+    );
+  }, []);
+
+  const updateProgram = useCallback((deptSlug: string, programIndex: number, updates: Partial<DepartmentProgram>) => {
+    setDepartments((prev) =>
+      prev.map((d) =>
+        d.slug === deptSlug
+          ? { ...d, programs: d.programs.map((p, i) => (i === programIndex ? { ...p, ...updates } : p)) }
+          : d
+      )
+    );
+  }, []);
+
+  const deleteProgram = useCallback((deptSlug: string, programIndex: number) => {
+    setDepartments((prev) =>
+      prev.map((d) =>
+        d.slug === deptSlug
+          ? { ...d, programs: d.programs.filter((_, i) => i !== programIndex) }
+          : d
+      )
+    );
+  }, []);
+
   return (
     <AdminStoreContext.Provider
       value={{
@@ -102,6 +135,9 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
         setRegistrationStatus,
         updateSettings,
         updateDepartmentStat,
+        addProgram,
+        updateProgram,
+        deleteProgram,
       }}
     >
       {children}
