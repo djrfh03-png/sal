@@ -50,30 +50,6 @@ export const announcements: Announcement[] = [
     },
   },
   {
-    id: 'ann-hifz-1',
-    title: {
-      ar: 'بدء استقبال طلبات الدفعة الثانية في مركز الحفظ',
-      en: 'Second Batch Applications Open at the Memorization Center',
-      am: 'በማስታወሻ ማዕከሉ ሁለተኛ ወረቀት ምዝገባ ተከፍቷል',
-      om: 'Wiirtuu Hafzuu dhabbata lammaffaa galmaa\'insa banameera',
-    },
-    departmentSlug: 'center-hifz',
-    date: '2025-04-15',
-    image: 'https://images.pexels.com/photos/8145478/pexels-photo-8145478.jpeg?auto=compress&cs=tinysrgb&w=800',
-    excerpt: {
-      ar: 'يبدأ مركز حفظ القرآن الكريم استقبال طلبات الدفعة الثانية، الهدف 30 طالبة',
-      en: 'The Quran Memorization Center begins receiving applications for the second batch, target 30 students',
-      am: 'የቁርአን ማስታወሻ ማዕከል ለሁለተኛው ወረቀት ምዝገባ ጀምሯል፣ ላላግኝ 30 ተማሪ',
-      om: 'Wiirtuun Hafzu Quraanaa galmaa\'insa dhabbata lammaffaa eegaleera, ilmoo 30',
-    },
-    content: {
-      ar: 'بسم الله الرحمن الرحيم. يُعلن مركز حفظ القرآن الكريم دار القرآن عن بدء استقبال طلبات الدفعة الثانية من الطالبات الراغبات في حفظ كتاب الله كاملاً. يستقبل المركز 30 طالبة في هذه الدفعة على أن يلتزمن بالبرنامج السكني المكثف لمدة سنتين. تُوفر إدارة المركز جميع احتياجات الطالبات من السكن والطعام والمواد التعليمية والرعاية الطبية.',
-      en: 'In the name of Allah. The Dar Al-Quran Memorization Center announces the start of receiving applications for the second batch of female students wishing to memorize the complete Quran. The center accepts 30 students in this batch, committing to the intensive residential program for two years. All student needs are provided.',
-      am: 'በአላህ ስም። የቁርአን ማስታወሻ ማዕከል ለሁለተኛው ወረቀት ምዝገባ አስቀምጧል። 30 ተማሪዎችን ይቀበላል።',
-      om: 'Magaa Rabbii. Wiirtuun Hafzu Quraanaa galmaa\'insa dhabbata lammaffaa eegaleera. Barattoota 30 qabachuu ni danda\'a.',
-    },
-  },
-  {
     id: 'ann-org-3',
     title: {
       ar: 'حفل تخريج الدفعة الأولى من الحافظات',
