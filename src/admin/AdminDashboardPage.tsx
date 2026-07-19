@@ -32,10 +32,10 @@ export function AdminDashboardPage() {
 
   // Overall stats
   const totalStats = [
-    { label: t.admin.departments, value: departments.length, icon: Building2, color: '#0f4d3a' },
-    { label: t.admin.announcements, value: announcements.length, icon: Megaphone, color: '#123a70' },
-    { label: t.admin.posts, value: posts.length, icon: FileText, color: '#15479c' },
-    { label: t.admin.registrations, value: registrations.length, icon: ClipboardList, color: '#1a56b8' },
+    { label: t.admin.departments, value: departments.length, icon: Building2, color: '#365004' },
+    { label: t.admin.announcements, value: announcements.length, icon: Megaphone, color: '#023E8A' },
+    { label: t.admin.posts, value: posts.length, icon: FileText, color: '#023047' },
+    { label: t.admin.registrations, value: registrations.length, icon: ClipboardList, color: '#0F172A' },
   ];
 
   return (

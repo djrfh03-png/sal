@@ -9,6 +9,7 @@ import { localize } from '../utils/localize';
 import { Button } from '../components/ui/Button';
 import { RegistrationStatusBanner } from '../components/RegistrationStatusBanner';
 import { StatCounter } from '../components/ui/StatCounter';
+import { ProgramCard } from '../components/ProgramCard';
 
 type Tab = 'mission' | 'vision' | 'values' | 'objectives';
 
@@ -140,56 +141,45 @@ export function DepartmentDetailPage() {
         </div>
       </section>
 
-      {/* Programs — single explore card linking to dedicated programs page */}
+      {/* Programs — explore card with preview + link to full programs page */}
       <section className="section-pad bg-brand-bg-alt/50">
-        <div className="container-page max-w-4xl">
+        <div className="container-page max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
+            className="mb-8 text-center"
           >
-            <Link
-              to={`/departments/${department.slug}/programs`}
-              className="group relative block bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300"
-            >
-              {/* Top gradient bar */}
-              <div className="h-2" style={{ background: `linear-gradient(90deg, ${accent}, ${department.accentColor.accent})` }} />
-
-              {/* Decorative pattern */}
-              <div className="absolute top-4 end-4 w-24 h-24 opacity-[0.04] pointer-events-none">
-                <svg viewBox="0 0 96 96" fill="none" stroke={accent} strokeWidth="0.5">
-                  <path d="M48 0 L96 48 L48 96 L0 48 Z" />
-                  <path d="M48 12 L84 48 L48 84 L12 48 Z" />
-                  <circle cx="48" cy="48" r="10" />
-                </svg>
-              </div>
-
-              <div className="p-8 md:p-10 flex flex-col md:flex-row items-center gap-6">
-                <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
-                  style={{ backgroundColor: accent + '15' }}
-                >
-                  <BookOpen size={28} style={{ color: accent }} />
-                </div>
-                <div className="flex-1 text-center md:text-start">
-                  <h3 className="text-xl font-bold text-brand-ink mb-1.5">
-                    {t.common.programs}
-                  </h3>
-                  <p className="text-sm text-brand-ink-soft leading-relaxed">
-                    {department.programs.length} {lang === 'ar' ? 'برنامج متاح — استكشف جميع البرامج المتاحة في هذا القسم' : 'programs available — explore all programs offered by this department'}
-                  </p>
-                </div>
-                <div
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold shrink-0 transition-all group-hover:gap-3"
-                  style={{ backgroundColor: accent + '12', color: accent }}
-                >
-                  {lang === 'ar' ? 'استكشف البرامج' : 'Explore Programs'}
-                  <Arrow size={18} />
-                </div>
-              </div>
-            </Link>
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <BookOpen size={22} style={{ color: accent }} />
+              <h2 className="text-2xl md:text-3xl font-bold" style={{ color: accent }}>
+                {t.common.programs}
+              </h2>
+            </div>
+            <p className="text-brand-ink-soft">
+              {lang === 'ar'
+                ? 'برامج متكاملة تجمع بين العلم والتربية والإتقان'
+                : 'Integrated programs combining knowledge, nurturing, and mastery'}
+            </p>
           </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+            {department.programs.slice(0, 3).map((program, i) => (
+              <ProgramCard key={i} program={program} index={i} accent={accent} gold={department.accentColor.accent} />
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Button
+              to={`/departments/${department.slug}/programs`}
+              variant="outline"
+              accentColor={department.accentColor}
+            >
+              {lang === 'ar' ? 'استكشف جميع البرامج' : 'Explore all programs'}
+              <Arrow size={18} />
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -325,8 +315,6 @@ function DeptAnnouncements({ slug, accent }: { slug: string; accent: string }) {
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
   const deptAnnouncements = announcements.filter(a => a.departmentSlug === slug);
 
-  if (deptAnnouncements.length === 0) return null;
-
   return (
     <section className="section-pad bg-brand-bg-alt/50">
       <div className="container-page max-w-4xl">
@@ -346,39 +334,59 @@ function DeptAnnouncements({ slug, accent }: { slug: string; accent: string }) {
           <p className="text-brand-ink-soft">{lang === 'ar' ? 'آخر أخبار وأنشطة القسم' : 'Latest news and activities'}</p>
         </motion.div>
 
-        <div className="space-y-4">
-          {deptAnnouncements.slice(0, 4).map((ann, i) => {
-            const date = new Date(ann.date);
-            const day = date.getDate();
-            const month = date.toLocaleDateString(lang === 'ar' ? 'ar' : 'en', { month: 'short' });
-            return (
-              <motion.div
-                key={ann.id}
-                initial={{ opacity: 0, x: dir === 'rtl' ? 20 : -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-              >
-                <Link
-                  to={`/announcements/${ann.id}`}
-                  className="group flex items-center gap-4 bg-white rounded-2xl p-5 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300"
+        {deptAnnouncements.length > 0 ? (
+          <div className="space-y-4">
+            {deptAnnouncements.slice(0, 4).map((ann, i) => {
+              const date = new Date(ann.date);
+              const day = date.getDate();
+              const month = date.toLocaleDateString(lang === 'ar' ? 'ar' : 'en', { month: 'short' });
+              return (
+                <motion.div
+                  key={ann.id}
+                  initial={{ opacity: 0, x: dir === 'rtl' ? 20 : -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
                 >
-                  <div className="flex flex-col items-center justify-center w-14 h-14 rounded-xl shrink-0 text-white" style={{ background: `linear-gradient(135deg, ${accent}, ${accent}dd)` }}>
-                    <span className="text-lg font-bold leading-none">{day}</span>
-                    <span className="text-[10px] font-semibold uppercase mt-0.5">{month}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-brand-ink leading-snug mb-1 line-clamp-1">{localize(ann.title, lang)}</h3>
-                    <p className="text-sm text-brand-ink-soft leading-relaxed line-clamp-1">{localize(ann.excerpt, lang)}</p>
-                  </div>
-                  <div className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all group-hover:scale-110" style={{ backgroundColor: accent + '10' }}>
-                    <Arrow size={16} style={{ color: accent }} />
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
-        </div>
+                  <Link
+                    to={`/announcements/${ann.id}`}
+                    className="group flex items-center gap-4 bg-white rounded-2xl p-5 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300"
+                  >
+                    <div className="flex flex-col items-center justify-center w-14 h-14 rounded-xl shrink-0 text-white" style={{ background: `linear-gradient(135deg, ${accent}, ${accent}dd)` }}>
+                      <span className="text-lg font-bold leading-none">{day}</span>
+                      <span className="text-[10px] font-semibold uppercase mt-0.5">{month}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-bold text-brand-ink leading-snug mb-1 line-clamp-1">{localize(ann.title, lang)}</h3>
+                      <p className="text-sm text-brand-ink-soft leading-relaxed line-clamp-1">{localize(ann.excerpt, lang)}</p>
+                    </div>
+                    <div className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all group-hover:scale-110" style={{ backgroundColor: accent + '10' }}>
+                      <Arrow size={16} style={{ color: accent }} />
+                    </div>
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+        ) : (
+          // Empty state — every department has an announcements place
+          <div className="card-base p-10 text-center">
+            <div
+              className="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4"
+              style={{ backgroundColor: accent + '12' }}
+            >
+              <Megaphone size={26} style={{ color: accent }} />
+            </div>
+            <p className="text-brand-ink font-semibold mb-1">
+              {lang === 'ar' ? 'لا توجد إعلانات حالياً' : 'No announcements yet'}
+            </p>
+            <p className="text-sm text-brand-ink-muted">
+              {lang === 'ar'
+                ? 'تابعنا للاطلاع على آخر أخبار وأنشطة القسم'
+                : 'Stay tuned for the latest news and activities from this department'}
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );

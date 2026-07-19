@@ -62,8 +62,8 @@ export function AnnouncementsPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((ann) => {
                 const dept = deptMap[ann.departmentSlug];
-                const accent = dept?.accentColor.base ?? '#0f4d3a';
-                const gold = dept?.accentColor.accent ?? '#c9a24b';
+                const accent = dept?.accentColor.base ?? '#365004';
+                const gold = dept?.accentColor.accent ?? '#925E06';
                 const date = new Date(ann.date);
                 const day = date.getDate();
                 const month = date.toLocaleDateString(lang === 'ar' ? 'ar' : 'en', { month: 'short' });
@@ -157,7 +157,7 @@ export function AnnouncementDetailPage() {
     );
   }
 
-  const accent = department?.accentColor.base ?? '#0f4d3a';
+  const accent = department?.accentColor.base ?? '#365004';
   const related = announcements.filter((a) => a.departmentSlug === announcement.departmentSlug && a.id !== announcement.id).slice(0, 3);
 
   return (
@@ -212,8 +212,8 @@ export function AnnouncementDetailPage() {
             <div className="grid sm:grid-cols-3 gap-4">
               {related.map((rel) => {
                 const relDept = departments.find((d) => d.slug === rel.departmentSlug);
-                const relAccent = relDept?.accentColor.base ?? '#0f4d3a';
-                const relGold = relDept?.accentColor.accent ?? '#c9a24b';
+                const relAccent = relDept?.accentColor.base ?? '#365004';
+                const relGold = relDept?.accentColor.accent ?? '#925E06';
                 const date = new Date(rel.date);
                 const day = date.getDate();
                 const month = date.toLocaleDateString(lang === 'ar' ? 'ar' : 'en', { month: 'short' });

@@ -6,6 +6,7 @@ import { useI18n } from '../i18n/I18nContext';
 import { departments } from '../data/departments';
 import { localize } from '../utils/localize';
 import { Button } from '../components/ui/Button';
+import { ProgramCard } from '../components/ProgramCard';
 
 export function DepartmentProgramsPage() {
   const { slug } = useParams();
@@ -92,35 +93,7 @@ export function DepartmentProgramsPage() {
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {department.programs.map((program, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  whileHover={{ y: -4 }}
-                  className="group bg-white rounded-2xl p-6 shadow-card hover:shadow-card-hover transition-all duration-300"
-                  style={{ borderInlineStart: `4px solid ${accent}` }}
-                >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-lg font-bold transition-transform group-hover:scale-110"
-                      style={{ backgroundColor: accent + '15', color: accent }}
-                    >
-                      {i + 1}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-brand-ink text-base leading-snug mb-1">
-                        {localize(program.name, lang)}
-                      </h3>
-                      {program.description && (
-                        <p className="text-sm text-brand-ink-soft leading-relaxed">
-                          {localize(program.description, lang)}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
+                <ProgramCard key={i} program={program} index={i} accent={accent} gold={gold} />
               ))}
             </div>
           )}
@@ -213,21 +186,7 @@ function SchoolProgramsGroups({
               <div className="p-5 pt-2">
                 <div className="grid sm:grid-cols-2 gap-3">
                   {programs.map((program, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3 p-4 rounded-xl bg-brand-bg-alt/50"
-                      style={{ borderInlineStart: `3px solid ${accent}` }}
-                    >
-                      <div
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shrink-0"
-                        style={{ backgroundColor: accent + '15', color: accent }}
-                      >
-                        {i + 1}
-                      </div>
-                      <span className="text-sm font-medium text-brand-ink">
-                        {localize(program.name, lang)}
-                      </span>
-                    </div>
+                    <ProgramCard key={i} program={program} index={i} accent={accent} gold={gold} variant="compact" />
                   ))}
                 </div>
               </div>
@@ -238,3 +197,4 @@ function SchoolProgramsGroups({
     </div>
   );
 }
+

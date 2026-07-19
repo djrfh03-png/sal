@@ -18,8 +18,8 @@ export function AdminRegistrationsPage() {
   const filtered = filter === 'all' ? registrations : registrations.filter((r) => r.departmentSlug === filter);
 
   const statusColors: Record<Registration['status'], string> = {
-    pending: '#c9a24b',
-    reviewed: '#15479c',
+    pending: '#925E06',
+    reviewed: '#023E8A',
     accepted: '#22c55e',
     rejected: '#ef4444',
   };
@@ -27,7 +27,7 @@ export function AdminRegistrationsPage() {
   const regStatusConfig: Record<RegistrationStatus, { label: string; color: string; icon: typeof Check }> = {
     open: { label: t.admin.open, color: '#22c55e', icon: Unlock },
     closed: { label: t.admin.closed, color: '#ef4444', icon: Lock },
-    coming_soon: { label: t.admin.comingSoon, color: '#c9a24b', icon: Clock },
+    coming_soon: { label: t.admin.comingSoon, color: '#925E06', icon: Clock },
   };
 
   return (

@@ -12,8 +12,8 @@ interface AnnouncementBoardCardProps {
 
 export function AnnouncementBoardCard({ announcement, department }: AnnouncementBoardCardProps) {
   const { lang } = useI18n();
-  const accent = department?.accentColor.base ?? '#0f4d3a';
-  const gold = department?.accentColor.accent ?? '#c9a24b';
+  const accent = department?.accentColor.base ?? '#365004';
+  const gold = department?.accentColor.accent ?? '#925E06';
   const date = new Date(announcement.date);
   const day = date.getDate();
   const month = date.toLocaleDateString(lang === 'ar' ? 'ar' : 'en', { month: 'short' });

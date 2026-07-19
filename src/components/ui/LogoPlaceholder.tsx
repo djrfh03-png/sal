@@ -34,14 +34,14 @@ export function LogoPlaceholder({ slug, size = 'md', color, className = '' }: Lo
   const Icon = iconMap[slug];
   const defaultColor =
     slug === 'org-main'
-      ? '#0B6B4A'
+      ? '#365004'
       : slug === 'center-hifz'
-        ? '#1E4C9A'
+        ? '#023E8A'
         : slug === 'school'
-          ? '#0B6B4A'
+          ? '#71763E'
           : slug === 'halqa'
-            ? '#1447A3'
-            : '#1E5AA8';
+            ? '#023047'
+            : '#0F172A';
 
   const bg = color ?? defaultColor;
 

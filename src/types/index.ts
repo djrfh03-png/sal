@@ -18,6 +18,7 @@ export interface DepartmentProgram {
   name: LocalizedName;
   description?: LocalizedName;
   gradeGroup?: string;
+  icon?: string;
 }
 
 export interface RegistrationField {

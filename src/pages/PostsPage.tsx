@@ -52,7 +52,7 @@ export function PostsPage() {
                     <div className="h-2" style={{ background: `linear-gradient(90deg, ${dept.accentColor.base}, ${dept.accentColor.accent})` }} />
                     <div className="p-6">
                       <div className="mb-4">
-                        <LogoPlaceholder slug={dept.slug} size="lg" />
+                        <LogoPlaceholder slug={dept.slug} size="lg" color={dept.accentColor.base} />
                       </div>
                       <h3 className="font-bold text-brand-ink mb-1">{localize(dept.name, lang)}</h3>
                       <p className="text-sm text-brand-ink-soft mb-4 line-clamp-2">{localize(dept.shortDescription, lang)}</p>
@@ -78,7 +78,7 @@ export function PostsPage() {
 
   // Department selected — show its posts
   const dept = deptMap[selectedDept];
-  const accent = dept?.accentColor.base ?? '#0f4d3a';
+  const accent = dept?.accentColor.base ?? '#365004';
   const filtered = posts.filter((p) => p.departmentSlug === selectedDept);
 
   return (
@@ -95,7 +95,7 @@ export function PostsPage() {
               {lang === 'ar' ? 'كل الأقسام' : 'All Departments'}
             </button>
             <div className="flex items-center gap-4">
-              {dept && <LogoPlaceholder slug={dept.slug} size="lg" />}
+              {dept && <LogoPlaceholder slug={dept.slug} size="lg" color={accent} />}
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-brand-ink">{localize(dept?.name ?? { ar: '', en: '', am: '', om: '' }, lang)}</h1>
                 <p className="text-sm text-brand-ink-soft">{t.posts.subtitle}</p>
@@ -173,7 +173,7 @@ export function PostDetailPage() {
     );
   }
 
-  const accent = department?.accentColor.base ?? '#0f4d3a';
+  const accent = department?.accentColor.base ?? '#365004';
   const Icon = post.type === 'image' ? ImageIcon : post.type === 'video' ? Video : FileText;
   const related = posts.filter((p) => p.departmentSlug === post.departmentSlug && p.id !== post.id).slice(0, 3);
 
