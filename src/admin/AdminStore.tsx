@@ -23,6 +23,7 @@ interface AdminStoreValue {
   updateSettings: (updates: Partial<SiteSettings>) => void;
   updateDepartmentStat: (deptId: string, statIndex: number, value: number) => void;
   updateDepartmentRequirements: (deptId: string, lang: keyof LocalizedName, value: string) => void;
+  updateDepartmentTelegram: (deptId: string, chatId: string) => void;
   addProgram: (deptSlug: string, program: Omit<DepartmentProgram, 'id'>) => void;
   updateProgram: (deptSlug: string, programIndex: number, updates: Partial<DepartmentProgram>) => void;
   deleteProgram: (deptSlug: string, programIndex: number) => void;
@@ -97,6 +98,12 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const updateDepartmentTelegram = useCallback((deptId: string, chatId: string) => {
+    setDepartments((prev) =>
+      prev.map((d) => (d.id === deptId ? { ...d, telegramChatId: chatId } : d))
+    );
+  }, []);
+
   const addProgram = useCallback((deptSlug: string, program: Omit<DepartmentProgram, 'id'>) => {
     setDepartments((prev) =>
       prev.map((d) =>
@@ -147,6 +154,7 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
         updateSettings,
         updateDepartmentStat,
         updateDepartmentRequirements,
+        updateDepartmentTelegram,
         addProgram,
         updateProgram,
         deleteProgram,

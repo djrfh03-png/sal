@@ -106,6 +106,7 @@ export const departments: Department[] = [
       } },
     ],
     telegramLink: 'https://t.me/daralquran_hifz',
+    telegramChatId: '-1001234567890',
     registrationStatus: 'open',
     requirements: {
       ar: 'الشروط: أن تكون الطالبة مسلمة، متحمسة لحفظ القرآن كاملاً، قادرة على الالتزام بالبرنامج السكني المكثف لمدة سنتين، ولديها دعم من ولي أمرها. النجاح في المقابلة الشخصية وتقييم مستوى الحفظ.',
@@ -425,6 +426,7 @@ export const departments: Department[] = [
       } },
     ],
     telegramLink: 'https://t.me/daralquran_school',
+    telegramChatId: '-1001234567891',
     registrationStatus: 'open',
     requirements: {
       ar: 'الشروط: أن يكون الطالب مسلماً، في عمر المدرسة (5-15 سنة)، ولديه رغبة في تعلم القرآن والعلوم الشرعية، وولي أمر ملتزم بمتابعة الطالب. إحضار شهادة الميلاد وصورة من بطاقة ولي الأمر.',
@@ -553,6 +555,7 @@ export const departments: Department[] = [
       } },
     ],
     telegramLink: 'https://t.me/daralquran_halqa',
+    telegramChatId: '-1001234567892',
     registrationStatus: 'coming_soon',
     requirements: {
       ar: 'الشروط: أن يكون الطالب مسلماً، بالغاً، لديه معرفة أساسية بالقراءة والكتابة، ملتزماً بحضور الحلقة بعد صلاة العصر بانتظام، ولديه نية صادقة في طلب العلم الشرعي.',
@@ -678,6 +681,7 @@ export const departments: Department[] = [
       } },
     ],
     telegramLink: 'https://t.me/daralquran_charity',
+    telegramChatId: '-1001234567893',
     registrationStatus: 'closed',
     requirements: {
       ar: 'الشروط: أن تكون الأسرة مسلمة ومحتاجة فعلاً، تقديم ما يثبت الحالة (شهادة فقر أو توصية من الإمام أو الجيران)، الالتزام بتوزيع المساعدات على المستحقين. الأولوية للأيتام والأرامل والفقراء.',

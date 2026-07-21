@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Bell } from 'lucide-react';
+import { Bell, Loader2, Send } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { localize } from '../utils/localize';
 import { Button } from './ui/Button';
@@ -12,13 +12,49 @@ export function RegistrationForm({ department }: { department: Department }) {
   const { lang, t } = useI18n();
   const { showToast } = useToast();
   const [formValues, setFormValues] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
 
   const fields = department.registrationFields ?? [];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    showToast(t.registration.submitSuccess, 'success');
-    setFormValues({});
+    setSubmitting(true);
+    try {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+      if (supabaseUrl && supabaseAnonKey) {
+        const res = await fetch(`${supabaseUrl}/functions/v1/telegram-registration`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${supabaseAnonKey}`,
+          },
+          body: JSON.stringify({
+            departmentSlug: department.slug,
+            departmentName: localize(department.name, 'en'),
+            chatId: department.telegramChatId,
+            fields: fields.map((f) => ({
+              label: localize(f.label, 'ar'),
+              value: formValues[f.name] ?? '',
+            })),
+          }),
+        });
+
+        if (!res.ok) {
+          const err = await res.text();
+          throw new Error(err);
+        }
+      }
+
+      showToast(t.registration.submitSuccess, 'success');
+      setFormValues({});
+    } catch (err) {
+      showToast(lang === 'ar' ? 'حدث خطأ، يرجى المحاولة لاحقاً' : 'An error occurred, please try again later', 'error');
+      console.error('Registration submission failed:', err);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleChange = (name: string, value: string) => {
@@ -49,8 +85,25 @@ export function RegistrationForm({ department }: { department: Department }) {
               />
             ))}
           </div>
-          <Button type="submit" variant="primary" accentColor={department.accentColor} size="lg" className="w-full">
-            {t.registration.submit}
+          <Button
+            type="submit"
+            variant="primary"
+            accentColor={department.accentColor}
+            size="lg"
+            className="w-full"
+            disabled={submitting}
+          >
+            {submitting ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                {lang === 'ar' ? 'جارٍ الإرسال...' : 'Sending...'}
+              </>
+            ) : (
+              <>
+                <Send size={18} />
+                {t.registration.submit}
+              </>
+            )}
           </Button>
         </motion.form>
       ) : department.registrationStatus === 'closed' ? (

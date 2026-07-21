@@ -52,6 +52,7 @@ export interface Department {
   stats: DepartmentStat[];
   programs: DepartmentProgram[];
   telegramLink: string;
+  telegramChatId: string;
   registrationStatus: RegistrationStatus;
   registrationFields: RegistrationField[];
   requirements: LocalizedName;
