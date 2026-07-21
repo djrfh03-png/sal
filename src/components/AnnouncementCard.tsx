@@ -12,7 +12,7 @@ interface AnnouncementBoardCardProps {
 
 export function AnnouncementBoardCard({ announcement, department }: AnnouncementBoardCardProps) {
   const { lang } = useI18n();
-  const accent = department?.accentColor.base ?? '#365004';
+  const accent = department?.accentColor.base ?? '#047857';
   const gold = department?.accentColor.accent ?? '#925E06';
   const date = new Date(announcement.date);
   const day = date.getDate();

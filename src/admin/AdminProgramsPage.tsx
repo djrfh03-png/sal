@@ -10,13 +10,13 @@ import type { DepartmentProgram, DepartmentSlug } from '../types';
 
 // School grade groupings — used for display and editing
 const schoolGradeGroups = [
-  { key: 'temhid-1', label: { ar: 'تمهيد الأول', en: 'Temhid Al-Awwal', am: '', om: '' } },
-  { key: 'temhid-2', label: { ar: 'تمهيد الأخير', en: 'Temhid Al-Akhir', am: '', om: '' } },
-  { key: 'grade-1', label: { ar: 'الصف الأول', en: 'Grade 1', am: '', om: '' } },
-  { key: 'grade-2', label: { ar: 'الصف الثاني', en: 'Grade 2', am: '', om: '' } },
-  { key: 'grade-3', label: { ar: 'الصف الثالث', en: 'Grade 3', am: '', om: '' } },
-  { key: 'grade-4', label: { ar: 'الصف الرابع', en: 'Grade 4', am: '', om: '' } },
-  { key: 'grade-5', label: { ar: 'الصف الخامس', en: 'Grade 5', am: '', om: '' } },
+  { key: 'temhid-1', label: { ar: 'تمهيد الأول', en: 'Temhid Al-Awwal', am: 'የመጀመሪያ ዝግጅት', om: 'Qophaa\'ii 1ffaa' } },
+  { key: 'temhid-2', label: { ar: 'تمهيد الأخير', en: 'Temhid Al-Akhir', am: 'የመጨረሻ ዝግጅት', om: 'Qophaa\'ii 2ffaa' } },
+  { key: 'grade-1', label: { ar: 'الصف الأول', en: 'Grade 1', am: '1ኛ ክፍል', om: 'Kutaa 1' } },
+  { key: 'grade-2', label: { ar: 'الصف الثاني', en: 'Grade 2', am: '2ኛ ክፍል', om: 'Kutaa 2' } },
+  { key: 'grade-3', label: { ar: 'الصف الثالث', en: 'Grade 3', am: '3ኛ ክፍል', om: 'Kutaa 3' } },
+  { key: 'grade-4', label: { ar: 'الصف الرابع', en: 'Grade 4', am: '4ኛ ክፍል', om: 'Kutaa 4' } },
+  { key: 'grade-5', label: { ar: 'الصف الخامس', en: 'Grade 5', am: '5ኛ ክፍል', om: 'Kutaa 5' } },
 ];
 
 export function AdminProgramsPage() {

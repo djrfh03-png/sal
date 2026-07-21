@@ -3,7 +3,7 @@ import { departments as initialDepartments } from '../data/departments';
 import { announcements as initialAnnouncements } from '../data/announcements';
 import { posts as initialPosts } from '../data/posts';
 import { registrations as initialRegistrations, siteSettings as initialSettings } from '../data/misc';
-import type { Department, DepartmentProgram, Announcement, Post, Registration, SiteSettings, RegistrationStatus } from '../types';
+import type { Department, DepartmentProgram, Announcement, Post, Registration, SiteSettings, RegistrationStatus, LocalizedName } from '../types';
 
 interface AdminStoreValue {
   departments: Department[];
@@ -22,6 +22,7 @@ interface AdminStoreValue {
   setRegistrationStatus: (slug: string, status: RegistrationStatus) => void;
   updateSettings: (updates: Partial<SiteSettings>) => void;
   updateDepartmentStat: (deptId: string, statIndex: number, value: number) => void;
+  updateDepartmentRequirements: (deptId: string, lang: keyof LocalizedName, value: string) => void;
   addProgram: (deptSlug: string, program: Omit<DepartmentProgram, 'id'>) => void;
   updateProgram: (deptSlug: string, programIndex: number, updates: Partial<DepartmentProgram>) => void;
   deleteProgram: (deptSlug: string, programIndex: number) => void;
@@ -86,6 +87,16 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const updateDepartmentRequirements = useCallback((deptId: string, lang: keyof LocalizedName, value: string) => {
+    setDepartments((prev) =>
+      prev.map((d) =>
+        d.id === deptId
+          ? { ...d, requirements: { ...d.requirements, [lang]: value } }
+          : d
+      )
+    );
+  }, []);
+
   const addProgram = useCallback((deptSlug: string, program: Omit<DepartmentProgram, 'id'>) => {
     setDepartments((prev) =>
       prev.map((d) =>
@@ -135,6 +146,7 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
         setRegistrationStatus,
         updateSettings,
         updateDepartmentStat,
+        updateDepartmentRequirements,
         addProgram,
         updateProgram,
         deleteProgram,
@@ -149,4 +161,12 @@ export function useAdminStore() {
   const ctx = useContext(AdminStoreContext);
   if (!ctx) throw new Error('useAdminStore must be used within AdminStoreProvider');
   return ctx;
+}
+
+/**
+ * Safe variant that returns null outside the provider, so public pages can
+ * opt-in to inline editing only when the admin context is available.
+ */
+export function useAdminStoreOrNull() {
+  return useContext(AdminStoreContext);
 }

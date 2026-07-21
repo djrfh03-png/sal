@@ -96,7 +96,7 @@ export function AdminAnnouncementsPage() {
               <div className="flex items-center gap-2 mt-1">
                 <span
                   className="text-xs font-semibold text-white px-2 py-0.5 rounded-full"
-                  style={{ backgroundColor: deptMap[ann.departmentSlug]?.accentColor.base ?? '#365004' }}
+                  style={{ backgroundColor: deptMap[ann.departmentSlug]?.accentColor.base ?? '#047857' }}
                 >
                   {localize(deptMap[ann.departmentSlug]?.name ?? { ar: '', en: '', am: '', om: '' }, lang)}
                 </span>
@@ -250,7 +250,7 @@ export function AdminAnnouncementsPage() {
               {editing.departmentSlug && (
                 <span
                   className="text-xs font-semibold text-white px-2.5 py-1 rounded-full"
-                  style={{ backgroundColor: deptMap[editing.departmentSlug]?.accentColor.base ?? '#365004' }}
+                  style={{ backgroundColor: deptMap[editing.departmentSlug]?.accentColor.base ?? '#047857' }}
                 >
                   {localize(deptMap[editing.departmentSlug]?.name ?? { ar: '', en: '', am: '', om: '' }, lang)}
                 </span>

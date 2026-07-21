@@ -43,6 +43,7 @@ export interface Department {
   establishedDate: string;
   logoKey: string;
   coverImageKey: string;
+  coverImage: string;
   accentColor: {
     base: string;
     accent: string;
@@ -53,6 +54,7 @@ export interface Department {
   telegramLink: string;
   registrationStatus: RegistrationStatus;
   registrationFields: RegistrationField[];
+  requirements: LocalizedName;
 }
 
 export interface Announcement {
@@ -103,6 +105,13 @@ export interface TimelineEvent {
   description: LocalizedName;
 }
 
+export interface SocialLinks {
+  telegram: string;
+  whatsapp: string;
+  facebook: string;
+  tiktok: string;
+}
+
 export interface SiteSettings {
   heroTitle: LocalizedName;
   heroSubtitle: LocalizedName;
@@ -110,4 +119,5 @@ export interface SiteSettings {
   contactLocation: LocalizedName;
   orgTelegram: string;
   developedBy: string;
+  social: SocialLinks;
 }

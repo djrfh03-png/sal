@@ -31,7 +31,7 @@ export function TestimonialCarousel({ testimonials, deptMap }: TestimonialCarous
 
   const testimonial = testimonials[index];
   const department = deptMap[testimonial.departmentSlug];
-  const accent = department?.accentColor.base ?? '#365004';
+  const accent = department?.accentColor.base ?? '#047857';
   const gold = department?.accentColor.accent ?? '#925E06';
   const initials = testimonial.name.charAt(0);
 
@@ -120,7 +120,7 @@ export function TestimonialCarousel({ testimonials, deptMap }: TestimonialCarous
 // Keep old export for backward compat
 export function TestimonialCard({ testimonial, department }: { testimonial: Testimonial; department?: Department }) {
   const { lang } = useI18n();
-  const accent = department?.accentColor.base ?? '#365004';
+  const accent = department?.accentColor.base ?? '#047857';
   const gold = department?.accentColor.accent ?? '#925E06';
 
   return (

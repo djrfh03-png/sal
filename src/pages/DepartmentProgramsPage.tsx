@@ -32,13 +32,13 @@ export function DepartmentProgramsPage() {
 
   // School grade groupings — used for display labels
   const gradeGroupLabels = isSchool ? [
-    { key: 'temhid-1', label: { ar: 'تمهيد الأول', en: 'Temhid Al-Awwal', am: '', om: '' } },
-    { key: 'temhid-2', label: { ar: 'تمهيد الأخير', en: 'Temhid Al-Akhir', am: '', om: '' } },
-    { key: 'grade-1', label: { ar: 'الصف الأول', en: 'Grade 1', am: '', om: '' } },
-    { key: 'grade-2', label: { ar: 'الصف الثاني', en: 'Grade 2', am: '', om: '' } },
-    { key: 'grade-3', label: { ar: 'الصف الثالث', en: 'Grade 3', am: '', om: '' } },
-    { key: 'grade-4', label: { ar: 'الصف الرابع', en: 'Grade 4', am: '', om: '' } },
-    { key: 'grade-5', label: { ar: 'الصف الخامس', en: 'Grade 5', am: '', om: '' } },
+    { key: 'temhid-1', label: { ar: 'تمهيد الأول', en: 'Temhid Al-Awwal', am: 'የመጀመሪያ ዝግጅት', om: 'Qophaa\'ii 1ffaa' } },
+    { key: 'temhid-2', label: { ar: 'تمهيد الأخير', en: 'Temhid Al-Akhir', am: 'የመጨረሻ ዝግጅት', om: 'Qophaa\'ii 2ffaa' } },
+    { key: 'grade-1', label: { ar: 'الصف الأول', en: 'Grade 1', am: '1ኛ ክፍል', om: 'Kutaa 1' } },
+    { key: 'grade-2', label: { ar: 'الصف الثاني', en: 'Grade 2', am: '2ኛ ክፍል', om: 'Kutaa 2' } },
+    { key: 'grade-3', label: { ar: 'الصف الثالث', en: 'Grade 3', am: '3ኛ ክፍል', om: 'Kutaa 3' } },
+    { key: 'grade-4', label: { ar: 'الصف الرابع', en: 'Grade 4', am: '4ኛ ክፍል', om: 'Kutaa 4' } },
+    { key: 'grade-5', label: { ar: 'الصف الخامس', en: 'Grade 5', am: '5ኛ ክፍል', om: 'Kutaa 5' } },
   ] : null;
 
   return (
@@ -75,11 +75,22 @@ export function DepartmentProgramsPage() {
             <p className="max-w-2xl leading-relaxed text-brand-ink-soft">
               {localize(department.shortDescription, lang)}
             </p>
-            <div className="flex items-center gap-2 mt-4">
-              <Sparkles size={16} style={{ color: gold }} />
-              <span className="text-sm font-semibold" style={{ color: accent }}>
-                {department.programs.length} {lang === 'ar' ? 'برنامج متاح' : 'programs available'}
-              </span>
+            <div className="flex items-center gap-3 mt-4">
+              <div
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-sm font-semibold"
+                style={{ backgroundColor: accent + '12', color: accent }}
+              >
+                <Sparkles size={14} style={{ color: gold }} />
+                <span className="tabular-nums font-bold">{department.programs.length}</span>
+                <span>{lang === 'ar' ? 'برنامج متاح' : 'programs available'}</span>
+              </div>
+              <Link
+                to={`/departments/${department.slug}`}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm font-semibold bg-brand-bg-alt text-brand-ink-soft hover:bg-brand-line transition-colors"
+              >
+                {lang === 'ar' ? 'عن القسم' : 'About department'}
+                <Arrow size={14} />
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -108,7 +119,7 @@ export function DepartmentProgramsPage() {
               <Arrow size={18} />
               {t.common.back}
             </Button>
-            <Button to={`/register?dept=${department.slug}`} variant="primary" accentColor={department.accentColor}>
+            <Button to={`/departments/${department.slug}/register`} variant="primary" accentColor={department.accentColor}>
               {t.registration.applyNow}
               <Arrow size={18} />
             </Button>

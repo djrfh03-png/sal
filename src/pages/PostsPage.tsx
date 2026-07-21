@@ -78,7 +78,7 @@ export function PostsPage() {
 
   // Department selected — show its posts
   const dept = deptMap[selectedDept];
-  const accent = dept?.accentColor.base ?? '#365004';
+  const accent = dept?.accentColor.base ?? '#047857';
   const filtered = posts.filter((p) => p.departmentSlug === selectedDept);
 
   return (
@@ -173,7 +173,7 @@ export function PostDetailPage() {
     );
   }
 
-  const accent = department?.accentColor.base ?? '#365004';
+  const accent = department?.accentColor.base ?? '#047857';
   const Icon = post.type === 'image' ? ImageIcon : post.type === 'video' ? Video : FileText;
   const related = posts.filter((p) => p.departmentSlug === post.departmentSlug && p.id !== post.id).slice(0, 3);
 

@@ -11,6 +11,7 @@ export const am: TranslationKeys = {
     home: 'መነሻ',
     about: 'ስለ እኛ',
     departments: 'ክፍሎች',
+    programs: 'ፕሮግራሞች',
     announcements: 'ማስታወቂያዎች',
     posts: 'ልጥፎች',
     register: 'ምዝገባ',
@@ -70,6 +71,11 @@ export const am: TranslationKeys = {
     yearsService: 'የአገልግሎት ዓመታት',
     departmentsTitle: 'ክፍሎቻችን',
     departmentsSubtitle: 'የአላህን መጽሐፍ ለማገዝ አራት የተዋሃዱ ክፍሎች',
+    locationTitle: 'ቦታችን',
+    locationSubtitle: 'ከኢትዮጵያ ልብ ማህበረሰቡን እናገለግላለን',
+    locationDescription: 'ተቋማችን በኢትዮጵያ ይገኛል፣ የአላህን መጽሐፍ እና የእስላም ሳይንሶችን ለመማር ለሚፈልጉ ተማሪዎችና ቤተሰቦች እንኳን ደህና መጡ።',
+    socialTitle: 'ይከታተሉን',
+    socialSubtitle: 'ተገናኝና የቅርብ ጊዜ እንቅስቃሴዎቻችንን ይከታተሉ',
   },
 
   about: {

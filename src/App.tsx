@@ -18,9 +18,11 @@ import { AboutPage } from './pages/AboutPage';
 import { DepartmentsPage } from './pages/DepartmentsPage';
 import { DepartmentDetailPage } from './pages/DepartmentDetailPage';
 import { DepartmentProgramsPage } from './pages/DepartmentProgramsPage';
+import { ProgramsPage } from './pages/ProgramsPage';
 import { AnnouncementsPage, AnnouncementDetailPage } from './pages/AnnouncementsPage';
 import { PostsPage, PostDetailPage } from './pages/PostsPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { DepartmentRegisterPage } from './pages/DepartmentRegisterPage';
 import { ContactPage } from './pages/ContactPage';
 import { AdminLoginPage } from './admin/AdminLoginPage';
 import { AdminLayout } from './admin/AdminLayout';
@@ -70,7 +72,9 @@ function AnimatedRoutes() {
         <Route path="/about" element={<PublicLayout><AboutPage /></PublicLayout>} />
         <Route path="/departments" element={<PublicLayout><DepartmentsPage /></PublicLayout>} />
         <Route path="/departments/:slug" element={<PublicLayout><DepartmentDetailPage /></PublicLayout>} />
+        <Route path="/programs" element={<PublicLayout><ProgramsPage /></PublicLayout>} />
         <Route path="/departments/:slug/programs" element={<PublicLayout><DepartmentProgramsPage /></PublicLayout>} />
+        <Route path="/departments/:slug/register" element={<PublicLayout><DepartmentRegisterPage /></PublicLayout>} />
         <Route path="/announcements" element={<PublicLayout><AnnouncementsPage /></PublicLayout>} />
         <Route path="/announcements/:id" element={<PublicLayout><AnnouncementDetailPage /></PublicLayout>} />
         <Route path="/posts" element={<PublicLayout><PostsPage /></PublicLayout>} />

@@ -10,6 +10,7 @@ export const ar = {
     home: 'الرئيسية',
     about: 'من نحن',
     departments: 'الأقسام',
+    programs: 'البرامج',
     announcements: 'الإعلانات',
     posts: 'المنشورات',
     register: 'التسجيل',
@@ -71,6 +72,11 @@ export const ar = {
     yearsService: 'سنوات من العطاء',
     departmentsTitle: 'أقسامنا',
     departmentsSubtitle: 'أربعة أقسام متكاملة في خدمة كتاب الله تعالى',
+    locationTitle: 'موقعنا',
+    locationSubtitle: 'نخدم المجتمع من قلب إثيوبيا',
+    locationDescription: 'يقع مقر مؤسستنا في إثيوبيا، ونرحب بالطلاب والعائلات الذين يرغبون في تعلم كتاب الله والعلوم الشرعية.',
+    socialTitle: 'تابعونا',
+    socialSubtitle: 'ابق على تواصل وتابع أحدث أنشطتنا',
   },
 
   // About

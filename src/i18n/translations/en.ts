@@ -10,6 +10,7 @@ export const en: TranslationKeys = {
     home: 'Home',
     about: 'About',
     departments: 'Departments',
+    programs: 'Programs',
     announcements: 'Announcements',
     posts: 'Posts',
     register: 'Register',
@@ -69,6 +70,11 @@ export const en: TranslationKeys = {
     yearsService: 'Years of Service',
     departmentsTitle: 'Our Departments',
     departmentsSubtitle: 'Four integrated departments serving the Book of Allah',
+    locationTitle: 'Our Location',
+    locationSubtitle: 'Serving the community from the heart of Ethiopia',
+    locationDescription: 'Our institution is located in Ethiopia, welcoming students and families who wish to learn the Book of Allah and Islamic sciences.',
+    socialTitle: 'Follow Us',
+    socialSubtitle: 'Stay connected and follow our latest activities',
   },
 
   about: {

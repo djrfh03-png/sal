@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { BookOpen, Heart, Users, GraduationCap, Library } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { departments } from '../data/departments';
@@ -48,15 +47,14 @@ export function OrgStructureChart() {
               const Icon = deptIcons[dept.slug] ?? BookOpen;
               const accent = dept.accentColor.base;
               return (
-                <Link
+                <div
                   key={dept.slug}
-                  to={`/departments/${dept.slug}`}
-                  className="group relative bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 p-3 overflow-hidden"
+                  className="group relative bg-white rounded-2xl shadow-card p-3 overflow-hidden"
                 >
                   <div className="absolute top-0 inset-x-0 h-1" style={{ background: `linear-gradient(90deg, ${accent}, ${dept.accentColor.accent})` }} />
                   <div className="flex flex-col items-center text-center pt-1.5">
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center mb-2 transition-transform group-hover:scale-110"
+                      className="w-10 h-10 rounded-xl flex items-center justify-center mb-2"
                       style={{ backgroundColor: accent + '15' }}
                     >
                       <Icon size={20} style={{ color: accent }} />
@@ -71,7 +69,7 @@ export function OrgStructureChart() {
                       <span>{lang === 'ar' ? 'برنامج' : 'programs'}</span>
                     </div>
                   </div>
-                </Link>
+                </div>
               );
             })}
           </div>
@@ -143,17 +141,16 @@ export function OrgStructureChart() {
           ];
           const pos = positions[i];
           return (
-            <Link
+            <div
               key={dept.slug}
-              to={`/departments/${dept.slug}`}
-              className="group absolute z-10"
+              className="absolute z-10"
               style={{ top: pos.top, left: pos.left, transform: pos.transform }}
             >
-              <div className="relative bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 p-4 w-40">
+              <div className="relative bg-white rounded-2xl shadow-card p-4 w-40">
                 <div className="absolute top-0 inset-x-0 h-1 rounded-t-2xl" style={{ background: `linear-gradient(90deg, ${accent}, ${dept.accentColor.accent})` }} />
                 <div className="flex flex-col items-center text-center pt-1.5">
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center mb-2 transition-transform group-hover:scale-110"
+                    className="w-12 h-12 rounded-xl flex items-center justify-center mb-2"
                     style={{ backgroundColor: accent + '15' }}
                   >
                     <Icon size={24} style={{ color: accent }} />
@@ -169,7 +166,7 @@ export function OrgStructureChart() {
                   </div>
                 </div>
               </div>
-            </Link>
+            </div>
           );
         })}
       </div>

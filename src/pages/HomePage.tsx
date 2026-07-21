@@ -1,17 +1,23 @@
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { useRef, useState } from 'react';
+import {
+  ArrowRight, ArrowLeft, Send,
+  Facebook as FacebookIcon,
+} from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { StatCounter } from '../components/ui/StatCounter';
 import { DepartmentCard } from '../components/DepartmentCard';
 import { TestimonialCarousel } from '../components/TestimonialCard';
 import { OrgStructureChart } from '../components/OrgStructureChart';
+import { DepartmentLogo } from '../components/ui/DepartmentLogo';
+import { TikTokIcon, TelegramIcon, WhatsAppIcon } from '../components/ui/SocialIcons';
 import { departments } from '../data/departments';
 import { announcements } from '../data/announcements';
 import { testimonials } from '../data/misc';
 import { siteSettings } from '../data/misc';
 import { localize } from '../utils/localize';
+import { QuranVersesSlider } from '../components/QuranVersesSlider';
 import type { Department } from '../types';
 
 export function HomePage() {
@@ -21,15 +27,16 @@ export function HomePage() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const [statsExpanded, setStatsExpanded] = useState(false);
 
   const deptMap = Object.fromEntries(departments.map((d) => [d.slug, d])) as Record<string, Department>;
   const generalAnnouncements = announcements.filter(a => a.departmentSlug === 'org');
 
   const impactStats = [
-    { value: 642, label: t.home.students, color: '#365004' },
-    { value: 18, label: t.home.graduates, color: '#023E8A' },
-    { value: 82, label: t.home.beneficiaries, color: '#0F172A' },
-    { value: 15, label: t.home.yearsService, color: '#925E06' },
+    { value: 642, label: t.home.students, color: '#15803d', hint: lang === 'ar' ? 'طالب وطالبة سنوياً' : 'students yearly' },
+    { value: 18, label: t.home.graduates, color: '#1E3A8A', hint: lang === 'ar' ? 'حافظات متقنات' : 'female Hafizat' },
+    { value: 82, label: t.home.beneficiaries, color: '#0369A1', hint: lang === 'ar' ? 'طفل يُطعم يومياً' : 'children fed daily' },
+    { value: 15, label: t.home.yearsService, color: '#925E06', hint: lang === 'ar' ? 'من الخدمة المستمرة' : 'of continuous service' },
   ];
 
   return (
@@ -94,7 +101,7 @@ export function HomePage() {
         </motion.div>
       </section>
 
-      {/* Quran Photo Strip — layered below hero */}
+      {/* Quran Verses Strip — auto-sliding verses over a Quran backdrop, layered below hero */}
       <section className="relative -mt-12 z-20">
         <div className="container-page">
           <motion.div
@@ -103,19 +110,20 @@ export function HomePage() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="relative rounded-3xl overflow-hidden shadow-card-hover"
           >
-            <div className="absolute inset-0 rounded-3xl border-2 border-brand-secondary/40 z-20 pointer-events-none" />
-            <div className="absolute inset-0 z-10 pointer-events-none">
-              <div className="absolute inset-y-0 start-0 w-24 bg-gradient-to-r from-brand-primary-dark/60 to-transparent" />
-              <div className="absolute inset-y-0 end-0 w-24 bg-gradient-to-l from-brand-primary-dark/60 to-transparent" />
-              <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-brand-primary-dark/40 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-brand-primary-dark/40 to-transparent" />
-            </div>
+            <div className="absolute inset-0 rounded-3xl border-2 border-brand-secondary/40 z-30 pointer-events-none" />
+            {/* Background Quran image */}
             <img
               src="https://images.pexels.com/photos/17753204/pexels-photo-17753204/free-photo-of-stand-with-koran-in-mosque.jpeg?auto=compress&cs=tinysrgb&w=1920"
               alt=""
-              className="w-full h-32 md:h-48 object-cover"
+              className="w-full h-40 md:h-60 object-cover"
               loading="lazy"
             />
+            {/* Dark overlay for verse readability */}
+            <div className="absolute inset-0 z-10 bg-gradient-to-b from-brand-primary-dark/80 via-brand-primary-dark/75 to-brand-primary-dark/85" />
+            {/* Auto-sliding verses */}
+            <div className="absolute inset-0 z-20 py-6">
+              <QuranVersesSlider />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -198,10 +206,32 @@ export function HomePage() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="card-base p-6"
               >
-                <StatCounter {...stat} />
+                <StatCounter
+                  value={stat.value}
+                  label={stat.label}
+                  color={stat.color}
+                  hint={stat.hint}
+                  onSeeMore={i === 0 ? () => setStatsExpanded((v) => !v) : undefined}
+                />
               </motion.div>
             ))}
           </div>
+
+          {/* See more panel — additional context about the institution's impact */}
+          <motion.div
+            initial={false}
+            animate={{ height: statsExpanded ? 'auto' : 0, opacity: statsExpanded ? 1 : 0 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className="overflow-hidden"
+          >
+            <div className="mt-8 rounded-2xl p-6 bg-brand-bg-alt/60 border border-brand-line">
+              <p className="text-sm text-brand-ink-soft leading-relaxed text-center max-w-2xl mx-auto">
+                {lang === 'ar'
+                  ? 'تعمل المؤسسة منذ عام 2009 على تخريج الحافظات وتعليم القرآن والعلوم الشرعية، وكفالة الأيتام وإطعام الفقراء، بفضل الله ثم دعم المحسنين.'
+                  : 'Since 2009, the institution has graduated Hafizat, taught the Quran and Islamic sciences, sponsored orphans, and fed the poor — by Allah\'s grace and the support of benefactors.'}
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -244,7 +274,7 @@ export function HomePage() {
                       to={`/announcements/${ann.id}`}
                       className="group flex items-center gap-4 bg-white rounded-2xl p-5 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300"
                     >
-                      <div className="flex flex-col items-center justify-center w-14 h-14 rounded-xl shrink-0 text-white" style={{ background: 'linear-gradient(135deg, #365004, #365004dd)' }}>
+                      <div className="flex flex-col items-center justify-center w-14 h-14 rounded-xl shrink-0 text-white" style={{ background: 'linear-gradient(135deg, #047857, #047857dd)' }}>
                         <span className="text-lg font-bold leading-none">{day}</span>
                         <span className="text-[10px] font-semibold uppercase mt-0.5">{month}</span>
                       </div>
@@ -271,6 +301,59 @@ export function HomePage() {
               {t.common.viewAll}
               <Arrow size={16} className="transition-transform group-hover:translate-x-0.5" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Media */}
+      <section className="section-pad">
+        <div className="container-page">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-10"
+          >
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="h-px w-10 bg-brand-secondary/50" />
+              <Send size={18} className="text-brand-secondary" />
+              <div className="h-px w-10 bg-brand-secondary/50" />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-brand-ink mb-2">{t.home.socialTitle}</h2>
+            <p className="text-brand-ink-soft max-w-2xl mx-auto">{t.home.socialSubtitle}</p>
+          </motion.div>
+
+          {/* Single row of compact brand-coloured icons */}
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+            {[
+              { key: 'telegram', href: siteSettings.social.telegram, label: t.contact.telegram, Icon: TelegramIcon },
+              { key: 'whatsapp', href: siteSettings.social.whatsapp, label: 'WhatsApp', Icon: WhatsAppIcon },
+              { key: 'facebook', href: siteSettings.social.facebook, label: 'Facebook', Icon: FacebookIcon },
+              { key: 'tiktok', href: siteSettings.social.tiktok, label: 'TikTok', Icon: TikTokIcon },
+            ].map(({ key, href, label, Icon }, idx) => (
+              <motion.a
+                key={key}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                title={label}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.07 }}
+                whileHover={{ y: -4 }}
+                className="group flex flex-col items-center gap-2"
+              >
+                <span className="w-11 h-11 rounded-full bg-brand-primary text-white flex items-center justify-center shadow-soft transition-colors duration-300 group-hover:bg-brand-secondary">
+                  <Icon size={18} />
+                </span>
+                <span className="text-[11px] font-medium text-brand-ink-muted group-hover:text-brand-ink transition-colors">
+                  {label}
+                </span>
+              </motion.a>
+            ))}
           </div>
         </div>
       </section>

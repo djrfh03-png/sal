@@ -1,15 +1,33 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Target, Eye, Gem, ListChecks, ArrowRight, ArrowLeft, Send, BookOpen, FileText, Megaphone } from 'lucide-react';
+import { Target, Eye, Gem, ListChecks, ArrowRight, ArrowLeft, Send, BookOpen, FileText, Megaphone, Sparkles, Home, ChevronRight, Facebook, Mail, Users, GraduationCap, HeartHandshake, BookMarked, ScrollText, HandPlatter, Building2, type LucideIcon } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { departments } from '../data/departments';
 import { announcements } from '../data/announcements';
+import { siteSettings } from '../data/misc';
 import { localize } from '../utils/localize';
+import { DepartmentLogo } from '../components/ui/DepartmentLogo';
+import { TelegramIcon, WhatsAppIcon } from '../components/ui/SocialIcons';
+
+const contactHeadingLabel: Record<string, { en: string; ar: string; am: string; om: string }> = {
+  'center-hifz': { en: 'the Hifz Center', ar: 'مركز الحفظ', am: 'የሐፊዝ ማዕከል', om: 'Wiirtuu Hafizaa' },
+  'school': { en: 'the Medresa', ar: 'المدرسة', am: 'ትምህርት ቤቱ', om: 'Barumsicha' },
+  'charity': { en: 'Beyturahma', ar: 'بيت الرحمة', am: 'ቤተ ረሕማ', om: 'Beyturahma' },
+  'halqa': { en: 'Halka Center', ar: 'الحلقة', am: 'የሐልቃ ማዕከል', om: 'Wiirtuu Halqaa' },
+};
+
+const departmentStatIcons: Record<string, LucideIcon[]> = {
+  'center-hifz': [Users, GraduationCap],
+  'school': [Users, BookOpen],
+  'halqa': [BookMarked, ScrollText],
+  'charity': [HandPlatter, HeartHandshake],
+};
 import { Button } from '../components/ui/Button';
 import { RegistrationStatusBanner } from '../components/RegistrationStatusBanner';
-import { StatCounter } from '../components/ui/StatCounter';
-import { ProgramCard } from '../components/ProgramCard';
+import { EditableStatCard } from '../components/ui/EditableStatCard';
+import { useAdminStoreOrNull } from '../admin/AdminStore';
+import { useToast } from '../components/ui/Toast';
 
 type Tab = 'mission' | 'vision' | 'values' | 'objectives';
 
@@ -18,8 +36,11 @@ export function DepartmentDetailPage() {
   const { lang, dir, t } = useI18n();
   const [activeTab, setActiveTab] = useState<Tab>('mission');
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
+  const adminStore = useAdminStoreOrNull();
+  const { showToast } = useToast();
+  const [seeMoreOpen, setSeeMoreOpen] = useState(false);
 
-  const department = departments.find((d) => d.slug === slug);
+  const department = adminStore?.departments.find((d) => d.slug === slug) ?? departments.find((d) => d.slug === slug);
 
   if (!department) {
     return (
@@ -50,38 +71,108 @@ export function DepartmentDetailPage() {
 
   return (
     <div className="pt-16">
-      {/* Cover Header — no colored background, color on text */}
-      <section className="relative overflow-hidden bg-brand-bg-alt/30" style={{ borderInlineStart: `4px solid ${accent}` }}>
-        <div className="absolute inset-0 pattern-bg-gold opacity-[0.03]" />
-        <div className="absolute top-1/4 end-0 w-80 h-80 rounded-full blur-3xl" style={{ backgroundColor: accent + '08' }} />
-        <div className="container-page relative py-16 md:py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+      {/* Cover Header — photo with accent-color overlay */}
+      <section
+        className="relative overflow-hidden"
+        style={{ backgroundColor: accent }}
+      >
+        {/* Cover photo */}
+        <div className="absolute inset-0">
+          <img
+            src={department.coverImage}
+            alt=""
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          {/* Accent-color gradient overlay for readability */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(135deg, ${accent}f2 0%, ${accent}cc 60%, ${accent}99 100%)`,
+            }}
+          />
+        </div>
+
+        {/* Pattern texture */}
+        <div className="absolute inset-0 pattern-bg-gold opacity-[0.10]" />
+
+        {/* Solid accent shape — decorative, no blur */}
+        <div
+          className="absolute -bottom-16 -start-10 w-56 h-56 rounded-full opacity-20"
+          style={{ backgroundColor: department.accentColor.accent }}
+        />
+
+        {/* Geometric corner ornament */}
+        <div className="absolute top-0 end-0 w-32 h-32 opacity-[0.12] pointer-events-none">
+          <svg viewBox="0 0 160 160" fill="none" stroke="#ffffff" strokeWidth="0.6">
+            <path d="M80 0 L160 80 L80 160 L0 80 Z" />
+            <path d="M80 20 L140 80 L80 140 L20 80 Z" />
+            <path d="M80 40 L120 80 L80 120 L40 80 Z" />
+            <circle cx="80" cy="80" r="16" />
+          </svg>
+        </div>
+
+        <div className="container-page relative z-10 py-8 md:py-12">
+          {/* Breadcrumb */}
+          <motion.nav
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col md:flex-row items-center gap-6"
+            transition={{ duration: 0.4 }}
+            className="flex items-center gap-1.5 text-xs font-medium text-white/75 mb-5 flex-wrap"
           >
-            <div
-              className="w-24 h-24 rounded-full flex items-center justify-center border-2 shrink-0"
-              style={{ backgroundColor: accent + '15', borderColor: accent + '30' }}
+            <Link to="/" className="inline-flex items-center gap-1 hover:text-white transition-colors">
+              <Home size={13} />
+              <span>{t.nav.home}</span>
+            </Link>
+            <ChevronRight size={13} className={dir === 'rtl' ? 'rotate-180' : ''} />
+            <Link to="/departments" className="hover:text-white transition-colors">{t.nav.departments}</Link>
+            <ChevronRight size={13} className={dir === 'rtl' ? 'rotate-180' : ''} />
+            <span className="text-white font-semibold truncate max-w-[200px]">{localize(department.name, lang)}</span>
+          </motion.nav>
+
+          <div className="flex flex-col md:flex-row items-center gap-5 md:gap-7">
+            {/* Logo medallion — clean and compact */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="relative shrink-0"
             >
-              <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center">
-                <span className="text-2xl font-bold" style={{ color: accent }}>
-                  {localize(department.name, lang).charAt(0)}
+              <div className="relative w-20 h-20 md:w-24 md:h-24">
+                <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                <div className="absolute inset-1.5 rounded-full bg-white shadow-xl flex items-center justify-center p-2">
+                  <DepartmentLogo slug={department.slug} size="xl" />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Title block */}
+            <motion.div
+              initial={{ opacity: 0, x: dir === 'rtl' ? -20 : 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.55, ease: 'easeOut', delay: 0.1 }}
+              className="flex-1 text-center md:text-start"
+            >
+              {/* Established badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/25 mb-2.5">
+                <Sparkles size={12} className="text-white" />
+                <span className="text-[11px] font-semibold text-white tracking-wide">
+                  {t.common.established} {department.establishedDate}
                 </span>
               </div>
-            </div>
-            <div className="text-center md:text-start">
-              <div className="text-sm font-medium mb-1" style={{ color: accent }}>{t.common.established} {department.establishedDate}</div>
-              <h1 className="text-2xl md:text-4xl font-bold leading-tight mb-2" style={{ color: accent }}>
+
+              <h1 className="text-2xl md:text-4xl font-bold leading-tight text-white mb-2">
                 {localize(department.name, lang)}
               </h1>
-              <p className="text-brand-ink-soft max-w-2xl leading-relaxed">
+              <p className="text-white/85 text-sm md:text-base leading-relaxed max-w-2xl md:mx-0 mx-auto">
                 {localize(department.shortDescription, lang)}
               </p>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
+
+        {/* Solid accent bottom strip */}
+        <div className="h-1.5" style={{ backgroundColor: department.accentColor.accent }} />
       </section>
 
       {/* Description */}
@@ -141,45 +232,77 @@ export function DepartmentDetailPage() {
         </div>
       </section>
 
-      {/* Programs — explore card with preview + link to full programs page */}
+      {/* Programs — single attractive card linking to the full programs list */}
       <section className="section-pad bg-brand-bg-alt/50">
-        <div className="container-page max-w-5xl">
+        <div className="container-page max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mb-8 text-center"
           >
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <BookOpen size={22} style={{ color: accent }} />
-              <h2 className="text-2xl md:text-3xl font-bold" style={{ color: accent }}>
-                {t.common.programs}
-              </h2>
-            </div>
-            <p className="text-brand-ink-soft">
-              {lang === 'ar'
-                ? 'برامج متكاملة تجمع بين العلم والتربية والإتقان'
-                : 'Integrated programs combining knowledge, nurturing, and mastery'}
-            </p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
-            {department.programs.slice(0, 3).map((program, i) => (
-              <ProgramCard key={i} program={program} index={i} accent={accent} gold={department.accentColor.accent} />
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Button
+            <Link
               to={`/departments/${department.slug}/programs`}
-              variant="outline"
-              accentColor={department.accentColor}
+              className="group relative block rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500 hover:-translate-y-1"
+              style={{ background: `linear-gradient(135deg, ${accent}, ${accent}dd)` }}
             >
-              {lang === 'ar' ? 'استكشف جميع البرامج' : 'Explore all programs'}
-              <Arrow size={18} />
-            </Button>
-          </div>
+              {/* Decorative patterns */}
+              <div className="absolute inset-0 pattern-bg-gold opacity-20" />
+              <div className="absolute top-0 end-0 w-48 h-48 opacity-[0.08] pointer-events-none">
+                <svg viewBox="0 0 192 192" fill="none" stroke={department.accentColor.accent} strokeWidth="0.5">
+                  <path d="M96 0 L192 96 L96 192 L0 96 Z" />
+                  <path d="M96 24 L168 96 L96 168 L24 96 Z" />
+                  <path d="M96 48 L144 96 L96 144 L48 96 Z" />
+                  <circle cx="96" cy="96" r="18" />
+                </svg>
+              </div>
+              <div className="absolute bottom-0 start-0 w-32 h-32 opacity-[0.05] pointer-events-none">
+                <svg viewBox="0 0 128 128" fill="none" stroke="#ffffff" strokeWidth="0.5">
+                  <path d="M64 0 L128 64 L64 128 L0 64 Z" />
+                  <path d="M64 16 L112 64 L64 112 L16 64 Z" />
+                </svg>
+              </div>
+
+              <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row items-center gap-6">
+                <div
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center border shrink-0 transition-transform group-hover:scale-110 group-hover:-rotate-3"
+                  style={{ backgroundColor: department.accentColor.accent + '20', borderColor: department.accentColor.accent + '40' }}
+                >
+                  <BookOpen size={32} className="text-white" />
+                </div>
+                <div className="flex-1 text-center md:text-start">
+                  <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+                    <Sparkles size={14} style={{ color: department.accentColor.accent }} />
+                    <span
+                      className="text-xs font-semibold tracking-widest uppercase"
+                      style={{ color: department.accentColor.accent }}
+                    >
+                      {lang === 'ar' ? 'برامج القسم' : 'Department Programs'}
+                    </span>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+                    {lang === 'ar' ? 'استكشف جميع برامج القسم' : 'Explore All Department Programs'}
+                  </h3>
+                  <p className="text-sm md:text-base text-white/80 leading-relaxed max-w-xl">
+                    {lang === 'ar'
+                      ? 'برامج متكاملة تجمع بين العلم والتربية والإتقان، لكل المراحل'
+                      : 'Integrated programs combining knowledge, nurturing, and mastery across all stages'}
+                  </p>
+                  <div className="flex items-center justify-center md:justify-start gap-2 mt-3 text-sm font-semibold text-white">
+                    <span className="tabular-nums">{department.programs.length}</span>
+                    <span>{lang === 'ar' ? 'برنامج متاح' : 'programs available'}</span>
+                  </div>
+                </div>
+                <div
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold shrink-0 transition-all group-hover:gap-3"
+                  style={{ backgroundColor: department.accentColor.accent + '20', color: department.accentColor.accent }}
+                >
+                  {lang === 'ar' ? 'تصفح الآن' : 'Browse Now'}
+                  <Arrow size={18} />
+                </div>
+              </div>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -198,25 +321,63 @@ export function DepartmentDetailPage() {
             </h2>
             <p className="text-brand-ink-soft">{lang === 'ar' ? 'أرقام تعكس مسيرة القسم وإنجازاته' : 'Numbers reflecting the department\'s journey and achievements'}</p>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {department.stats.map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="card-base p-8"
-              >
-                <StatCounter
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            {department.stats.map((stat, i) => {
+              const statColor = department.slug === 'charity' && i === 0 ? department.accentColor.heart : accent;
+              const statIcons = departmentStatIcons[department.slug] ?? [];
+              return (
+                <EditableStatCard
+                  key={i}
                   value={stat.value}
                   label={localize(stat.label, lang)}
-                  color={department.slug === 'charity' && i === 0 ? department.accentColor.heart : accent}
+                  color={statColor}
                   suffix=""
+                  icon={statIcons[i] ?? Target}
+                  delay={i * 0.1}
+                  editable={!!adminStore}
+                  onValueChange={(val) => {
+                    if (!adminStore) return;
+                    adminStore.updateDepartmentStat(department.id, i, val);
+                    showToast(t.admin.saved, 'success');
+                  }}
+                  onSeeMore={() => setSeeMoreOpen((v) => !v)}
                 />
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
+
+          {/* See more panel — additional context about the department's numbers */}
+          <motion.div
+            initial={false}
+            animate={{ height: seeMoreOpen ? 'auto' : 0, opacity: seeMoreOpen ? 1 : 0 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className="overflow-hidden"
+          >
+            <div
+              className="mt-8 rounded-2xl p-6 border"
+              style={{ backgroundColor: accent + '08', borderColor: accent + '20' }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <Target size={18} style={{ color: accent }} />
+                <h3 className="font-bold text-brand-ink" style={{ color: accent }}>
+                  {lang === 'ar' ? 'سياق الأرقام' : 'Behind the numbers'}
+                </h3>
+              </div>
+              <p className="text-sm text-brand-ink-soft leading-relaxed mb-4">
+                {localize(department.fullDescription, lang)}
+              </p>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <div className="flex items-center gap-2 text-sm text-brand-ink-soft">
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: accent }} />
+                  {lang === 'ar' ? `تأسس عام ${department.establishedDate}` : `Established ${department.establishedDate}`}
+                </div>
+                <div className="flex items-center gap-2 text-sm text-brand-ink-soft">
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: accent }} />
+                  {department.programs.length} {lang === 'ar' ? 'برنامج متاح' : 'programs available'}
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -279,7 +440,7 @@ export function DepartmentDetailPage() {
         <div className="container-page max-w-4xl">
           <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
             <h2 className="text-2xl font-bold text-brand-ink">{t.common.registration}</h2>
-            <Button to={`/register?dept=${department.slug}`} variant="primary" accentColor={department.accentColor}>
+            <Button to={`/departments/${department.slug}/register`} variant="primary" accentColor={department.accentColor}>
               {t.registration.applyNow}
               <Arrow size={18} />
             </Button>
@@ -288,22 +449,89 @@ export function DepartmentDetailPage() {
         </div>
       </section>
 
-      {/* Telegram CTA */}
+      {/* Contact department — center block with social icons */}
       <section className="pb-20">
         <div className="container-page">
-          <div className="rounded-3xl p-8 md:p-12 text-center" style={{ backgroundColor: accent + '10' }}>
-            <Send size={32} className="mx-auto mb-4" style={{ color: accent }} />
-            <h3 className="text-xl font-bold text-brand-ink mb-2">
-              {lang === 'ar' ? 'انضم إلى قناتنا على التيليجرام' : 'Join our Telegram channel'}
-            </h3>
-            <p className="text-brand-ink-soft mb-6">
-              {lang === 'ar' ? 'تابع آخر الأخبار والإعلانات' : 'Follow our latest news and announcements'}
-            </p>
-            <Button href={department.telegramLink} variant="primary" accentColor={department.accentColor}>
-              <Send size={18} />
-              {t.contact.telegram}
-            </Button>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="relative overflow-hidden rounded-3xl p-8 md:p-14 text-center"
+            style={{ background: `linear-gradient(135deg, ${accent}0f, ${accent}05)` }}
+          >
+            {/* Decorative concentric arcs */}
+            <div className="absolute top-0 end-0 w-40 h-40 opacity-[0.08] pointer-events-none">
+              <svg viewBox="0 0 160 160" fill="none" stroke={accent} strokeWidth="0.6">
+                <path d="M80 0 L160 80 L80 160 L0 80 Z" />
+                <path d="M80 20 L140 80 L80 140 L20 80 Z" />
+                <path d="M80 40 L120 80 L80 120 L40 80 Z" />
+              </svg>
+            </div>
+            <div className="absolute bottom-0 start-0 w-32 h-32 opacity-[0.06] pointer-events-none">
+              <svg viewBox="0 0 128 128" fill="none" stroke={accent} strokeWidth="0.6">
+                <path d="M64 0 L128 64 L64 128 L0 64 Z" />
+                <path d="M64 16 L112 64 L64 112 L16 64 Z" />
+              </svg>
+            </div>
+
+            <div className="relative z-10">
+              {/* Eyebrow */}
+              <div className="flex items-center justify-center gap-3 mb-5">
+                <div className="h-px w-10" style={{ backgroundColor: accent, opacity: 0.4 }} />
+                <Send size={18} style={{ color: accent }} />
+                <div className="h-px w-10" style={{ backgroundColor: accent, opacity: 0.4 }} />
+              </div>
+
+              {/* Contact + department name */}
+              <h3 className="text-xl md:text-2xl font-bold text-brand-ink mb-2">
+                {lang === 'ar' ? 'تواصل مع ' : lang === 'am' ? 'ያግኙ ' : lang === 'om' ? 'Quunnamuu ' : 'Contact '}
+                <span style={{ color: accent }}>
+                  {(contactHeadingLabel[department.slug]?.[lang]) ?? localize(department.name, lang)}
+                </span>
+              </h3>
+              <p className="text-sm text-brand-ink-soft max-w-xl mx-auto mb-9">
+                {lang === 'ar'
+                  ? 'تابعنا على المنصات أو راسلنا مباشرة لمعرفة المزيد عن برامجنا وأنشطتنا'
+                  : 'Follow us on our platforms or reach out directly to learn more about our programs and activities'}
+              </p>
+
+              {/* Social icons */}
+              <div className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-5">
+                {[
+                  { key: 'facebook', href: siteSettings.social.facebook, label: 'Facebook', Icon: Facebook },
+                  { key: 'telegram', href: department.telegramLink, label: t.contact.telegram, CustomIcon: TelegramIcon },
+                  { key: 'whatsapp', href: siteSettings.social.whatsapp, label: 'WhatsApp', CustomIcon: WhatsAppIcon },
+                  { key: 'email', href: `mailto:${siteSettings.contactEmail}`, label: t.contact.email ?? 'Email', Icon: Mail },
+                ].map(({ key, href, label, Icon, CustomIcon }, idx) => (
+                  <motion.a
+                    key={key}
+                    href={href}
+                    target={key === 'email' ? undefined : '_blank'}
+                    rel={key === 'email' ? undefined : 'noopener noreferrer'}
+                    aria-label={label}
+                    title={label}
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: idx * 0.07 }}
+                    whileHover={{ y: -4 }}
+                    className="group flex flex-col items-center gap-2"
+                  >
+                    <span
+                      className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft transition-all duration-300 group-hover:scale-110 group-hover:shadow-card"
+                      style={{ backgroundColor: accent, color: '#fff' }}
+                    >
+                      {Icon ? <Icon size={20} /> : CustomIcon ? <CustomIcon size={20} className="text-white" /> : null}
+                    </span>
+                    <span className="text-[11px] font-medium text-brand-ink-muted group-hover:text-brand-ink transition-colors">
+                      {label}
+                    </span>
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

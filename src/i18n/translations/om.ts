@@ -11,6 +11,7 @@ export const om: TranslationKeys = {
     home: 'Madda',
     about: 'Waa\'e Keenya',
     departments: 'Kutaalee',
+    programs: 'Piroogiraamoota',
     announcements: 'Beeksisaa',
     posts: 'Barreeffamoota',
     register: 'Galmaa\'uu',
@@ -70,6 +71,11 @@ export const om: TranslationKeys = {
     yearsService: 'Waggaa Tajaasila',
     departmentsTitle: 'Kutaalee Keenya',
     departmentsSubtitle: 'Kutaalee afur walitti makaman kitaaba Rabbii deeggatan',
+    locationTitle: 'Iddoo Keenya',
+    locationSubtitle: 'Hawaasa onnee Itoophiyaarraa tajaasilla',
+    locationDescription: 'Kallattiin keenya Itoophiyaatti argama, barattootafi maatii kitaaba Rabbii fi saayinsii Islaamaa barachuu barbaadan nan gargaarama.',
+    socialTitle: 'Hordofaa Nu',
+    socialSubtitle: 'Walitti qabnyaa fi sochii dhiyoo keenya hordofaa',
   },
 
   about: {

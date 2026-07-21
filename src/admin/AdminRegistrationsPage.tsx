@@ -19,7 +19,7 @@ export function AdminRegistrationsPage() {
 
   const statusColors: Record<Registration['status'], string> = {
     pending: '#925E06',
-    reviewed: '#023E8A',
+    reviewed: '#1E3A8A',
     accepted: '#22c55e',
     rejected: '#ef4444',
   };

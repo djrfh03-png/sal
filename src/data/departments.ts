@@ -48,7 +48,8 @@ export const departments: Department[] = [
     establishedDate: '1446 هـ',
     logoKey: 'center-hifz',
     coverImageKey: 'center-hifz',
-    accentColor: { base: '#023E8A', accent: '#FF9E00' },
+    coverImage: 'https://images.pexels.com/photos/32108431/pexels-photo-32108431.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    accentColor: { base: '#1E3A8A', accent: '#F59E0B' },
     stats: [
       { label: { ar: 'المقبولات في الدفعة الأولى', en: 'Accepted in first batch', am: 'በመጀመሪያው ወረቀት የተቀበሉ', om: 'Dhabbata tokkoffaa qabiyyee' }, value: 20 },
       { label: { ar: 'الخريجات بحفظ كامل', en: 'Graduated with full memorization', am: 'በሙሉ ማስታወሻ የተመረቁ', om: 'Hafzuu guutuu milkaa\'anii' }, value: 18 },
@@ -106,6 +107,12 @@ export const departments: Department[] = [
     ],
     telegramLink: 'https://t.me/daralquran_hifz',
     registrationStatus: 'open',
+    requirements: {
+      ar: 'الشروط: أن تكون الطالبة مسلمة، متحمسة لحفظ القرآن كاملاً، قادرة على الالتزام بالبرنامج السكني المكثف لمدة سنتين، ولديها دعم من ولي أمرها. النجاح في المقابلة الشخصية وتقييم مستوى الحفظ.',
+      en: 'Requirements: The student must be Muslim, motivated to memorize the entire Quran, able to commit to the intensive two-year residential program, and have guardian support. Passing the personal interview and memorization level assessment.',
+      am: 'ሁኔታዎች፡ ተማሪዋ ሙስሊም መሆን፣ ቁርአንን ሙሉ ለማስታወስ ተነሳሽነት እንዳላት፣ ለሁለት ዓመት የመኖሪያ ፕሮግራም ለመከታተል መቻሉ፣ ከወላጆቿ ድጋፍ እንዳላት። የግል ቃለ-መጠይቅ ማለፍ።',
+      om: 'Eegumsa: Barartuun Muslimaatti, Quraana guutuu hafzuuf carraaqqi, waggaa lamaa piroogiraamii qophiif ta\'e hordofuu danda\'u, deggersa abbaa itti aanfamtootaa qabuu. Gaaffii dhuunfaa darbuu.',
+    },
     registrationFields: [
       { name: 'fullName', label: { ar: 'الاسم الكامل', en: 'Full Name', am: 'ሙሉ ስም', om: 'Maqaa guddaa' }, type: 'text', required: true },
       { name: 'phone', label: { ar: 'رقم الهاتف', en: 'Phone Number', am: 'ስልክ ቁጥር', om: 'Lakkoofsa bilbila' }, type: 'tel', required: true },
@@ -173,36 +180,46 @@ export const departments: Department[] = [
     establishedDate: '1438 هـ (2009 م.أ)',
     logoKey: 'school',
     coverImageKey: 'school',
-    accentColor: { base: '#71763E', accent: '#BF8414' },
+    coverImage: 'https://images.pexels.com/photos/22686432/pexels-photo-22686432.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    accentColor: { base: '#15803d', accent: '#BF8414' },
     stats: [
       { label: { ar: 'طالب سنوياً', en: 'Students yearly', am: 'የዓመት ተማሪ', om: 'Barattoota waggaa' }, value: 642 },
       { label: { ar: 'معلم مؤهل', en: 'Qualified teachers', am: 'ብቁ መምህር', om: 'Barsiisota qopheessitoo' }, value: 10 },
       { label: { ar: 'صفوف دراسية', en: 'Grade levels', am: 'የክፍል ደረጃዎች', om: 'Safii barumsaa' }, value: 5 },
     ],
     programs: [
-      { name: { ar: 'تمهيد أول (قاعدة نورانية)', en: 'Tamhid Awwal (Qaida Nuraniyyah)', am: 'ታምሂድ አወል (ቃዒደ ኑራኒያ)', om: 'Tamhidii Tokkoffaa (Qaida Nuraaniyyaa)' }, gradeGroup: 'temhid-1', icon: 'alphabet', description: {
+      // تمهيد الأول
+      { name: { ar: 'قاعدة نورانية', en: 'Qaidetunuraniya', am: 'ቃዒደ ኑራኒያ', om: 'Qaida Nuraaniyyaa' }, gradeGroup: 'temhid-1', icon: 'alphabet', description: {
         ar: 'اللبنة الأولى: تعلم الحروف وأصواتها ومخارجها بقاعدة نورانية مبسطة تهيئ الطفل لقراءة القرآن.',
         en: 'The first building block: learning letters, their sounds, and articulation points through a simplified Nuraniyyah primer that prepares the child to read the Quran.',
         am: 'የመጀመሪያው ድንጋይ፡ ፊደላትን፣ ድምጾቻቸውን እና የድምፅ መውጫቦችን በቀላል የኑራኒያ መግቢያ ተማሮ ልጁ ቁርአንን ለማንበብ ይዘጋጅ።',
         om: 'Iddoo jalqabaa: qubeelee, sagalee isaanii fi baay\'i isaanii Qaida Nuraaniyyaa salphaadhaan barachuu, ilmaan Quraana dubbisuuf qopheessuu.',
       } },
-      { name: { ar: 'تمهيد آخر (قراءة القرآن)', en: 'Tamhid Akhir (Quran reading)', am: 'ታምሂድ አክር (የቁርአን ንባብ)', om: 'Tamhidii Lammii (Quraana dubbisuu)' }, gradeGroup: 'temhid-2', icon: 'bookOpen', description: {
+      { name: { ar: 'الأناشيد', en: 'Anashids', am: 'አናሺድ', om: 'Anaashiid' }, gradeGroup: 'temhid-1', icon: 'music', description: {
+        ar: 'أناشيد تربوية هادفة تعلّم القيم والأخلاق بنغمات يحفظها الطفل ويرددها بفرح.',
+        en: 'Purposeful educational chants that teach values and morals through melodies the child memorizes and joyfully repeats.',
+        am: 'እሴቶችንና ምግባርን በሚያስተምሩ ዘፈኖች የልጁ የሚያስታውስና በደስታ የሚደግም የስነ-ጥበብ ስልጠና።',
+        om: 'Gorsa gaarii fi qabxii qabu barsiisu, ilmaan akka hafuufi gammadoo ta\'uun deebi\'u.',
+      } },
+      // تمهيد الأخير
+      { name: { ar: 'القرآن', en: 'Quran', am: 'ቁርአን', om: 'Quraana' }, gradeGroup: 'temhid-2', icon: 'bookOpen', description: {
         ar: 'انتقال سلس من الحروف إلى الكلمات والآيات، حتى يقرأ الطفل القرآن قراءة صحيحة مرتّلة.',
         en: 'A smooth transition from letters to words and verses, until the child reads the Quran correctly and in a measured tone.',
         am: 'ከፊደላት ወደ ቃላትና አንቀጾች ለስለስ ያለ ሽግግር፣ ልጁ ቁርአንን በትክክል እና በመጠነኛ ድምፅ አነብ ዘንድ።',
         om: 'Qubeelee irraa jechoota fi keeyyataatti siroomsaa, ilmaan Quraana sirrii ta\'een akka dubbisu.',
       } },
-      { name: { ar: 'القرآن الكريم', en: 'Holy Quran', am: 'ቅዱስ ቁርአን', om: 'Quraana Quulqulluu' }, gradeGroup: 'grade-1', icon: 'book', description: {
-        ar: 'حفظ سور قصيرة وتجويد الدرس، مع ترسيخ الحب لكتاب الله في قلوب الصغار.',
-        en: 'Memorizing short surahs and reciting the lesson with tajwid, while anchoring love for the Book of Allah in young hearts.',
-        am: 'አጭር ሱራዎችን ማስታወስ እና ትምህርቱን በተጅዊድ አንበብ፣ በታናሾች ልቦች ለመጽሐፈ አላህ ፍቅርን ማትረው።',
-        om: 'Suura gabaabaa hafzee fi tajwiidaan dubbisuu, onnee ilmaan xixiqqoo keessatti jaalala Kitaaba Rabbii cimsuu.',
-      } },
-      { name: { ar: 'الأناشيد', en: 'Anashid', am: 'አናሺድ', om: 'Anaashiid' }, gradeGroup: 'grade-1', icon: 'music', description: {
+      { name: { ar: 'الأناشيد', en: 'Anashids', am: 'አናሺድ', om: 'Anaashiid' }, gradeGroup: 'temhid-2', icon: 'music', description: {
         ar: 'أناشيد تربوية هادفة تعلّم القيم والأخلاق بنغمات يحفظها الطفل ويرددها بفرح.',
         en: 'Purposeful educational chants that teach values and morals through melodies the child memorizes and joyfully repeats.',
         am: 'እሴቶችንና ምግባርን በሚያስተምሩ ዘፈኖች የልጁ የሚያስታውስና በደስታ የሚደግም የስነ-ጥበብ ስልጠና።',
         om: 'Gorsa gaarii fi qabxii qabu barsiisu, ilmaan akka hafuufi gammadoo ta\'uun deebi\'u.',
+      } },
+      // Grade 1
+      { name: { ar: 'القرآن الكريم', en: "Qur'an", am: 'ቅዱስ ቁርአን', om: 'Quraana Quulqulluu' }, gradeGroup: 'grade-1', icon: 'book', description: {
+        ar: 'حفظ سور قصيرة وتجويد الدرس، مع ترسيخ الحب لكتاب الله في قلوب الصغار.',
+        en: 'Memorizing short surahs and reciting the lesson with tajwid, while anchoring love for the Book of Allah in young hearts.',
+        am: 'አጭር ሱራዎችን ማስታወስ እና ትምህርቱን በተጅዊድ አንበብ፣ በታናሾች ልቦች ለመጽሐፈ አላህ ፍቅርን ማትረው።',
+        om: 'Suura gabaabaa hafzee fi tajwiidaan dubbisuu, onnee ilmaan xixiqqoo keessatti jaalala Kitaaba Rabbii cimsuu.',
       } },
       { name: { ar: 'التوحيد', en: 'Tawhid', am: 'ተውሂድ', om: 'Tawhiid' }, gradeGroup: 'grade-1', icon: 'gem', description: {
         ar: 'تعريف الصغير بربه وأسمائه الحسنى، بأسلوب مبسط يرسخ عقيدة التوحيد.',
@@ -210,7 +227,38 @@ export const departments: Department[] = [
         am: 'ታናሹን ከጌታው እና ከቆንጆ ስሞቹ ጋር በማስተዋወቅ፣ የተውሂድን እምነት የሚያረጋግጥ ቀላል መንገድ።',
         om: 'Ilma xiqqaa Gooftaa isaa fi maqaa bareedaa Isaa meettu, akkasuma amantaa Tawhiida cimsuu.',
       } },
-      { name: { ar: 'التجويد', en: 'Tajwid', am: 'ተጅዊድ', om: 'Tajwiid' }, gradeGroup: 'grade-2', icon: 'mic', description: {
+      { name: { ar: 'التجويد', en: 'Tejwid', am: 'ተጅዊድ', om: 'Tajwiid' }, gradeGroup: 'grade-1', icon: 'mic', description: {
+        ar: 'إتقان مخارج الحروف وأحكام النون الساكنة والمدود، لقراءة سليمة خالية من اللحن.',
+        en: 'Mastering letter articulation points, the rules of the silent noon, and elongations — for a sound, error-free recitation.',
+        am: 'የፊደል መውጫቦችን፣ የፀጥታ ኑን ህጎችን እና የማራዘሚያ ምልክቶችን መውደቅ — ለንፁሕ እና ለነፃ ንባብ።',
+        om: 'Baay\'i qubeelee, seera noonii haaquu fi diriirsuu qabachuu — dubbisaa sirrii dogoggoraa hin qabne.',
+      } },
+      { name: { ar: 'الفقه', en: 'Fiqh', am: 'ፊቅህ', om: 'Fiqh' }, gradeGroup: 'grade-1', icon: 'scale', description: {
+        ar: 'أحكام الطهارة والصلاة بأسلوب عملي يربط الطفل بعباداته اليومية.',
+        en: 'Rulings of purification and prayer in a practical style that connects the child to their daily acts of worship.',
+        am: 'የንጽህናና የሰላት ህጎችን በተግባራዊ መንገድ፣ ልጁን ከእለት አምልኮው ጋር የሚያገናኝ።',
+        om: 'Seera qulqullinaa fi duulaa karaa hojiirra, ilmaan waliin galgala guyyaa isaanii walitti qabuu.',
+      } },
+      { name: { ar: 'اللغة', en: 'Lugha', am: 'ቋንቋ', om: 'Afaan' }, gradeGroup: 'grade-1', icon: 'languages', description: {
+        ar: 'بناء اللسان العربي ومفرداته، ليُعين الطالب على فهم القرآن والعلوم الشرعية.',
+        en: 'Building Arabic language fluency and vocabulary, to help the student understand the Quran and Islamic sciences.',
+        am: 'የዐረብኛ ቋንቋንና የቃላት ክምችት መገንባት፣ ተማሪው ቁርአንንና የእስላም ሳይንሶችን ለመረዳት።',
+        om: 'Afaan Arabaa fi jechoota isaa ijaruu, barataan Quraana fi saayinsii Islaamaa akka hubatu gargaaruu.',
+      } },
+      // Grade 2
+      { name: { ar: 'القرآن الكريم', en: "Qur'an", am: 'ቅዱስ ቁርአን', om: 'Quraana Quulqulluu' }, gradeGroup: 'grade-2', icon: 'book', description: {
+        ar: 'حفظ سور قصيرة وتجويد الدرس، مع ترسيخ الحب لكتاب الله في قلوب الصغار.',
+        en: 'Memorizing short surahs and reciting the lesson with tajwid, while anchoring love for the Book of Allah in young hearts.',
+        am: 'አጭር ሱራዎችን ማስታወስ እና ትምህርቱን በተጅዊድ አንበብ፣ በታናሾች ልቦች ለመጽሐፈ አላህ ፍቅርን ማትረው።',
+        om: 'Suura gabaabaa hafzee fi tajwiidaan dubbisuu, onnee ilmaan xixiqqoo keessatti jaalala Kitaaba Rabbii cimsuu.',
+      } },
+      { name: { ar: 'التوحيد', en: 'Tawhid', am: 'ተውሂድ', om: 'Tawhiid' }, gradeGroup: 'grade-2', icon: 'gem', description: {
+        ar: 'تعريف الصغير بربه وأسمائه الحسنى، بأسلوب مبسط يرسخ عقيدة التوحيد.',
+        en: 'Introducing the young child to their Lord and His beautiful names, in a simple way that anchors the creed of Tawhid.',
+        am: 'ታናሹን ከጌታው እና ከቆንጆ ስሞቹ ጋር በማስተዋወቅ፣ የተውሂድን እምነት የሚያረጋግጥ ቀላል መንገድ።',
+        om: 'Ilma xiqqaa Gooftaa isaa fi maqaa bareedaa Isaa meettu, akkasuma amantaa Tawhiida cimsuu.',
+      } },
+      { name: { ar: 'التجويد', en: 'Tejwid', am: 'ተጅዊድ', om: 'Tajwiid' }, gradeGroup: 'grade-2', icon: 'mic', description: {
         ar: 'إتقان مخارج الحروف وأحكام النون الساكنة والمدود، لقراءة سليمة خالية من اللحن.',
         en: 'Mastering letter articulation points, the rules of the silent noon, and elongations — for a sound, error-free recitation.',
         am: 'የፊደል መውጫቦችን፣ የፀጥታ ኑን ህጎችን እና የማራዘሚያ ምልክቶችን መውደቅ — ለንፁሕ እና ለነፃ ንባብ።',
@@ -222,7 +270,44 @@ export const departments: Department[] = [
         am: 'የንጽህናና የሰላት ህጎችን በተግባራዊ መንገድ፣ ልጁን ከእለት አምልኮው ጋር የሚያገናኝ።',
         om: 'Seera qulqullinaa fi duulaa karaa hojiirra, ilmaan waliin galgala guyyaa isaanii walitti qabuu.',
       } },
-      { name: { ar: 'اللغة', en: 'Language', am: 'ቋንቋ', om: 'Afaan' }, gradeGroup: 'grade-3', icon: 'languages', description: {
+      { name: { ar: 'اللغة', en: 'Lugha', am: 'ቋንቋ', om: 'Afaan' }, gradeGroup: 'grade-2', icon: 'languages', description: {
+        ar: 'بناء اللسان العربي ومفرداته، ليُعين الطالب على فهم القرآن والعلوم الشرعية.',
+        en: 'Building Arabic language fluency and vocabulary, to help the student understand the Quran and Islamic sciences.',
+        am: 'የዐረብኛ ቋንቋንና የቃላት ክምችት መገንባት፣ ተማሪው ቁርአንንና የእስላም ሳይንሶችን ለመረዳት።',
+        om: 'Afaan Arabaa fi jechoota isaa ijaruu, barataan Quraana fi saayinsii Islaamaa akka hubatu gargaaruu.',
+      } },
+      { name: { ar: 'السيرة', en: 'Sira', am: 'ሲራ', om: 'Siira' }, gradeGroup: 'grade-2', icon: 'scroll', description: {
+        ar: 'رحلة في حياة النبي ﷺ وأخلاقه وغزواته، ليكون قدوة يحتذى بها في كل درب.',
+        en: 'A journey through the life of the Prophet ﷺ — his character and battles — as a role model to follow on every path.',
+        am: 'የነቢዩ ﷺ ሕይወትን፣ ምግባራቸውንና ጦርነቶቻቸውን ጉዞ — በሁሉም መንገድ የሚከተል ዓይነት ሆነው።',
+        om: 'Jireenya Rasulaa ﷺ, amalaa fi waraana isaa — karaa hunda kan qofamu.',
+      } },
+      // Grade 3
+      { name: { ar: 'القرآن الكريم', en: "Qur'an", am: 'ቅዱስ ቁርአን', om: 'Quraana Quulqulluu' }, gradeGroup: 'grade-3', icon: 'book', description: {
+        ar: 'حفظ سور قصيرة وتجويد الدرس، مع ترسيخ الحب لكتاب الله في قلوب الصغار.',
+        en: 'Memorizing short surahs and reciting the lesson with tajwid, while anchoring love for the Book of Allah in young hearts.',
+        am: 'አጭር ሱራዎችን ማስታወስ እና ትምህርቱን በተጅዊድ አንበብ፣ በታናሾች ልቦች ለመጽሐፈ አላህ ፍቅርን ማትረው።',
+        om: 'Suura gabaabaa hafzee fi tajwiidaan dubbisuu, onnee ilmaan xixiqqoo keessatti jaalala Kitaaba Rabbii cimsuu.',
+      } },
+      { name: { ar: 'التوحيد', en: 'Tawhid', am: 'ተውሂድ', om: 'Tawhiid' }, gradeGroup: 'grade-3', icon: 'gem', description: {
+        ar: 'تعريف الصغير بربه وأسمائه الحسنى، بأسلوب مبسط يرسخ عقيدة التوحيد.',
+        en: 'Introducing the young child to their Lord and His beautiful names, in a simple way that anchors the creed of Tawhid.',
+        am: 'ታናሹን ከጌታው እና ከቆንጆ ስሞቹ ጋር በማስተዋወቅ፣ የተውሂድን እምነት የሚያረጋግጥ ቀላል መንገድ።',
+        om: 'Ilma xiqqaa Gooftaa isaa fi maqaa bareedaa Isaa meettu, akkasuma amantaa Tawhiida cimsuu.',
+      } },
+      { name: { ar: 'التجويد', en: 'Tejwid', am: 'ተጅዊድ', om: 'Tajwiid' }, gradeGroup: 'grade-3', icon: 'mic', description: {
+        ar: 'إتقان مخارج الحروف وأحكام النون الساكنة والمدود، لقراءة سليمة خالية من اللحن.',
+        en: 'Mastering letter articulation points, the rules of the silent noon, and elongations — for a sound, error-free recitation.',
+        am: 'የፊደል መውጫቦችን፣ የፀጥታ ኑን ህጎችን እና የማራዘሚያ ምልክቶችን መውደቅ — ለንፁሕ እና ለነፃ ንባብ።',
+        om: 'Baay\'i qubeelee, seera noonii haaquu fi diriirsuu qabachuu — dubbisaa sirrii dogoggoraa hin qabne.',
+      } },
+      { name: { ar: 'الفقه', en: 'Fiqh', am: 'ፊቅህ', om: 'Fiqh' }, gradeGroup: 'grade-3', icon: 'scale', description: {
+        ar: 'أحكام الطهارة والصلاة بأسلوب عملي يربط الطفل بعباداته اليومية.',
+        en: 'Rulings of purification and prayer in a practical style that connects the child to their daily acts of worship.',
+        am: 'የንጽህናና የሰላት ህጎችን በተግባራዊ መንገድ፣ ልጁን ከእለት አምልኮው ጋር የሚያገናኝ።',
+        om: 'Seera qulqullinaa fi duulaa karaa hojiirra, ilmaan waliin galgala guyyaa isaanii walitti qabuu.',
+      } },
+      { name: { ar: 'اللغة', en: 'Lugha', am: 'ቋንቋ', om: 'Afaan' }, gradeGroup: 'grade-3', icon: 'languages', description: {
         ar: 'بناء اللسان العربي ومفرداته، ليُعين الطالب على فهم القرآن والعلوم الشرعية.',
         en: 'Building Arabic language fluency and vocabulary, to help the student understand the Quran and Islamic sciences.',
         am: 'የዐረብኛ ቋንቋንና የቃላት ክምችት መገንባት፣ ተማሪው ቁርአንንና የእስላም ሳይንሶችን ለመረዳት።',
@@ -234,21 +319,119 @@ export const departments: Department[] = [
         am: 'የነቢዩ ﷺ ሕይወትን፣ ምግባራቸውንና ጦርነቶቻቸውን ጉዞ — በሁሉም መንገድ የሚከተል ዓይነት ሆነው።',
         om: 'Jireenya Rasulaa ﷺ, amalaa fi waraana isaa — karaa hunda kan qofamu.',
       } },
-      { name: { ar: 'الإملاء', en: 'Spelling', am: 'ኢምላ', om: 'Imlaa' }, gradeGroup: 'grade-4', icon: 'penTool', description: {
-        ar: 'تمرين اليد على الكتابة الصحيحة وقواعد الإملاء، مهارة ترافق الطالب مدى الحياة.',
-        en: 'Training the hand in correct writing and spelling rules — a skill that stays with the student for life.',
-        am: 'እጅን በትክክለኛ ጽሑፍና በኢምላ ህጎች ማሰልጠን — ለሕይወት ከተማሪው ጋር የሚገናኝ ችሎታ።',
-        om: 'Harka barreeffama sirrii fi seera imlaa qabachuu — ogummaa barataa yeroo dhugaafu.',
-      } },
-      { name: { ar: 'الحديث', en: 'Hadith', am: 'ሐዲስ', om: 'Hadiisaa' }, gradeGroup: 'grade-5', icon: 'messageSquare', description: {
+      { name: { ar: 'الحديث', en: 'Hadis', am: 'ሐዲስ', om: 'Hadiisaa' }, gradeGroup: 'grade-3', icon: 'messageSquare', description: {
         ar: 'حفظ أحاديث مختارة مع شرح مبسط، يربط الطالب بكلام النبي ﷺ وهديه.',
         en: 'Memorizing selected hadiths with a simplified explanation, connecting the student to the words and guidance of the Prophet ﷺ.',
         am: 'የተመረጡ ሐዲሶችን በቀላል ማብራራት ማስታወስ፣ ተማሪውን ከነቢዩ ﷺ ቃላትና ከመሪነታቸው ጋር ማገናኘት።',
         om: 'Hadiisa filataman hedduu fi salphaadhaan qabachuu, barataan jechaa fi qajeelummaa Rasulaa ﷺ waliin qabachuu.',
       } },
+      // Grade 4
+      { name: { ar: 'القرآن الكريم', en: "Qur'an", am: 'ቅዱስ ቁርአን', om: 'Quraana Quulqulluu' }, gradeGroup: 'grade-4', icon: 'book', description: {
+        ar: 'حفظ سور قصيرة وتجويد الدرس، مع ترسيخ الحب لكتاب الله في قلوب الصغار.',
+        en: 'Memorizing short surahs and reciting the lesson with tajwid, while anchoring love for the Book of Allah in young hearts.',
+        am: 'አጭር ሱራዎችን ማስታወስ እና ትምህርቱን በተጅዊድ አንበብ፣ በታናሾች ልቦች ለመጽሐፈ አላህ ፍቅርን ማትረው።',
+        om: 'Suura gabaabaa hafzee fi tajwiidaan dubbisuu, onnee ilmaan xixiqqoo keessatti jaalala Kitaaba Rabbii cimsuu.',
+      } },
+      { name: { ar: 'التوحيد', en: 'Tawhid', am: 'ተውሂድ', om: 'Tawhiid' }, gradeGroup: 'grade-4', icon: 'gem', description: {
+        ar: 'تعريف الصغير بربه وأسمائه الحسنى، بأسلوب مبسط يرسخ عقيدة التوحيد.',
+        en: 'Introducing the young child to their Lord and His beautiful names, in a simple way that anchors the creed of Tawhid.',
+        am: 'ታናሹን ከጌታው እና ከቆንጆ ስሞቹ ጋር በማስተዋወቅ፣ የተውሂድን እምነት የሚያረጋግጥ ቀላል መንገድ።',
+        om: 'Ilma xiqqaa Gooftaa isaa fi maqaa bareedaa Isaa meettu, akkasuma amantaa Tawhiida cimsuu.',
+      } },
+      { name: { ar: 'التجويد', en: 'Tejwid', am: 'ተጅዊድ', om: 'Tajwiid' }, gradeGroup: 'grade-4', icon: 'mic', description: {
+        ar: 'إتقان مخارج الحروف وأحكام النون الساكنة والمدود، لقراءة سليمة خالية من اللحن.',
+        en: 'Mastering letter articulation points, the rules of the silent noon, and elongations — for a sound, error-free recitation.',
+        am: 'የፊደል መውጫቦችን፣ የፀጥታ ኑን ህጎችን እና የማራዘሚያ ምልክቶችን መውደቅ — ለንፁሕ እና ለነፃ ንባብ።',
+        om: 'Baay\'i qubeelee, seera noonii haaquu fi diriirsuu qabachuu — dubbisaa sirrii dogoggoraa hin qabne.',
+      } },
+      { name: { ar: 'الفقه', en: 'Fiqh', am: 'ፊቅህ', om: 'Fiqh' }, gradeGroup: 'grade-4', icon: 'scale', description: {
+        ar: 'أحكام الطهارة والصلاة بأسلوب عملي يربط الطفل بعباداته اليومية.',
+        en: 'Rulings of purification and prayer in a practical style that connects the child to their daily acts of worship.',
+        am: 'የንጽህናና የሰላት ህጎችን በተግባራዊ መንገድ፣ ልጁን ከእለት አምልኮው ጋር የሚያገናኝ።',
+        om: 'Seera qulqullinaa fi duulaa karaa hojiirra, ilmaan waliin galgala guyyaa isaanii walitti qabuu.',
+      } },
+      { name: { ar: 'اللغة', en: 'Lugha', am: 'ቋንቋ', om: 'Afaan' }, gradeGroup: 'grade-4', icon: 'languages', description: {
+        ar: 'بناء اللسان العربي ومفرداته، ليُعين الطالب على فهم القرآن والعلوم الشرعية.',
+        en: 'Building Arabic language fluency and vocabulary, to help the student understand the Quran and Islamic sciences.',
+        am: 'የዐረብኛ ቋንቋንና የቃላት ክምችት መገንባት፣ ተማሪው ቁርአንንና የእስላም ሳይንሶችን ለመረዳት።',
+        om: 'Afaan Arabaa fi jechoota isaa ijaruu, barataan Quraana fi saayinsii Islaamaa akka hubatu gargaaruu.',
+      } },
+      { name: { ar: 'السيرة', en: 'Sira', am: 'ሲራ', om: 'Siira' }, gradeGroup: 'grade-4', icon: 'scroll', description: {
+        ar: 'رحلة في حياة النبي ﷺ وأخلاقه وغزواته، ليكون قدوة يحتذى بها في كل درب.',
+        en: 'A journey through the life of the Prophet ﷺ — his character and battles — as a role model to follow on every path.',
+        am: 'የነቢዩ ﷺ ሕይወትን፣ ምግባራቸውንና ጦርነቶቻቸውን ጉዞ — በሁሉም መንገድ የሚከተል ዓይነት ሆነው።',
+        om: 'Jireenya Rasulaa ﷺ, amalaa fi waraana isaa — karaa hunda kan qofamu.',
+      } },
+      { name: { ar: 'الحديث', en: 'Hadis', am: 'ሐዲስ', om: 'Hadiisaa' }, gradeGroup: 'grade-4', icon: 'messageSquare', description: {
+        ar: 'حفظ أحاديث مختارة مع شرح مبسط، يربط الطالب بكلام النبي ﷺ وهديه.',
+        en: 'Memorizing selected hadiths with a simplified explanation, connecting the student to the words and guidance of the Prophet ﷺ.',
+        am: 'የተመረጡ ሐዲሶችን በቀላል ማብራራት ማስታወስ፣ ተማሪውን ከነቢዩ ﷺ ቃላትና ከመሪነታቸው ጋር ማገናኘት።',
+        om: 'Hadiisa filataman hedduu fi salphaadhaan qabachuu, barataan jechaa fi qajeelummaa Rasulaa ﷺ waliin qabachuu.',
+      } },
+      { name: { ar: 'الإملاء', en: 'Imla', am: 'ኢምላ', om: 'Imlaa' }, gradeGroup: 'grade-4', icon: 'penTool', description: {
+        ar: 'تمرين اليد على الكتابة الصحيحة وقواعد الإملاء، مهارة ترافق الطالب مدى الحياة.',
+        en: 'Training the hand in correct writing and spelling rules — a skill that stays with the student for life.',
+        am: 'እጅን በትክክለኛ ጽሑፍና በኢምላ ህጎች ማሰልጠን — ለሕይወት ከተማሪው ጋር የሚገናኝ ችሎታ።',
+        om: 'Harka barreeffama sirrii fi seera imlaa qabachuu — ogummaa barataa yeroo dhugaafu.',
+      } },
+      // Grade 5
+      { name: { ar: 'القرآن الكريم', en: "Qur'an", am: 'ቅዱስ ቁርአን', om: 'Quraana Quulqulluu' }, gradeGroup: 'grade-5', icon: 'book', description: {
+        ar: 'حفظ سور قصيرة وتجويد الدرس، مع ترسيخ الحب لكتاب الله في قلوب الصغار.',
+        en: 'Memorizing short surahs and reciting the lesson with tajwid, while anchoring love for the Book of Allah in young hearts.',
+        am: 'አጭር ሱራዎችን ማስታወስ እና ትምህርቱን በተጅዊድ አንበብ፣ በታናሾች ልቦች ለመጽሐፈ አላህ ፍቅርን ማትረው።',
+        om: 'Suura gabaabaa hafzee fi tajwiidaan dubbisuu, onnee ilmaan xixiqqoo keessatti jaalala Kitaaba Rabbii cimsuu.',
+      } },
+      { name: { ar: 'التوحيد', en: 'Tawhid', am: 'ተውሂድ', om: 'Tawhiid' }, gradeGroup: 'grade-5', icon: 'gem', description: {
+        ar: 'تعريف الصغير بربه وأسمائه الحسنى، بأسلوب مبسط يرسخ عقيدة التوحيد.',
+        en: 'Introducing the young child to their Lord and His beautiful names, in a simple way that anchors the creed of Tawhid.',
+        am: 'ታናሹን ከጌታው እና ከቆንጆ ስሞቹ ጋር በማስተዋወቅ፣ የተውሂድን እምነት የሚያረጋግጥ ቀላል መንገድ።',
+        om: 'Ilma xiqqaa Gooftaa isaa fi maqaa bareedaa Isaa meettu, akkasuma amantaa Tawhiida cimsuu.',
+      } },
+      { name: { ar: 'التجويد', en: 'Tejwid', am: 'ተጅዊድ', om: 'Tajwiid' }, gradeGroup: 'grade-5', icon: 'mic', description: {
+        ar: 'إتقان مخارج الحروف وأحكام النون الساكنة والمدود، لقراءة سليمة خالية من اللحن.',
+        en: 'Mastering letter articulation points, the rules of the silent noon, and elongations — for a sound, error-free recitation.',
+        am: 'የፊደል መውጫቦችን፣ የፀጥታ ኑን ህጎችን እና የማራዘሚያ ምልክቶችን መውደቅ — ለንፁሕ እና ለነፃ ንባብ።',
+        om: 'Baay\'i qubeelee, seera noonii haaquu fi diriirsuu qabachuu — dubbisaa sirrii dogoggoraa hin qabne.',
+      } },
+      { name: { ar: 'الفقه', en: 'Fiqh', am: 'ፊቅህ', om: 'Fiqh' }, gradeGroup: 'grade-5', icon: 'scale', description: {
+        ar: 'أحكام الطهارة والصلاة بأسلوب عملي يربط الطفل بعباداته اليومية.',
+        en: 'Rulings of purification and prayer in a practical style that connects the child to their daily acts of worship.',
+        am: 'የንጽህናና የሰላት ህጎችን በተግባራዊ መንገድ፣ ልጁን ከእለት አምልኮው ጋር የሚያገናኝ።',
+        om: 'Seera qulqullinaa fi duulaa karaa hojiirra, ilmaan waliin galgala guyyaa isaanii walitti qabuu.',
+      } },
+      { name: { ar: 'اللغة', en: 'Lugha', am: 'ቋንቋ', om: 'Afaan' }, gradeGroup: 'grade-5', icon: 'languages', description: {
+        ar: 'بناء اللسان العربي ومفرداته، ليُعين الطالب على فهم القرآن والعلوم الشرعية.',
+        en: 'Building Arabic language fluency and vocabulary, to help the student understand the Quran and Islamic sciences.',
+        am: 'የዐረብኛ ቋንቋንና የቃላት ክምችት መገንባት፣ ተማሪው ቁርአንንና የእስላም ሳይንሶችን ለመረዳት።',
+        om: 'Afaan Arabaa fi jechoota isaa ijaruu, barataan Quraana fi saayinsii Islaamaa akka hubatu gargaaruu.',
+      } },
+      { name: { ar: 'السيرة', en: 'Sira', am: 'ሲራ', om: 'Siira' }, gradeGroup: 'grade-5', icon: 'scroll', description: {
+        ar: 'رحلة في حياة النبي ﷺ وأخلاقه وغزواته، ليكون قدوة يحتذى بها في كل درب.',
+        en: 'A journey through the life of the Prophet ﷺ — his character and battles — as a role model to follow on every path.',
+        am: 'የነቢዩ ﷺ ሕይወትን፣ ምግባራቸውንና ጦርነቶቻቸውን ጉዞ — በሁሉም መንገድ የሚከተል ዓይነት ሆነው።',
+        om: 'Jireenya Rasulaa ﷺ, amalaa fi waraana isaa — karaa hunda kan qofamu.',
+      } },
+      { name: { ar: 'الحديث', en: 'Hadis', am: 'ሐዲስ', om: 'Hadiisaa' }, gradeGroup: 'grade-5', icon: 'messageSquare', description: {
+        ar: 'حفظ أحاديث مختارة مع شرح مبسط، يربط الطالب بكلام النبي ﷺ وهديه.',
+        en: 'Memorizing selected hadiths with a simplified explanation, connecting the student to the words and guidance of the Prophet ﷺ.',
+        am: 'የተመረጡ ሐዲሶችን በቀላል ማብራራት ማስታወስ፣ ተማሪውን ከነቢዩ ﷺ ቃላትና ከመሪነታቸው ጋር ማገናኘት።',
+        om: 'Hadiisa filataman hedduu fi salphaadhaan qabachuu, barataan jechaa fi qajeelummaa Rasulaa ﷺ waliin qabachuu.',
+      } },
+      { name: { ar: 'الإملاء', en: 'Imla', am: 'ኢምላ', om: 'Imlaa' }, gradeGroup: 'grade-5', icon: 'penTool', description: {
+        ar: 'تمرين اليد على الكتابة الصحيحة وقواعد الإملاء، مهارة ترافق الطالب مدى الحياة.',
+        en: 'Training the hand in correct writing and spelling rules — a skill that stays with the student for life.',
+        am: 'እጅን በትክክለኛ ጽሑፍና በኢምላ ህጎች ማሰልጠን — ለሕይወት ከተማሪው ጋር የሚገናኝ ችሎታ።',
+        om: 'Harka barreeffama sirrii fi seera imlaa qabachuu — ogummaa barataa yeroo dhugaafu.',
+      } },
     ],
     telegramLink: 'https://t.me/daralquran_school',
     registrationStatus: 'open',
+    requirements: {
+      ar: 'الشروط: أن يكون الطالب مسلماً، في عمر المدرسة (5-15 سنة)، ولديه رغبة في تعلم القرآن والعلوم الشرعية، وولي أمر ملتزم بمتابعة الطالب. إحضار شهادة الميلاد وصورة من بطاقة ولي الأمر.',
+      en: 'Requirements: The student must be Muslim, of school age (5-15 years), willing to learn the Quran and Islamic sciences, with a committed guardian. Bring birth certificate and a copy of the guardian\'s ID.',
+      am: 'ሁኔታዎች፡ ተማሪው ሙስሊም መሆን፣ የትምህርት ቤት ዕድሜ (5-15 ዓመት) መሆን፣ ቁርአንንና የእስላም ሳይንሶችን ለመማር ፍላጎት መኖር፣ አስተናጋጁ ተከታታይ መሆን። የልደት ማረጋገጫ እና የአስተናጋጅ መታወቂያ መውሰድ።',
+      om: 'Eegumsa: Barataan Muslimaatti, umuri barumsaa (5-15) qabuu, Quraana fi saayinsii Islaamaa barachuu fedhii, abbaa itti aanfamtootaa kan hordofuu. Raga dhaloota fi kopii ID abbaa itti aanfamtootaa fiduu.',
+    },
     registrationFields: [
       { name: 'fullName', label: { ar: 'اسم الطالب', en: 'Student Name', am: 'የተማሪ ስም', om: 'Maqaa barataa' }, type: 'text', required: true },
       { name: 'phone', label: { ar: 'رقم الهاتف', en: 'Phone Number', am: 'ስልክ ቁጥር', om: 'Lakkoofsa bilbila' }, type: 'tel', required: true },
@@ -312,7 +495,8 @@ export const departments: Department[] = [
     establishedDate: '1443 هـ',
     logoKey: 'halqa',
     coverImageKey: 'halqa',
-    accentColor: { base: '#023047', accent: '#FFB703' },
+    coverImage: 'https://images.pexels.com/photos/32668037/pexels-photo-32668037.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    accentColor: { base: '#2563EB', accent: '#FBBF24' },
     stats: [
       { label: { ar: 'كتاب مُدرس', en: 'Books studied', am: 'መጻሕፍት ተገብሮ', om: 'Kitaabota qoratame' }, value: 8 },
       { label: { ar: 'طالب علم', en: 'Students', am: 'ተማሪ', om: 'Barattoota' }, value: 45 },
@@ -370,6 +554,12 @@ export const departments: Department[] = [
     ],
     telegramLink: 'https://t.me/daralquran_halqa',
     registrationStatus: 'coming_soon',
+    requirements: {
+      ar: 'الشروط: أن يكون الطالب مسلماً، بالغاً، لديه معرفة أساسية بالقراءة والكتابة، ملتزماً بحضور الحلقة بعد صلاة العصر بانتظام، ولديه نية صادقة في طلب العلم الشرعي.',
+      en: 'Requirements: The student must be Muslim, adult, with basic reading and writing skills, committed to attending the circle regularly after Asr prayer, and sincere in seeking Islamic knowledge.',
+      am: 'ሁኔታዎች፡ ተማሪው ሙስሊም መሆን፣ የጎሠኝነት ዕድሜ መድረስ፣ መንበብና መጻፍ የመማር መሠረታዊ ችሎታ መኖር፣ ከአስር ሰዓት በኋላ በመደበኛነት ክበቡን ለመከታተል መቻሉ።',
+      om: 'Eegumsa: Barataan Muslimaatti, dhirsa, dubbisuu fi barreessuu beekuu, galgala Asr booda marii hordofuu, beekumsa Islaamaa barachuu qajeelummaa qabuu.',
+    },
     registrationFields: [
       { name: 'fullName', label: { ar: 'الاسم الكامل', en: 'Full Name', am: 'ሙሉ ስም', om: 'Maqaa guddaa' }, type: 'text', required: true },
       { name: 'phone', label: { ar: 'رقم الهاتف', en: 'Phone Number', am: 'ስልክ ቁጥር', om: 'Lakkoofsa bilbila' }, type: 'tel', required: true },
@@ -436,7 +626,8 @@ export const departments: Department[] = [
     establishedDate: '2014 م.أ',
     logoKey: 'charity',
     coverImageKey: 'charity',
-    accentColor: { base: '#0F172A', accent: '#F97316', heart: '#e63946' },
+    coverImage: 'https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    accentColor: { base: '#0369A1', accent: '#F97316', heart: '#e63946' },
     stats: [
       { label: { ar: 'طفل يُطعم يومياً', en: 'Children fed daily', am: 'በየቀኑ የሚበላ ልጅ', om: 'Ilmuu guyyaa guyyaa nyaatamu' }, value: 82 },
       { label: { ar: 'أسرة عادت للإسلام', en: 'Families returned to Islam', am: 'ወደ እስላም የተመለሰ ቤተሰብ', om: 'Maatii gara Islaamaatti deebi\'e' }, value: 11 },
@@ -488,6 +679,12 @@ export const departments: Department[] = [
     ],
     telegramLink: 'https://t.me/daralquran_charity',
     registrationStatus: 'closed',
+    requirements: {
+      ar: 'الشروط: أن تكون الأسرة مسلمة ومحتاجة فعلاً، تقديم ما يثبت الحالة (شهادة فقر أو توصية من الإمام أو الجيران)، الالتزام بتوزيع المساعدات على المستحقين. الأولوية للأيتام والأرامل والفقراء.',
+      en: 'Requirements: The family must be Muslim and genuinely in need, providing proof of situation (poverty certificate or recommendation from the Imam or neighbors). Priority is given to orphans, widows, and the poor.',
+      am: 'ሁኔታዎች፡ ቤተሰቡ ሙስሊምና በእውነት ድህነት ውስጥ መሆን፣ ሁኔታውን የሚያረጋግጥ ማስረጃ ማቅረብ (የድህነት ማረጋገጫ ወይም ከኢማሙ ወይም ከጎረቤቶች የተገኘ ምክር)። ቅድሚያ ለአይሞች፣ ለአርዶች እና ለድሆች ይሰጣል።',
+      om: 'Eegumsa: Maatiin Muslimaafi hiyyeessa ta\'e, raga haalaa (raga hiyyeessaa ykn gorsa Imaamii ykn hojjettoota) dhihaachuu. Abbaa irraa dhaboota, haadha manaa fi hiyyeeyyiif fuuldura kennamu.',
+    },
     registrationFields: [
       { name: 'fullName', label: { ar: 'الاسم الكامل', en: 'Full Name', am: 'ሙሉ ስም', om: 'Maqaa guddaa' }, type: 'text', required: true },
       { name: 'phone', label: { ar: 'رقم الهاتف', en: 'Phone Number', am: 'ስልክ ቁጥር', om: 'Lakkoofsa bilbila' }, type: 'tel', required: true },

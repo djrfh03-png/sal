@@ -26,6 +26,7 @@ export function Navbar() {
     { to: '/', label: t.nav.home },
     { to: '/about', label: t.nav.about },
     { to: '/departments', label: t.nav.departments },
+    { to: '/programs', label: t.nav.programs },
     { to: '/announcements', label: t.nav.announcements },
     { to: '/posts', label: t.nav.posts },
     { to: '/register', label: t.nav.register },
@@ -40,12 +41,12 @@ export function Navbar() {
     >
       <div className="container-page">
         <div className="flex items-center justify-between h-16 md:h-18">
-          {/* Institution name — no logo */}
+          {/* Institution name — smart emerald-to-gold gradient */}
           <Link to="/" className="shrink-0 group">
-            <div className="font-bold text-sm md:text-base leading-tight text-brand-ink group-hover:text-brand-primary transition-colors">
+            <div className="font-bold text-sm md:text-base leading-tight bg-gradient-to-r from-brand-primary via-brand-primary-light to-brand-secondary bg-clip-text text-transparent group-hover:from-brand-primary-dark group-hover:via-brand-primary group-hover:to-brand-secondary-dark transition-all duration-300">
               {lang === 'ar' ? 'دار القرآن الكريم' : 'Dar Al-Quran'}
             </div>
-            <div className="text-xs leading-tight text-brand-ink-muted">
+            <div className="text-xs leading-tight text-brand-secondary font-semibold">
               {lang === 'ar' ? 'لخديجة بنت خويلد' : 'Khadija bint Khuwaylid'}
             </div>
           </Link>

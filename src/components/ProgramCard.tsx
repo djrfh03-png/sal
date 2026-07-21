@@ -1,8 +1,9 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Book, BookOpen, Scroll, Scale, Gem, PenTool, Sparkles, Brain, MapPin,
   Type, Music, Mic, Languages, MessageSquare, Utensils, Moon, Gift,
-  Shirt, Backpack, Megaphone, Home, type LucideIcon,
+  Shirt, Backpack, Megaphone, Home, ChevronDown, type LucideIcon,
 } from 'lucide-react';
 import type { DepartmentProgram } from '../types';
 import { localize } from '../utils/localize';
@@ -40,9 +41,12 @@ interface ProgramCardProps {
   variant?: 'full' | 'compact';
 }
 
+const COLLAPSE_THRESHOLD = 90;
+
 export function ProgramCard({ program, index, accent, gold, variant = 'full' }: ProgramCardProps) {
   const { lang } = useI18n();
   const Icon = iconMap[program.icon ?? 'book'] ?? Book;
+  const [expanded, setExpanded] = useState(false);
 
   if (variant === 'compact') {
     return (
@@ -77,6 +81,12 @@ export function ProgramCard({ program, index, accent, gold, variant = 'full' }: 
     );
   }
 
+  const description = program.description ? localize(program.description, lang) : '';
+  const isLong = description.length > COLLAPSE_THRESHOLD;
+  const visibleDesc = !expanded && isLong
+    ? description.slice(0, COLLAPSE_THRESHOLD).trim() + '…'
+    : description;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -84,7 +94,7 @@ export function ProgramCard({ program, index, accent, gold, variant = 'full' }: 
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       whileHover={{ y: -5 }}
-      className="group relative bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300"
+      className="group relative bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col"
     >
       {/* Top gradient bar */}
       <div className="h-1.5" style={{ background: `linear-gradient(90deg, ${accent}, ${gold})` }} />
@@ -98,7 +108,7 @@ export function ProgramCard({ program, index, accent, gold, variant = 'full' }: 
         </svg>
       </div>
 
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-1">
         <div className="flex items-start gap-4 mb-3">
           <div
             className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 group-hover:-rotate-3"
@@ -119,9 +129,40 @@ export function ProgramCard({ program, index, accent, gold, variant = 'full' }: 
           </div>
         </div>
         {program.description && (
-          <p className="text-sm text-brand-ink-soft leading-relaxed">
-            {localize(program.description, lang)}
-          </p>
+          <div className="flex-1">
+            <p className="text-sm text-brand-ink-soft leading-relaxed">
+              {visibleDesc}
+            </p>
+            <AnimatePresence initial={false}>
+              {expanded && (
+                <motion.p
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="text-sm text-brand-ink-soft leading-relaxed overflow-hidden"
+                >
+                  {description.slice(COLLAPSE_THRESHOLD).trim()}
+                </motion.p>
+              )}
+            </AnimatePresence>
+            {isLong && (
+              <button
+                onClick={() => setExpanded(!expanded)}
+                className="inline-flex items-center gap-1 mt-2 text-xs font-semibold transition-colors hover:gap-1.5"
+                style={{ color: accent }}
+              >
+                {expanded
+                  ? (lang === 'ar' ? 'عرض أقل' : 'See less')
+                  : (lang === 'ar' ? 'عرض المزيد' : 'See more')}
+                <ChevronDown
+                  size={14}
+                  className="transition-transform"
+                  style={{ transform: expanded ? 'rotate(180deg)' : 'none' }}
+                />
+              </button>
+            )}
+          </div>
         )}
         {/* Accent underline that grows on hover */}
         <div className="mt-4 h-0.5 w-8 rounded-full transition-all duration-300 group-hover:w-full" style={{ backgroundColor: accent }} />

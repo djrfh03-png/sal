@@ -13,28 +13,44 @@ export function AdminLoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock auth — any input navigates to dashboard
     sessionStorage.setItem('admin-authed', 'true');
     navigate('/admin/dashboard');
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-brand-ink pattern-bg-gold p-4">
+    <div className="min-h-screen flex items-center justify-center bg-brand-primary-dark p-4 relative overflow-hidden">
+      {/* Decorative background — gold glows + faint geometric marks */}
+      <div className="absolute top-1/4 end-0 w-96 h-96 rounded-full bg-brand-secondary/15 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 start-0 w-96 h-96 rounded-full bg-brand-primary/30 blur-3xl pointer-events-none" />
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none">
+        <div className="absolute top-10 start-10 w-24 h-24 border border-white/30 rotate-45" />
+        <div className="absolute bottom-16 end-16 w-32 h-32 border border-white/30 rotate-12" />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
+        className="w-full max-w-md relative z-10"
       >
+        {/* Brand header */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 rounded-full bg-brand-primary/20 flex items-center justify-center mx-auto mb-4 border-2 border-brand-primary/30">
+          <div className="w-20 h-20 rounded-2xl bg-brand-secondary/20 flex items-center justify-center mx-auto mb-5 border border-brand-secondary/40 shadow-gold">
             <BookOpen size={40} className="text-brand-secondary" strokeWidth={1.2} />
           </div>
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <div className="h-px w-10 bg-brand-secondary/50" />
+            <span className="text-brand-secondary text-[11px] font-semibold tracking-widest uppercase">
+              {lang === 'ar' ? 'لوحة الإدارة' : 'Admin Panel'}
+            </span>
+            <div className="h-px w-10 bg-brand-secondary/50" />
+          </div>
           <h1 className="text-2xl font-bold text-white mb-1">{t.admin.login}</h1>
-          <p className="text-sm text-white/50">Dar Al-Quran Admin Panel</p>
+          <p className="text-sm text-white/50">Dar Al-Quran</p>
         </div>
 
-        <form onSubmit={handleLogin} className="bg-white rounded-2xl shadow-card-hover p-8 space-y-5">
+        {/* Login card */}
+        <form onSubmit={handleLogin} className="bg-white rounded-2xl shadow-card-hover p-7 space-y-5">
           <div>
             <label className="block text-sm font-semibold text-brand-ink mb-1.5">{t.admin.email}</label>
             <div className="relative">
@@ -63,13 +79,16 @@ export function AdminLoginPage() {
           </div>
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-primary text-white font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all"
+            className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-primary to-brand-primary-light text-white font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all"
           >
             {t.admin.signIn}
             <Arrow size={18} />
           </button>
-          <Link to="/" className="block text-center text-xs text-brand-ink-muted hover:text-brand-primary transition-colors">
-            ← {lang === 'ar' ? 'العودة للموقع' : 'Back to site'}
+          <Link
+            to="/"
+            className="block text-center text-xs text-brand-ink-muted hover:text-brand-primary transition-colors"
+          >
+            {lang === 'ar' ? '← العودة للموقع' : '← Back to site'}
           </Link>
         </form>
       </motion.div>

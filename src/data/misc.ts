@@ -223,4 +223,10 @@ export const siteSettings: SiteSettings = {
   },
   orgTelegram: 'https://t.me/daralquran',
   developedBy: 'Noor Studio',
+  social: {
+    telegram: 'https://t.me/daralquran',
+    whatsapp: 'https://wa.me/251900000000',
+    facebook: 'https://facebook.com/daralquran',
+    tiktok: 'https://tiktok.com/@daralquran',
+  },
 };
