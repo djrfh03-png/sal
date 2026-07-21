@@ -34,6 +34,7 @@ import { AdminProgramsPage } from './admin/AdminProgramsPage';
 import { AdminRegistrationsPage } from './admin/AdminRegistrationsPage';
 import { AdminStatisticsPage } from './admin/AdminStatisticsPage';
 import { AdminSettingsPage } from './admin/AdminSettingsPage';
+import { AdminDepartmentDetailPage } from './admin/AdminDepartmentDetailPage';
 
 function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -63,6 +64,7 @@ function AnimatedRoutes() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<AdminDashboardPage />} />
           <Route path="departments" element={<AdminDepartmentsPage />} />
+          <Route path="departments/:slug" element={<AdminDepartmentDetailPage />} />
           <Route path="announcements" element={<AdminAnnouncementsPage />} />
           <Route path="posts" element={<AdminPostsPage />} />
           <Route path="programs" element={<AdminProgramsPage />} />

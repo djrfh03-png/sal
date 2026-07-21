@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'framer-motion';
 import { motion } from 'framer-motion';
-import { TrendingUp, Pencil, Check, X, type LucideIcon } from 'lucide-react';
+import { Pencil, Check, X, type LucideIcon } from 'lucide-react';
 import { useI18n } from '../../i18n/I18nContext';
 
 interface EditableStatCardProps {
@@ -15,7 +15,6 @@ interface EditableStatCardProps {
   editable?: boolean;
   onValueChange?: (value: number) => void;
   onLabelChange?: (label: string) => void;
-  onSeeMore?: () => void;
   hint?: string;
   delay?: number;
 }
@@ -29,7 +28,6 @@ export function EditableStatCard({
   editable = false,
   onValueChange,
   onLabelChange,
-  onSeeMore,
   hint,
   delay = 0,
 }: EditableStatCardProps) {
@@ -181,16 +179,6 @@ export function EditableStatCard({
             )}
           </div>
 
-          {onSeeMore && (
-            <button
-              onClick={onSeeMore}
-              className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 opacity-60 group-hover:opacity-100"
-              style={{ backgroundColor: color + '12', color }}
-              title={lang === 'ar' ? 'عرض المزيد' : 'See more'}
-            >
-              <TrendingUp size={14} />
-            </button>
-          )}
         </div>
       )}
     </motion.div>

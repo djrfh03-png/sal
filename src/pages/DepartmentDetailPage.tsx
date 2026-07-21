@@ -38,7 +38,6 @@ export function DepartmentDetailPage() {
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
   const adminStore = useAdminStoreOrNull();
   const { showToast } = useToast();
-  const [seeMoreOpen, setSeeMoreOpen] = useState(false);
 
   const department = adminStore?.departments.find((d) => d.slug === slug) ?? departments.find((d) => d.slug === slug);
 
@@ -340,44 +339,11 @@ export function DepartmentDetailPage() {
                     adminStore.updateDepartmentStat(department.id, i, val);
                     showToast(t.admin.saved, 'success');
                   }}
-                  onSeeMore={() => setSeeMoreOpen((v) => !v)}
                 />
               );
             })}
           </div>
 
-          {/* See more panel — additional context about the department's numbers */}
-          <motion.div
-            initial={false}
-            animate={{ height: seeMoreOpen ? 'auto' : 0, opacity: seeMoreOpen ? 1 : 0 }}
-            transition={{ duration: 0.35, ease: 'easeOut' }}
-            className="overflow-hidden"
-          >
-            <div
-              className="mt-8 rounded-2xl p-6 border"
-              style={{ backgroundColor: accent + '08', borderColor: accent + '20' }}
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <Target size={18} style={{ color: accent }} />
-                <h3 className="font-bold text-brand-ink" style={{ color: accent }}>
-                  {lang === 'ar' ? 'سياق الأرقام' : 'Behind the numbers'}
-                </h3>
-              </div>
-              <p className="text-sm text-brand-ink-soft leading-relaxed mb-4">
-                {localize(department.fullDescription, lang)}
-              </p>
-              <div className="grid sm:grid-cols-2 gap-3">
-                <div className="flex items-center gap-2 text-sm text-brand-ink-soft">
-                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: accent }} />
-                  {lang === 'ar' ? `تأسس عام ${department.establishedDate}` : `Established ${department.establishedDate}`}
-                </div>
-                <div className="flex items-center gap-2 text-sm text-brand-ink-soft">
-                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: accent }} />
-                  {department.programs.length} {lang === 'ar' ? 'برنامج متاح' : 'programs available'}
-                </div>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </section>
 
