@@ -25,11 +25,12 @@ export function RegistrationForm({ department }: { department: Department }) {
       await submitRegistration({
         fullName: formValues.fullName ?? '',
         phone: formValues.phone ?? '',
-        age: Number(formValues.age) || 0,
+        age: formValues.age ? Number(formValues.age) : null,
         email: formValues.email ?? '',
         address: formValues.address ?? '',
         notes: formValues.notes ?? '',
         departmentSlug: department.slug,
+        customFields: formValues,
       });
 
       // 2. Send Telegram notification (best-effort, does not block success)

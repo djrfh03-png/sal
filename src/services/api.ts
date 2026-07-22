@@ -68,13 +68,14 @@ interface RegistrationRow {
   id: string;
   full_name: string;
   phone: string;
-  age: number;
+  age: number | null;
   email: string;
   address: string;
   notes: string;
   department_slug: DepartmentSlug;
   date: string;
   status: Registration['status'];
+  custom_fields: Record<string, string>;
 }
 
 interface TimelineRow {
@@ -169,6 +170,7 @@ function mapRegistration(r: RegistrationRow): Registration {
     departmentSlug: r.department_slug,
     date: r.date,
     status: r.status,
+    customFields: r.custom_fields ?? {},
   };
 }
 
@@ -305,6 +307,7 @@ export async function submitRegistration(
     address: data.address,
     notes: data.notes,
     department_slug: data.departmentSlug,
+    custom_fields: data.customFields ?? {},
   };
   const { error } = await supabase.from('registrations').insert(row);
   if (error) throw error;

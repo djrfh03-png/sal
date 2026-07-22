@@ -24,6 +24,7 @@ interface AdminStoreValue {
   posts: Post[];
   registrations: Registration[];
   settings: SiteSettings;
+  loading: boolean;
   updateDepartment: (id: string, updates: Partial<Department>) => void;
   addAnnouncement: (a: Omit<Announcement, 'id'>) => void;
   updateAnnouncement: (id: string, updates: Partial<Announcement>) => void;
@@ -32,9 +33,10 @@ interface AdminStoreValue {
   updatePost: (id: string, updates: Partial<Post>) => void;
   deletePost: (id: string) => void;
   updateRegistrationStatus: (id: string, status: Registration['status']) => void;
+  deleteRegistration: (id: string) => void;
   setRegistrationStatus: (slug: string, status: RegistrationStatus) => void;
   updateSettings: (updates: Partial<SiteSettings>) => void;
-  updateDepartmentStat: (deptId: string, statIndex: number, value: number) => void;
+  updateDepartmentStat: (deptId: string, statIndex: number, value: number, label?: LocalizedName) => void;
   updateDepartmentRequirements: (deptId: string, lang: keyof LocalizedName, value: string) => void;
   updateDepartmentTelegram: (deptId: string, chatId: string) => void;
   addProgram: (deptSlug: string, program: Omit<DepartmentProgram, 'id'>) => void;
@@ -148,12 +150,12 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
     if (error) console.error('updateDepartment failed:', error.message);
   }, []);
 
-  const updateDepartmentStat = useCallback(async (deptId: string, statIndex: number, value: number) => {
+  const updateDepartmentStat = useCallback(async (deptId: string, statIndex: number, value: number, label?: LocalizedName) => {
     let dept: Department | undefined;
     setDepartments((prev) =>
       prev.map((d) => {
         if (d.id === deptId) {
-          dept = { ...d, stats: d.stats.map((s, i) => (i === statIndex ? { ...s, value } : s)) };
+          dept = { ...d, stats: d.stats.map((s, i) => (i === statIndex ? { ...s, value, ...(label ? { label } : {}) } : s)) };
           return dept;
         }
         return d;
@@ -301,6 +303,13 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
     if (error) console.error('updateRegistrationStatus failed:', error.message);
   }, []);
 
+  // ─── Registrations Delete ─────────────────────────────────────────────────
+  const deleteRegistration = useCallback(async (id: string) => {
+    setRegistrations((prev) => prev.filter((r) => r.id !== id));
+    const { error } = await supabase.from('registrations').delete().eq('id', id);
+    if (error) console.error('deleteRegistration failed:', error.message);
+  }, []);
+
   // ─── Site Settings ──────────────────────────────────────────────────────────
   const updateSettings = useCallback(async (updates: Partial<SiteSettings>) => {
     setSettings((prev) => (prev ? { ...prev, ...updates } : prev));
@@ -337,6 +346,7 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
         posts,
         registrations,
         settings: safeSettings,
+        loading: loaded,
         updateDepartment,
         addAnnouncement,
         updateAnnouncement,
@@ -345,6 +355,7 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
         updatePost,
         deletePost,
         updateRegistrationStatus,
+        deleteRegistration,
         setRegistrationStatus,
         updateSettings,
         updateDepartmentStat,

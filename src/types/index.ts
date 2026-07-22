@@ -90,13 +90,14 @@ export interface Registration {
   id: string;
   fullName: string;
   phone: string;
-  age: number;
+  age: number | null;
   email: string;
   address: string;
   notes: string;
   departmentSlug: DepartmentSlug;
   date: string;
   status: 'pending' | 'reviewed' | 'accepted' | 'rejected';
+  customFields: Record<string, string>;
 }
 
 export interface TimelineEvent {
