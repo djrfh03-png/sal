@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Send, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Send, Sparkles, Loader2 } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
-import { departments } from '../data/departments';
+import { useDepartments } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { DepartmentLogo } from '../components/ui/DepartmentLogo';
 
@@ -15,6 +15,15 @@ const statusDot: Record<string, string> = {
 export function RegisterPage() {
   const { lang, t, dir } = useI18n();
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
+  const { data: departments } = useDepartments();
+
+  if (!departments) {
+    return (
+      <div className="pt-20 min-h-screen flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin text-brand-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="pt-16">

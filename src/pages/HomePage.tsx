@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
 import {
-  ArrowRight, ArrowLeft, Send,
+  ArrowRight, ArrowLeft, Send, Loader2,
   Facebook as FacebookIcon,
 } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
@@ -12,10 +12,12 @@ import { TestimonialCarousel } from '../components/TestimonialCard';
 import { OrgStructureChart } from '../components/OrgStructureChart';
 import { DepartmentLogo } from '../components/ui/DepartmentLogo';
 import { TikTokIcon, TelegramIcon, WhatsAppIcon } from '../components/ui/SocialIcons';
-import { departments } from '../data/departments';
-import { announcements } from '../data/announcements';
-import { testimonials } from '../data/misc';
-import { siteSettings } from '../data/misc';
+import {
+  useDepartments,
+  useAnnouncements,
+  useTestimonials,
+  useSiteSettings,
+} from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { QuranVersesSlider } from '../components/QuranVersesSlider';
 import type { Department } from '../types';
@@ -29,8 +31,17 @@ export function HomePage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const [statsExpanded, setStatsExpanded] = useState(false);
 
-  const deptMap = Object.fromEntries(departments.map((d) => [d.slug, d])) as Record<string, Department>;
-  const generalAnnouncements = announcements.filter(a => a.departmentSlug === 'org');
+  const { data: departments, loading: deptLoading } = useDepartments();
+  const { data: announcements } = useAnnouncements();
+  const { data: testimonials } = useTestimonials();
+  const { data: siteSettings } = useSiteSettings();
+
+  const deptMap = departments
+    ? (Object.fromEntries(departments.map((d) => [d.slug, d])) as Record<string, Department>)
+    : {};
+  const generalAnnouncements = announcements
+    ? announcements.filter((a) => a.departmentSlug === 'org')
+    : [];
 
   const impactStats = [
     { value: 642, label: t.home.students, color: '#15803d', hint: lang === 'ar' ? 'طالب وطالبة سنوياً' : 'students yearly' },
@@ -81,10 +92,10 @@ export function HomePage() {
             </motion.div>
 
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
-              {localize(siteSettings.heroTitle, lang)}
+              {siteSettings ? localize(siteSettings.heroTitle, lang) : ''}
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed mb-12 max-w-2xl mx-auto">
-              {localize(siteSettings.heroSubtitle, lang)}
+              {siteSettings ? localize(siteSettings.heroSubtitle, lang) : ''}
             </p>
 
             <motion.div
@@ -175,11 +186,17 @@ export function HomePage() {
             <h2 className="text-2xl md:text-3xl font-bold text-brand-ink mb-2">{t.home.departmentsTitle}</h2>
             <p className="text-brand-ink-soft">{t.home.departmentsSubtitle}</p>
           </motion.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {departments.map((dept) => (
-              <DepartmentCard key={dept.slug} department={dept} />
-            ))}
-          </div>
+          {deptLoading || !departments ? (
+            <div className="flex justify-center py-12">
+              <Loader2 size={32} className="animate-spin text-brand-primary" />
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {departments.map((dept) => (
+                <DepartmentCard key={dept.slug} department={dept} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -326,7 +343,7 @@ export function HomePage() {
 
           {/* Single row of compact brand-coloured icons */}
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-            {[
+            {siteSettings && [
               { key: 'telegram', href: siteSettings.social.telegram, label: t.contact.telegram, Icon: TelegramIcon },
               { key: 'whatsapp', href: siteSettings.social.whatsapp, label: 'WhatsApp', Icon: WhatsAppIcon },
               { key: 'facebook', href: siteSettings.social.facebook, label: 'Facebook', Icon: FacebookIcon },
@@ -370,10 +387,11 @@ export function HomePage() {
           >
             <h2 className="text-2xl md:text-3xl font-bold text-brand-ink mb-2">{t.common.testimonials}</h2>
           </motion.div>
-          <TestimonialCarousel testimonials={testimonials} deptMap={deptMap} />
+          {testimonials && testimonials.length > 0 && (
+            <TestimonialCarousel testimonials={testimonials} deptMap={deptMap} />
+          )}
         </div>
       </section>
     </div>
   );
 }
-

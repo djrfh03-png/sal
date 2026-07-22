@@ -2,26 +2,25 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Home, ChevronRight, CheckCircle2 } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
-import { departments } from '../data/departments';
+import { useDepartment } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { DepartmentLogo } from '../components/ui/DepartmentLogo';
 import { Button } from '../components/ui/Button';
 import { RegistrationForm } from '../components/RegistrationForm';
 import { useAdminStoreOrNull } from '../admin/AdminStore';
+import { Loader2 } from 'lucide-react';
 
 export function DepartmentRegisterPage() {
   const { slug } = useParams();
   const { lang, dir, t } = useI18n();
   const adminStore = useAdminStoreOrNull();
-  const department = adminStore?.departments.find((d) => d.slug === slug) ?? departments.find((d) => d.slug === slug);
+  const { data: fetchedDept, loading } = useDepartment(slug);
+  const department = adminStore?.departments.find((d) => d.slug === slug) ?? fetchedDept;
 
-  if (!department) {
+  if (loading || !department) {
     return (
       <div className="pt-20 min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-brand-ink-soft mb-4">{t.common.noResults}</p>
-          <Button to="/departments" variant="outline">{t.common.back}</Button>
-        </div>
+        <Loader2 size={32} className="animate-spin text-brand-primary" />
       </div>
     );
   }

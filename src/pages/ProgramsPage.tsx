@@ -4,9 +4,10 @@ import {
   BookOpen, GraduationCap, Users, Heart, ArrowRight, ArrowLeft, Sparkles,
 } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
-import { departments } from '../data/departments';
+import { useDepartments } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { ProgramCard } from '../components/ProgramCard';
+import { Loader2 } from 'lucide-react';
 
 const deptIcons: Record<string, typeof BookOpen> = {
   'center-hifz': BookOpen,
@@ -18,6 +19,15 @@ const deptIcons: Record<string, typeof BookOpen> = {
 export function ProgramsPage() {
   const { lang, dir, t } = useI18n();
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
+  const { data: departments, loading } = useDepartments();
+
+  if (loading || !departments) {
+    return (
+      <div className="pt-16 min-h-screen flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin text-brand-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="pt-16">

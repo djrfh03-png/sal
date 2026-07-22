@@ -3,10 +3,12 @@ import { Target, Eye, Gem, Award } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { Timeline } from '../components/Timeline';
 import { OrgStructureChart } from '../components/OrgStructureChart';
-import { timelineEvents } from '../data/misc';
+import { useTimelineEvents } from '../hooks/useApiData';
+import { Loader2 } from 'lucide-react';
 
 export function AboutPage() {
   const { lang, t } = useI18n();
+  const { data: timelineEvents, loading } = useTimelineEvents();
 
   const coreValues = [
     { icon: Target, label: t.common.mission, color: '#0B6B4A' },
@@ -103,7 +105,13 @@ export function AboutPage() {
           >
             <h2 className="text-2xl md:text-3xl font-bold text-brand-ink">{t.common.timeline}</h2>
           </motion.div>
-          <Timeline events={timelineEvents} />
+          {loading || !timelineEvents ? (
+            <div className="flex justify-center py-12">
+              <Loader2 size={32} className="animate-spin text-brand-primary" />
+            </div>
+          ) : (
+            <Timeline events={timelineEvents} />
+          )}
         </div>
       </section>
 

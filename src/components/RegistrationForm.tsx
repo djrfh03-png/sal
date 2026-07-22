@@ -6,6 +6,7 @@ import { localize } from '../utils/localize';
 import { Button } from './ui/Button';
 import { RegistrationStatusBanner } from './RegistrationStatusBanner';
 import { useToast } from './ui/Toast';
+import { submitRegistration } from '../services/api';
 import type { Department, RegistrationField } from '../types';
 
 export function RegistrationForm({ department }: { department: Department }) {
@@ -20,30 +21,41 @@ export function RegistrationForm({ department }: { department: Department }) {
     e.preventDefault();
     setSubmitting(true);
     try {
+      // 1. Persist to database
+      await submitRegistration({
+        fullName: formValues.fullName ?? '',
+        phone: formValues.phone ?? '',
+        age: Number(formValues.age) || 0,
+        email: formValues.email ?? '',
+        address: formValues.address ?? '',
+        notes: formValues.notes ?? '',
+        departmentSlug: department.slug,
+      });
+
+      // 2. Send Telegram notification (best-effort, does not block success)
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
       const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
       if (supabaseUrl && supabaseAnonKey) {
-        const res = await fetch(`${supabaseUrl}/functions/v1/telegram-registration`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${supabaseAnonKey}`,
-          },
-          body: JSON.stringify({
-            departmentSlug: department.slug,
-            departmentName: localize(department.name, 'en'),
-            chatId: department.telegramChatId,
-            fields: fields.map((f) => ({
-              label: localize(f.label, 'ar'),
-              value: formValues[f.name] ?? '',
-            })),
-          }),
-        });
-
-        if (!res.ok) {
-          const err = await res.text();
-          throw new Error(err);
+        try {
+          await fetch(`${supabaseUrl}/functions/v1/telegram-registration`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${supabaseAnonKey}`,
+            },
+            body: JSON.stringify({
+              departmentSlug: department.slug,
+              departmentName: localize(department.name, 'en'),
+              chatId: department.telegramChatId,
+              fields: fields.map((f) => ({
+                label: localize(f.label, 'ar'),
+                value: formValues[f.name] ?? '',
+              })),
+            }),
+          });
+        } catch (telegramErr) {
+          console.error('Telegram notification failed:', telegramErr);
         }
       }
 

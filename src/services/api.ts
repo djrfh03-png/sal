@@ -1,7 +1,4 @@
-import { departments as mockDepartments } from '../data/departments';
-import { announcements as mockAnnouncements } from '../data/announcements';
-import { posts as mockPosts } from '../data/posts';
-import { testimonials as mockTestimonials, registrations as mockRegistrations, timelineEvents as mockTimeline, siteSettings as mockSettings } from '../data/misc';
+import { supabase } from '../lib/supabaseClient';
 import type {
   Department,
   DepartmentSlug,
@@ -13,82 +10,323 @@ import type {
   SiteSettings,
 } from '../types';
 
-// Simulate async API delay
-const delay = (ms = 100) => new Promise((r) => setTimeout(r, ms));
+// ─── Row types (snake_case from DB) ───────────────────────────────────────
 
-// Departments
+interface DepartmentRow {
+  id: string;
+  slug: string;
+  name: Department['name'];
+  short_description: Department['shortDescription'];
+  full_description: Department['fullDescription'];
+  mission: Department['mission'];
+  vision: Department['vision'];
+  values: Department['values'];
+  objectives: Department['objectives'];
+  established_date: string;
+  logo_key: string;
+  cover_image_key: string;
+  cover_image: string;
+  accent_color: Department['accentColor'];
+  stats: Department['stats'];
+  programs: Department['programs'];
+  telegram_link: string;
+  telegram_chat_id: string;
+  registration_status: Department['registrationStatus'];
+  registration_fields: Department['registrationFields'];
+  requirements: Department['requirements'];
+}
+
+interface AnnouncementRow {
+  id: string;
+  title: Announcement['title'];
+  department_slug: Announcement['departmentSlug'];
+  date: string;
+  image: string;
+  excerpt: Announcement['excerpt'];
+  content: Announcement['content'];
+}
+
+interface PostRow {
+  id: string;
+  type: Post['type'];
+  department_slug: Post['departmentSlug'];
+  title: Post['title'];
+  media: string;
+  content: Post['content'];
+  date: string;
+}
+
+interface TestimonialRow {
+  id: string;
+  name: string;
+  role: Testimonial['role'];
+  quote: Testimonial['quote'];
+  department_slug: Testimonial['departmentSlug'];
+}
+
+interface RegistrationRow {
+  id: string;
+  full_name: string;
+  phone: string;
+  age: number;
+  email: string;
+  address: string;
+  notes: string;
+  department_slug: DepartmentSlug;
+  date: string;
+  status: Registration['status'];
+}
+
+interface TimelineRow {
+  id: string;
+  year: string;
+  title: TimelineEvent['title'];
+  description: TimelineEvent['description'];
+}
+
+interface SiteSettingsRow {
+  id: number;
+  hero_title: SiteSettings['heroTitle'];
+  hero_subtitle: SiteSettings['heroSubtitle'];
+  contact_email: string;
+  contact_location: SiteSettings['contactLocation'];
+  org_telegram: string;
+  developed_by: string;
+  social: SiteSettings['social'];
+}
+
+// ─── Mappers ──────────────────────────────────────────────────────────────
+
+function mapDepartment(r: DepartmentRow): Department {
+  return {
+    id: r.id,
+    slug: r.slug as DepartmentSlug,
+    name: r.name,
+    shortDescription: r.short_description,
+    fullDescription: r.full_description,
+    mission: r.mission,
+    vision: r.vision,
+    values: r.values ?? [],
+    objectives: r.objectives ?? [],
+    establishedDate: r.established_date,
+    logoKey: r.logo_key,
+    coverImageKey: r.cover_image_key,
+    coverImage: r.cover_image,
+    accentColor: r.accent_color,
+    stats: r.stats ?? [],
+    programs: r.programs ?? [],
+    telegramLink: r.telegram_link,
+    telegramChatId: r.telegram_chat_id,
+    registrationStatus: r.registration_status as Department['registrationStatus'],
+    registrationFields: r.registration_fields ?? [],
+    requirements: r.requirements,
+  };
+}
+
+function mapAnnouncement(r: AnnouncementRow): Announcement {
+  return {
+    id: r.id,
+    title: r.title,
+    departmentSlug: r.department_slug as Announcement['departmentSlug'],
+    date: r.date,
+    image: r.image,
+    excerpt: r.excerpt,
+    content: r.content,
+  };
+}
+
+function mapPost(r: PostRow): Post {
+  return {
+    id: r.id,
+    type: r.type,
+    departmentSlug: r.department_slug as Post['departmentSlug'],
+    title: r.title,
+    media: r.media,
+    content: r.content,
+    date: r.date,
+  };
+}
+
+function mapTestimonial(r: TestimonialRow): Testimonial {
+  return {
+    id: r.id,
+    name: r.name,
+    role: r.role,
+    quote: r.quote,
+    departmentSlug: r.department_slug as Testimonial['departmentSlug'],
+  };
+}
+
+function mapRegistration(r: RegistrationRow): Registration {
+  return {
+    id: r.id,
+    fullName: r.full_name,
+    phone: r.phone,
+    age: r.age,
+    email: r.email,
+    address: r.address,
+    notes: r.notes,
+    departmentSlug: r.department_slug,
+    date: r.date,
+    status: r.status,
+  };
+}
+
+function mapTimeline(r: TimelineRow): TimelineEvent {
+  return {
+    id: r.id,
+    year: r.year,
+    title: r.title,
+    description: r.description,
+  };
+}
+
+function mapSettings(r: SiteSettingsRow): SiteSettings {
+  return {
+    heroTitle: r.hero_title,
+    heroSubtitle: r.hero_subtitle,
+    contactEmail: r.contact_email,
+    contactLocation: r.contact_location,
+    orgTelegram: r.org_telegram,
+    developedBy: r.developed_by,
+    social: r.social,
+  };
+}
+
+// ─── API functions ────────────────────────────────────────────────────────
+
 export async function fetchDepartments(): Promise<Department[]> {
-  await delay();
-  return mockDepartments;
+  const { data, error } = await supabase.from('departments').select('*');
+  if (error) throw error;
+  return (data as DepartmentRow[]).map(mapDepartment);
 }
 
 export async function fetchDepartmentBySlug(slug: string): Promise<Department | undefined> {
-  await delay();
-  return mockDepartments.find((d) => d.slug === slug);
+  const { data, error } = await supabase
+    .from('departments')
+    .select('*')
+    .eq('slug', slug)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? mapDepartment(data as DepartmentRow) : undefined;
 }
 
-// Announcements
 export async function fetchAnnouncements(): Promise<Announcement[]> {
-  await delay();
-  return mockAnnouncements;
+  const { data, error } = await supabase
+    .from('announcements')
+    .select('*')
+    .order('date', { ascending: false });
+  if (error) throw error;
+  return (data as AnnouncementRow[]).map(mapAnnouncement);
 }
 
 export async function fetchAnnouncementsByDepartment(slug: DepartmentSlug): Promise<Announcement[]> {
-  await delay();
-  return mockAnnouncements.filter((a) => a.departmentSlug === slug);
+  const { data, error } = await supabase
+    .from('announcements')
+    .select('*')
+    .eq('department_slug', slug)
+    .order('date', { ascending: false });
+  if (error) throw error;
+  return (data as AnnouncementRow[]).map(mapAnnouncement);
 }
 
 export async function fetchAnnouncementById(id: string): Promise<Announcement | undefined> {
-  await delay();
-  return mockAnnouncements.find((a) => a.id === id);
+  const { data, error } = await supabase
+    .from('announcements')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? mapAnnouncement(data as AnnouncementRow) : undefined;
 }
 
-// Posts
 export async function fetchPosts(): Promise<Post[]> {
-  await delay();
-  return mockPosts;
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .order('date', { ascending: false });
+  if (error) throw error;
+  return (data as PostRow[]).map(mapPost);
 }
 
 export async function fetchPostsByDepartment(slug: DepartmentSlug): Promise<Post[]> {
-  await delay();
-  return mockPosts.filter((p) => p.departmentSlug === slug);
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('department_slug', slug)
+    .order('date', { ascending: false });
+  if (error) throw error;
+  return (data as PostRow[]).map(mapPost);
 }
 
 export async function fetchPostById(id: string): Promise<Post | undefined> {
-  await delay();
-  return mockPosts.find((p) => p.id === id);
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? mapPost(data as PostRow) : undefined;
 }
 
-// Testimonials
 export async function fetchTestimonials(): Promise<Testimonial[]> {
-  await delay();
-  return mockTestimonials;
+  const { data, error } = await supabase.from('testimonials').select('*');
+  if (error) throw error;
+  return (data as TestimonialRow[]).map(mapTestimonial);
 }
 
-// Registrations
 export async function fetchRegistrations(): Promise<Registration[]> {
-  await delay();
-  return mockRegistrations;
+  const { data, error } = await supabase
+    .from('registrations')
+    .select('*')
+    .order('date', { ascending: false });
+  if (error) throw error;
+  return (data as RegistrationRow[]).map(mapRegistration);
 }
 
 export async function fetchRegistrationsByDepartment(slug: DepartmentSlug): Promise<Registration[]> {
-  await delay();
-  return mockRegistrations.filter((r) => r.departmentSlug === slug);
+  const { data, error } = await supabase
+    .from('registrations')
+    .select('*')
+    .eq('department_slug', slug)
+    .order('date', { ascending: false });
+  if (error) throw error;
+  return (data as RegistrationRow[]).map(mapRegistration);
 }
 
-export async function submitRegistration(_data: Omit<Registration, 'id' | 'date' | 'status'>): Promise<{ success: boolean }> {
-  await delay(300);
+export async function submitRegistration(
+  data: Omit<Registration, 'id' | 'date' | 'status'>,
+): Promise<{ success: boolean }> {
+  const row = {
+    full_name: data.fullName,
+    phone: data.phone,
+    age: data.age,
+    email: data.email,
+    address: data.address,
+    notes: data.notes,
+    department_slug: data.departmentSlug,
+  };
+  const { error } = await supabase.from('registrations').insert(row);
+  if (error) throw error;
   return { success: true };
 }
 
-// Timeline
 export async function fetchTimelineEvents(): Promise<TimelineEvent[]> {
-  await delay();
-  return mockTimeline;
+  const { data, error } = await supabase
+    .from('timeline_events')
+    .select('*')
+    .order('year', { ascending: true });
+  if (error) throw error;
+  return (data as TimelineRow[]).map(mapTimeline);
 }
 
-// Settings
 export async function fetchSiteSettings(): Promise<SiteSettings> {
-  await delay();
-  return mockSettings;
+  const { data, error } = await supabase
+    .from('site_settings')
+    .select('*')
+    .eq('id', 1)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) throw new Error('Site settings not found');
+  return mapSettings(data as SiteSettingsRow);
 }

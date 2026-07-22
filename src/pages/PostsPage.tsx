@@ -3,11 +3,11 @@ import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight, ArrowLeft, ImageIcon, Video, FileText, ArrowLeftCircle } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
-import { posts } from '../data/posts';
-import { departments } from '../data/departments';
+import { usePosts, usePost, useDepartments } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { Button } from '../components/ui/Button';
 import { LogoPlaceholder } from '../components/ui/LogoPlaceholder';
+import { Loader2 } from 'lucide-react';
 import type { DepartmentSlug } from '../types';
 
 export function PostsPage() {
@@ -16,8 +16,18 @@ export function PostsPage() {
   const initialDept = searchParams.get('dept') as DepartmentSlug | null;
   const [selectedDept, setSelectedDept] = useState<DepartmentSlug | null>(initialDept);
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
+  const { data: departments, loading: deptLoading } = useDepartments();
+  const { data: posts, loading: postsLoading } = usePosts();
 
-  const deptMap = Object.fromEntries(departments.map((d) => [d.slug, d]));
+  const deptMap = departments ? Object.fromEntries(departments.map((d) => [d.slug, d])) : {};
+
+  if (deptLoading || postsLoading || !departments || !posts) {
+    return (
+      <div className="pt-20 min-h-screen flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin text-brand-primary" />
+      </div>
+    );
+  }
 
   // If no department selected, show department selection cards
   if (!selectedDept) {
@@ -158,9 +168,19 @@ export function PostDetailPage() {
   const { id } = useParams();
   const { lang, dir, t } = useI18n();
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
+  const { data: post, loading } = usePost(id);
+  const { data: departments } = useDepartments();
+  const { data: allPosts } = usePosts();
 
-  const post = posts.find((p) => p.id === id);
-  const department = post ? departments.find((d) => d.slug === post.departmentSlug) : undefined;
+  const department = post && departments ? departments.find((d) => d.slug === post.departmentSlug) : undefined;
+
+  if (loading) {
+    return (
+      <div className="pt-20 min-h-screen flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin text-brand-primary" />
+      </div>
+    );
+  }
 
   if (!post) {
     return (
@@ -175,7 +195,7 @@ export function PostDetailPage() {
 
   const accent = department?.accentColor.base ?? '#047857';
   const Icon = post.type === 'image' ? ImageIcon : post.type === 'video' ? Video : FileText;
-  const related = posts.filter((p) => p.departmentSlug === post.departmentSlug && p.id !== post.id).slice(0, 3);
+  const related = allPosts ? allPosts.filter((p) => p.departmentSlug === post.departmentSlug && p.id !== post.id).slice(0, 3) : [];
 
   return (
     <div className="pt-20">

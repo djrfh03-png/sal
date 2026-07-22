@@ -2,12 +2,13 @@ import { Link } from 'react-router-dom';
 import { Send, Mail, MapPin } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { LogoPlaceholder } from './ui/LogoPlaceholder';
-import { departments } from '../data/departments';
-import { siteSettings } from '../data/misc';
+import { useDepartments, useSiteSettings } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 
 export function Footer() {
   const { lang, t } = useI18n();
+  const { data: departments } = useDepartments();
+  const { data: siteSettings } = useSiteSettings();
 
   const navLinks = [
     { to: '/', label: t.nav.home },
@@ -54,7 +55,7 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-sm mb-4 text-brand-secondary">{t.footer.departments}</h4>
             <div className="flex flex-wrap gap-3">
-              {departments.map((dept) => (
+              {(departments ?? []).map((dept) => (
                 <Link
                   key={dept.slug}
                   to={`/departments/${dept.slug}`}
@@ -76,7 +77,7 @@ export function Footer() {
             <h4 className="font-bold text-sm mb-4 text-brand-secondary">{t.footer.contactUs}</h4>
             <div className="space-y-3">
               <a
-                href={siteSettings.orgTelegram}
+                href={siteSettings?.orgTelegram ?? '#'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
@@ -85,15 +86,15 @@ export function Footer() {
                 {t.contact.telegram}
               </a>
               <a
-                href={`mailto:${siteSettings.contactEmail}`}
+                href={`mailto:${siteSettings?.contactEmail ?? ''}`}
                 className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
               >
                 <Mail size={16} className="text-brand-secondary" />
-                {siteSettings.contactEmail}
+                {siteSettings?.contactEmail ?? ''}
               </a>
               <div className="flex items-center gap-2 text-sm text-white/60">
                 <MapPin size={16} className="text-brand-secondary" />
-                {localize(siteSettings.contactLocation, lang)}
+                {siteSettings ? localize(siteSettings.contactLocation, lang) : ''}
               </div>
             </div>
           </div>

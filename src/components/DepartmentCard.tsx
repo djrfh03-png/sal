@@ -14,6 +14,7 @@ export function DepartmentCard({ department }: DepartmentCardProps) {
   const { lang, dir } = useI18n();
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
   const deptColor = department.accentColor.base;
+  const deptAccent = department.accentColor.accent;
 
   return (
     <motion.div
@@ -24,15 +25,15 @@ export function DepartmentCard({ department }: DepartmentCardProps) {
       whileHover={{ y: -8 }}
       className="group relative bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-500"
     >
-      {/* Top brand band — org emerald with a subtle gold edge */}
-      <div className="relative h-2 bg-brand-primary">
-        <div className="absolute inset-y-0 end-0 w-1/3 bg-brand-secondary/70" />
+      {/* Top brand band — dept accent color */}
+      <div className="relative h-2" style={{ background: deptColor }}>
+        <div className="absolute inset-y-0 end-0 w-1/3" style={{ background: `${deptAccent}cc` }} />
       </div>
 
-      {/* Header — org emerald gradient, dept color as a thin accent ring on the logo */}
-      <div className="relative bg-gradient-to-br from-brand-primary to-brand-primary-dark pt-8 pb-6 px-5 overflow-hidden">
-        {/* Soft gold glow */}
-        <div className="absolute -top-12 -end-8 w-40 h-40 rounded-full bg-brand-secondary/20 blur-3xl pointer-events-none" />
+      {/* Header — dept color gradient with accent glow */}
+      <div className="relative pt-8 pb-6 px-5 overflow-hidden" style={{ background: `linear-gradient(135deg, ${deptColor}, ${deptColor}dd)` }}>
+        {/* Soft accent glow */}
+        <div className="absolute -top-12 -end-8 w-40 h-40 rounded-full blur-3xl pointer-events-none" style={{ background: `${deptAccent}33` }} />
         {/* Faint geometric mark */}
         <div className="absolute bottom-2 start-3 opacity-[0.10] pointer-events-none">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#ffffff" strokeWidth="0.8">
@@ -42,15 +43,15 @@ export function DepartmentCard({ department }: DepartmentCardProps) {
         </div>
 
         <div className="relative z-10 flex items-center gap-4">
-          {/* Logo with dept-color ring */}
+          {/* Logo with accent-color ring */}
           <div
             className="rounded-full p-1.5 bg-white/95 shadow-md shrink-0"
-            style={{ boxShadow: `0 0 0 2px ${deptColor}55, 0 6px 18px rgba(0,0,0,0.18)` }}
+            style={{ boxShadow: `0 0 0 2px ${deptAccent}55, 0 6px 18px rgba(0,0,0,0.18)` }}
           >
             <DepartmentLogo slug={department.slug} size="md" />
           </div>
           <div className="min-w-0">
-            <p className="text-[11px] font-semibold tracking-wider uppercase text-brand-secondary">
+            <p className="text-[11px] font-semibold tracking-wider uppercase" style={{ color: deptAccent }}>
               {department.establishedDate}
             </p>
             <h3 className="text-white font-bold text-sm leading-snug mt-0.5 line-clamp-2">
@@ -66,7 +67,7 @@ export function DepartmentCard({ department }: DepartmentCardProps) {
           {localize(department.shortDescription, lang)}
         </p>
 
-        {/* Stats — minimal, dept color only on the value */}
+        {/* Stats — dept color on the value */}
         <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-brand-line">
           {department.stats.slice(0, 2).map((stat, i) => (
             <div key={i} className="min-w-0">
@@ -81,10 +82,22 @@ export function DepartmentCard({ department }: DepartmentCardProps) {
           ))}
         </div>
 
-        {/* CTA — org emerald */}
+        {/* CTA — dept color */}
         <Link
           to={`/departments/${department.slug}`}
-          className="flex items-center justify-center gap-1.5 w-full mt-4 py-2.5 rounded-xl text-sm font-semibold bg-brand-primary/10 text-brand-primary hover:bg-brand-primary hover:text-white transition-all duration-300 group-hover:gap-2.5"
+          className="flex items-center justify-center gap-1.5 w-full mt-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 group-hover:gap-2.5"
+          style={{
+            backgroundColor: `${deptColor}1a`,
+            color: deptColor,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = deptColor;
+            e.currentTarget.style.color = '#ffffff';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = `${deptColor}1a`;
+            e.currentTarget.style.color = deptColor;
+          }}
         >
           {lang === 'ar' ? 'عرض التفاصيل' : 'View Details'}
           <Arrow size={16} />

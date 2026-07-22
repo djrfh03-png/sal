@@ -1,7 +1,8 @@
 import { BookOpen, Heart, Users, GraduationCap, Library } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
-import { departments } from '../data/departments';
+import { useDepartments } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
+import { Loader2 } from 'lucide-react';
 
 const deptIcons: Record<string, typeof BookOpen> = {
   'center-hifz': BookOpen,
@@ -13,6 +14,15 @@ const deptIcons: Record<string, typeof BookOpen> = {
 export function OrgStructureChart() {
   const { lang } = useI18n();
   const gold = '#925E06';
+  const { data: departments } = useDepartments();
+
+  if (!departments) {
+    return (
+      <div className="flex justify-center py-12">
+        <Loader2 size={32} className="animate-spin text-brand-primary" />
+      </div>
+    );
+  }
 
   return (
     <>

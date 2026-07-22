@@ -3,19 +3,29 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight, ArrowLeft, Pin } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
-import { announcements } from '../data/announcements';
-import { departments } from '../data/departments';
+import { useAnnouncements, useDepartments, useAnnouncement } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { Button } from '../components/ui/Button';
+import { Loader2 } from 'lucide-react';
 import type { DepartmentSlug } from '../types';
 
 export function AnnouncementsPage() {
   const { lang, dir, t } = useI18n();
   const [filter, setFilter] = useState<DepartmentSlug | 'all'>('all');
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
+  const { data: announcements, loading: annLoading } = useAnnouncements();
+  const { data: departments, loading: deptLoading } = useDepartments();
 
-  const deptMap = Object.fromEntries(departments.map((d) => [d.slug, d]));
-  const filtered = filter === 'all' ? announcements : announcements.filter((a) => a.departmentSlug === filter);
+  const deptMap = departments ? Object.fromEntries(departments.map((d) => [d.slug, d])) : {};
+  const filtered = !announcements ? [] : filter === 'all' ? announcements : announcements.filter((a) => a.departmentSlug === filter);
+
+  if (annLoading || deptLoading || !announcements || !departments) {
+    return (
+      <div className="pt-20 min-h-screen flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin text-brand-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="pt-20">
@@ -142,9 +152,19 @@ export function AnnouncementDetailPage() {
   const { id } = useParams();
   const { lang, t } = useI18n();
   const Arrow = lang === 'ar' ? ArrowLeft : ArrowRight;
+  const { data: announcement, loading } = useAnnouncement(id);
+  const { data: departments } = useDepartments();
+  const { data: allAnnouncements } = useAnnouncements();
 
-  const announcement = announcements.find((a) => a.id === id);
-  const department = announcement ? departments.find((d) => d.slug === announcement.departmentSlug) : undefined;
+  const department = announcement && departments ? departments.find((d) => d.slug === announcement.departmentSlug) : undefined;
+
+  if (loading) {
+    return (
+      <div className="pt-20 min-h-screen flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin text-brand-primary" />
+      </div>
+    );
+  }
 
   if (!announcement) {
     return (
@@ -158,7 +178,7 @@ export function AnnouncementDetailPage() {
   }
 
   const accent = department?.accentColor.base ?? '#047857';
-  const related = announcements.filter((a) => a.departmentSlug === announcement.departmentSlug && a.id !== announcement.id).slice(0, 3);
+  const related = allAnnouncements ? allAnnouncements.filter((a) => a.departmentSlug === announcement.departmentSlug && a.id !== announcement.id).slice(0, 3) : [];
 
   return (
     <div className="pt-20">
@@ -211,7 +231,7 @@ export function AnnouncementDetailPage() {
             <h2 className="text-xl font-bold text-brand-ink mb-6">{t.common.relatedPosts}</h2>
             <div className="grid sm:grid-cols-3 gap-4">
               {related.map((rel) => {
-                const relDept = departments.find((d) => d.slug === rel.departmentSlug);
+                const relDept = departments?.find((d) => d.slug === rel.departmentSlug);
                 const relAccent = relDept?.accentColor.base ?? '#047857';
                 const relGold = relDept?.accentColor.accent ?? '#925E06';
                 const date = new Date(rel.date);

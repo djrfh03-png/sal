@@ -1,20 +1,33 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, Lock, Mail, ArrowRight, ArrowLeft } from 'lucide-react';
+import { BookOpen, Lock, Mail, ArrowRight, ArrowLeft, Loader2, AlertCircle } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
+import { supabase } from '../lib/supabaseClient';
 
 export function AdminLoginPage() {
   const { t, dir, lang } = useI18n();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    sessionStorage.setItem('admin-authed', 'true');
-    navigate('/admin/dashboard');
+    setError('');
+    setLoading(true);
+    try {
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) throw signInError;
+      navigate('/admin/dashboard');
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Login failed';
+      setError(lang === 'ar' ? `فشل تسجيل الدخول: ${msg}` : `Login failed: ${msg}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -51,6 +64,12 @@ export function AdminLoginPage() {
 
         {/* Login card */}
         <form onSubmit={handleLogin} className="bg-white rounded-2xl shadow-card-hover p-7 space-y-5">
+          {error && (
+            <div className="flex items-start gap-2 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+              <AlertCircle size={18} className="shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </div>
+          )}
           <div>
             <label className="block text-sm font-semibold text-brand-ink mb-1.5">{t.admin.email}</label>
             <div className="relative">
@@ -59,6 +78,7 @@ export function AdminLoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
                 className="w-full ps-10 pe-4 py-2.5 rounded-xl border border-brand-line bg-brand-bg/50 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-colors text-sm"
                 placeholder="admin@daralquran.org"
               />
@@ -72,6 +92,7 @@ export function AdminLoginPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
                 className="w-full ps-10 pe-4 py-2.5 rounded-xl border border-brand-line bg-brand-bg/50 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-colors text-sm"
                 placeholder="••••••••"
               />
@@ -79,10 +100,11 @@ export function AdminLoginPage() {
           </div>
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-primary to-brand-primary-light text-white font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all"
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-primary to-brand-primary-light text-white font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
           >
-            {t.admin.signIn}
-            <Arrow size={18} />
+            {loading ? <Loader2 size={18} className="animate-spin" /> : <Arrow size={18} />}
+            {loading ? (lang === 'ar' ? 'جارٍ الدخول...' : 'Signing in...') : t.admin.signIn}
           </button>
           <Link
             to="/"

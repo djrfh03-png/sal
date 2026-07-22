@@ -3,25 +3,22 @@ import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, BookOpen, Sparkles, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { useI18n } from '../i18n/I18nContext';
-import { departments } from '../data/departments';
+import { useDepartment } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { Button } from '../components/ui/Button';
 import { ProgramCard } from '../components/ProgramCard';
+import { Loader2 } from 'lucide-react';
 
 export function DepartmentProgramsPage() {
   const { slug } = useParams();
   const { lang, dir, t } = useI18n();
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
+  const { data: department, loading } = useDepartment(slug);
 
-  const department = departments.find((d) => d.slug === slug);
-
-  if (!department) {
+  if (loading || !department) {
     return (
       <div className="pt-20 min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-brand-ink-soft mb-4">{t.common.noResults}</p>
-          <Button to="/departments" variant="outline">{t.common.back}</Button>
-        </div>
+        <Loader2 size={32} className="animate-spin text-brand-primary" />
       </div>
     );
   }
@@ -136,7 +133,7 @@ function SchoolProgramsGroups({
   accent,
   gold,
 }: {
-  department: typeof departments[0];
+  department: Department;
   gradeGroups: { key: string; label: { ar: string; en: string; am: string; om: string } }[];
   accent: string;
   gold: string;

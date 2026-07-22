@@ -1,24 +1,34 @@
-import { Outlet, useNavigate, Navigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Menu, BookOpen } from 'lucide-react';
+import { Menu, BookOpen, Loader2 } from 'lucide-react';
 import { AdminSidebar } from '../components/admin/AdminSidebar';
 import { AdminStoreProvider } from '../admin/AdminStore';
+import { AuthProvider, useAuth } from '../admin/AdminAuthContext';
 import { useI18n } from '../i18n/I18nContext';
+import { supabase } from '../lib/supabaseClient';
 
-export function AdminLayout() {
+function AdminContent() {
   const navigate = useNavigate();
   const { t } = useI18n();
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem('admin-authed') === 'true');
+  const { session, loading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('admin-authed');
-    setAuthed(false);
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     navigate('/admin/login');
   };
 
-  if (!authed) {
-    return <Navigate to="/admin/login" replace />;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+        <Loader2 size={32} className="animate-spin text-brand-primary" />
+      </div>
+    );
+  }
+
+  if (!session) {
+    navigate('/admin/login', { replace: true });
+    return null;
   }
 
   return (
@@ -64,5 +74,13 @@ export function AdminLayout() {
         </div>
       </div>
     </AdminStoreProvider>
+  );
+}
+
+export function AdminLayout() {
+  return (
+    <AuthProvider>
+      <AdminContent />
+    </AuthProvider>
   );
 }

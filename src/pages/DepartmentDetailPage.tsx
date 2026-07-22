@@ -3,12 +3,11 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Target, Eye, Gem, ListChecks, ArrowRight, ArrowLeft, Send, BookOpen, FileText, Megaphone, Sparkles, Home, ChevronRight, Facebook, Mail, Users, GraduationCap, HeartHandshake, BookMarked, ScrollText, HandPlatter, Building2, type LucideIcon } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
-import { departments } from '../data/departments';
-import { announcements } from '../data/announcements';
-import { siteSettings } from '../data/misc';
+import { useDepartment, useAnnouncementsByDepartment, useSiteSettings } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { DepartmentLogo } from '../components/ui/DepartmentLogo';
 import { TelegramIcon, WhatsAppIcon } from '../components/ui/SocialIcons';
+import { Loader2 } from 'lucide-react';
 
 const contactHeadingLabel: Record<string, { en: string; ar: string; am: string; om: string }> = {
   'center-hifz': { en: 'the Hifz Center', ar: 'مركز الحفظ', am: 'የሐፊዝ ማዕከል', om: 'Wiirtuu Hafizaa' },
@@ -38,16 +37,23 @@ export function DepartmentDetailPage() {
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
   const adminStore = useAdminStoreOrNull();
   const { showToast } = useToast();
+  const { data: fetchedDept } = useDepartment(slug);
+  const { data: deptAnnouncementsData } = useAnnouncementsByDepartment(slug as DepartmentSlug | undefined);
+  const { data: siteSettings } = useSiteSettings();
 
-  const department = adminStore?.departments.find((d) => d.slug === slug) ?? departments.find((d) => d.slug === slug);
+  const department = adminStore?.departments.find((d) => d.slug === slug) ?? fetchedDept;
 
   if (!department) {
     return (
       <div className="pt-20 min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-brand-ink-soft mb-4">{t.common.noResults}</p>
-          <Button to="/departments" variant="outline">{t.common.back}</Button>
-        </div>
+        {fetchedDept === undefined ? (
+          <Loader2 size={32} className="animate-spin text-brand-primary" />
+        ) : (
+          <div className="text-center">
+            <p className="text-brand-ink-soft mb-4">{t.common.noResults}</p>
+            <Button to="/departments" variant="outline">{t.common.back}</Button>
+          </div>
+        )}
       </div>
     );
   }
@@ -348,7 +354,7 @@ export function DepartmentDetailPage() {
       </section>
 
       {/* Department Announcements */}
-      <DeptAnnouncements slug={department.slug} accent={accent} />
+      <DeptAnnouncements slug={department.slug} accent={accent} announcements={deptAnnouncementsData ?? []} />
 
       {/* Posts explore card */}
       <section className="section-pad">
@@ -465,10 +471,10 @@ export function DepartmentDetailPage() {
               {/* Social icons */}
               <div className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-5">
                 {[
-                  { key: 'facebook', href: siteSettings.social.facebook, label: 'Facebook', Icon: Facebook },
+                  { key: 'facebook', href: siteSettings?.social.facebook ?? '#', label: 'Facebook', Icon: Facebook },
                   { key: 'telegram', href: department.telegramLink, label: t.contact.telegram, CustomIcon: TelegramIcon },
-                  { key: 'whatsapp', href: siteSettings.social.whatsapp, label: 'WhatsApp', CustomIcon: WhatsAppIcon },
-                  { key: 'email', href: `mailto:${siteSettings.contactEmail}`, label: t.contact.email ?? 'Email', Icon: Mail },
+                  { key: 'whatsapp', href: siteSettings?.social.whatsapp ?? '#', label: 'WhatsApp', CustomIcon: WhatsAppIcon },
+                  { key: 'email', href: `mailto:${siteSettings?.contactEmail ?? ''}`, label: t.contact.email ?? 'Email', Icon: Mail },
                 ].map(({ key, href, label, Icon, CustomIcon }, idx) => (
                   <motion.a
                     key={key}
@@ -504,7 +510,7 @@ export function DepartmentDetailPage() {
   );
 }
 
-function DeptAnnouncements({ slug, accent }: { slug: string; accent: string }) {
+function DeptAnnouncements({ slug, accent, announcements }: { slug: string; accent: string; announcements: Announcement[] }) {
   const { lang, dir } = useI18n();
   const Arrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
   const deptAnnouncements = announcements.filter(a => a.departmentSlug === slug);

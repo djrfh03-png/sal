@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion';
 import { Mail, MapPin, Send, MessageCircle, Facebook } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
-import { departments } from '../data/departments';
-import { siteSettings } from '../data/misc';
+import { useDepartments, useSiteSettings } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { LogoPlaceholder } from '../components/ui/LogoPlaceholder';
 import { DepartmentLogo } from '../components/ui/DepartmentLogo';
@@ -17,6 +16,10 @@ const socialConfig = [
 
 export function ContactPage() {
   const { lang, t } = useI18n();
+  const { data: departments } = useDepartments();
+  const { data: siteSettings } = useSiteSettings();
+
+  if (!siteSettings) return null;
 
   return (
     <div className="pt-20">
@@ -92,7 +95,7 @@ export function ContactPage() {
 
           {/* Department Contacts */}
           <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {departments.map((dept, i) => (
+            {(departments ?? []).map((dept, i) => (
               <motion.div
                 key={dept.slug}
                 initial={{ opacity: 0, y: 20 }}
