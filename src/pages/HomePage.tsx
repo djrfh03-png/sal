@@ -52,113 +52,79 @@ export function HomePage() {
 
   return (
     <div>
-      {/* Hero — premium, no photo, elegant gradient background */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden bg-brand-primary-dark">
-        {/* Subtle geometric pattern overlay */}
-        <div className="absolute inset-0 pattern-bg-gold opacity-[0.06]" />
+      {/* Hero — clean, premium, distinctive */}
+      <section ref={heroRef} className="relative min-h-[90vh] flex items-center overflow-hidden bg-brand-primary-dark">
+        {/* Single soft glow, not cluttered */}
+        <div
+          className="absolute top-0 end-0 w-[40rem] h-[40rem] rounded-full blur-[120px] opacity-[0.07]"
+          style={{ backgroundColor: '#C9A227' }}
+        />
 
-        {/* Soft radial glows — no photos, just light */}
-        <div className="absolute top-1/4 end-0 w-96 h-96 rounded-full bg-brand-secondary/10 blur-3xl" />
-        <div className="absolute bottom-0 start-0 w-96 h-96 rounded-full bg-brand-secondary/5 blur-3xl" />
-        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-brand-primary-light/5 blur-3xl" />
-
-        {/* Decorative geometric corner ornaments */}
-        <div className="absolute top-8 end-8 w-40 h-40 opacity-[0.08] pointer-events-none">
-          <svg viewBox="0 0 200 200" fill="none" stroke="#C9A227" strokeWidth="0.5">
-            <path d="M100 0 L200 100 L100 200 L0 100 Z" />
-            <path d="M100 25 L175 100 L100 175 L25 100 Z" />
-            <path d="M100 50 L150 100 L100 150 L50 100 Z" />
-            <circle cx="100" cy="100" r="20" />
-          </svg>
-        </div>
-        <div className="absolute bottom-8 start-8 w-32 h-32 opacity-[0.06] pointer-events-none">
-          <svg viewBox="0 0 160 160" fill="none" stroke="#ffffff" strokeWidth="0.5">
-            <path d="M80 0 L160 80 L80 160 L0 80 Z" />
-            <path d="M80 20 L140 80 L80 140 L20 80 Z" />
-            <circle cx="80" cy="80" r="16" />
-          </svg>
-        </div>
+        {/* Fine top accent line */}
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand-secondary/40 to-transparent" />
 
         <motion.div
           style={{ opacity: heroOpacity }}
-          className="container-page relative z-10 pt-24 pb-16"
+          className="container-page relative z-10 pt-24 pb-20"
         >
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-3xl mx-auto text-center"
           >
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="flex items-center justify-center gap-3 mb-8"
+            {/* Bismillah — refined */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="text-brand-secondary/80 text-sm md:text-base font-medium tracking-wide mb-10"
             >
-              <div className="h-px w-12 bg-brand-secondary/60" />
-              <span className="text-brand-secondary text-sm font-semibold tracking-widest uppercase">
-                {lang === 'ar' ? 'بسم الله الرحمن الرحيم' : 'In the name of Allah'}
-              </span>
-              <div className="h-px w-12 bg-brand-secondary/60" />
-            </motion.div>
+              {lang === 'ar' ? 'بسم الله الرحمن الرحيم' : 'In the name of Allah, the Most Gracious'}
+            </motion.p>
 
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
+            {/* Title — bold, clean, no decorative clutter */}
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white leading-[1.1] mb-6">
               {siteSettings ? localize(siteSettings.heroTitle, lang) : ''}
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed mb-12 max-w-2xl mx-auto">
+
+            {/* Subtitle */}
+            <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed mb-12 max-w-2xl mx-auto">
               {siteSettings ? localize(siteSettings.heroSubtitle, lang) : ''}
             </p>
 
+            {/* Single refined divider — diamond + lines */}
             <motion.div
               initial={{ opacity: 0, scaleX: 0 }}
               animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex items-center justify-center gap-2"
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex items-center justify-center gap-3"
             >
-              <div className="h-px w-16 bg-brand-secondary/40" />
-              <div className="w-2 h-2 rotate-45 bg-brand-secondary/60" />
-              <div className="h-px w-16 bg-brand-secondary/40" />
+              <div className="h-px w-12 bg-brand-secondary/30" />
+              <div className="w-1.5 h-1.5 rotate-45 bg-brand-secondary/50" />
+              <div className="h-px w-12 bg-brand-secondary/30" />
             </motion.div>
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Quran Verses Strip — premium dark card, no photo */}
+      {/* Quran Verses Strip — clean dark card, no clutter */}
       <section className="relative -mt-12 z-20">
         <div className="container-page">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative rounded-3xl overflow-hidden shadow-card-hover bg-brand-primary-dark"
+            className="relative rounded-2xl overflow-hidden shadow-card-hover bg-brand-primary-dark"
           >
-            {/* Pattern texture */}
-            <div className="absolute inset-0 pattern-bg-gold opacity-[0.06]" />
+            {/* Single subtle glow */}
+            <div className="absolute top-0 end-0 w-64 h-64 rounded-full bg-brand-secondary/8 blur-3xl" />
 
-            {/* Soft radial glows */}
-            <div className="absolute top-0 end-0 w-64 h-64 rounded-full bg-brand-secondary/10 blur-3xl" />
-            <div className="absolute bottom-0 start-0 w-48 h-48 rounded-full bg-brand-primary-light/5 blur-3xl" />
-
-            {/* Gold border accent */}
-            <div className="absolute inset-0 rounded-3xl border-2 border-brand-secondary/30 z-30 pointer-events-none" />
-
-            {/* Geometric ornaments */}
-            <div className="absolute top-3 end-3 w-16 h-16 opacity-[0.08] pointer-events-none">
-              <svg viewBox="0 0 64 64" fill="none" stroke="#C9A227" strokeWidth="0.5">
-                <path d="M32 0 L64 32 L32 64 L0 32 Z" />
-                <path d="M32 8 L56 32 L32 56 L8 32 Z" />
-                <circle cx="32" cy="32" r="8" />
-              </svg>
-            </div>
-            <div className="absolute bottom-3 start-3 w-12 h-12 opacity-[0.06] pointer-events-none">
-              <svg viewBox="0 0 48 48" fill="none" stroke="#ffffff" strokeWidth="0.5">
-                <path d="M24 0 L48 24 L24 48 L0 24 Z" />
-                <path d="M24 6 L42 24 L24 42 L6 24 Z" />
-              </svg>
-            </div>
+            {/* Fine gold border */}
+            <div className="absolute inset-0 rounded-2xl border border-brand-secondary/20 pointer-events-none" />
 
             {/* Auto-sliding verses */}
-            <div className="relative z-20 py-6">
+            <div className="relative z-10 py-6">
               <QuranVersesSlider />
             </div>
           </motion.div>

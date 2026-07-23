@@ -47,6 +47,7 @@ export function DepartmentProgramsPage() {
         subtitle={localize(department.shortDescription, lang)}
         icon={BookOpen}
         accentColor={accent}
+        variant="tinted"
       >
         <div className="flex items-center gap-3 justify-center mt-6">
           <div

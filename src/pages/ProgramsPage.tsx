@@ -40,6 +40,7 @@ export function ProgramsPage() {
           : 'Integrated programs combining knowledge, nurturing, and mastery across all departments and stages'}
         icon={BookOpen}
         accentColor="#1E5A8E"
+        variant="tinted"
       >
         <div className="flex flex-wrap gap-2 justify-center mt-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-secondary/10 border border-brand-secondary/20">

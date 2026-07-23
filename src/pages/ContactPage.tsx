@@ -30,6 +30,7 @@ export function ContactPage() {
         subtitle={t.contact.subtitle}
         icon={Phone}
         accentColor="#047857"
+        variant="split"
       />
 
       <section className="section-pad">

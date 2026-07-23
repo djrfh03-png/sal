@@ -36,6 +36,7 @@ export function AnnouncementsPage() {
         subtitle={lang === 'ar' ? 'إعلانات المؤسسة العامة وأقسامها' : 'General institution & department announcements'}
         icon={Megaphone}
         accentColor="#047857"
+        variant="tinted"
       />
 
       <section className="section-pad">

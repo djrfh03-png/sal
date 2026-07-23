@@ -26,6 +26,7 @@ export function AboutPage() {
         subtitle={t.orgDescription}
         icon={Building2}
         accentColor="#1E5A8E"
+        variant="editorial"
       />
 
       {/* History */}

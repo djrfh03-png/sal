@@ -76,41 +76,24 @@ export function DepartmentDetailPage() {
 
   return (
     <div className="pt-16">
-      {/* Cover Header — premium accent-color design, no photo */}
+      {/* Cover Header — clean accent-color design, refined */}
       <section
         className="relative overflow-hidden"
         style={{ backgroundColor: accent }}
       >
-        {/* Subtle pattern texture */}
-        <div className="absolute inset-0 pattern-bg-gold opacity-[0.08]" />
+        {/* Single soft glow */}
+        <div
+          className="absolute top-0 end-0 w-96 h-96 rounded-full blur-[100px] opacity-20"
+          style={{ backgroundColor: department.accentColor.accent }}
+        />
 
-        {/* Soft radial glows */}
-        <div className="absolute top-1/4 end-0 w-80 h-80 rounded-full opacity-20" style={{ backgroundColor: department.accentColor.accent }} />
-        <div className="absolute bottom-0 start-0 w-64 h-64 rounded-full bg-white/5 blur-3xl" />
-
-        {/* Geometric corner ornament */}
-        <div className="absolute top-0 end-0 w-32 h-32 opacity-[0.12] pointer-events-none">
-          <svg viewBox="0 0 160 160" fill="none" stroke="#ffffff" strokeWidth="0.6">
-            <path d="M80 0 L160 80 L80 160 L0 80 Z" />
-            <path d="M80 20 L140 80 L80 140 L20 80 Z" />
-            <path d="M80 40 L120 80 L80 120 L40 80 Z" />
-            <circle cx="80" cy="80" r="16" />
-          </svg>
-        </div>
-        <div className="absolute bottom-4 start-4 w-24 h-24 opacity-[0.08] pointer-events-none">
-          <svg viewBox="0 0 96 96" fill="none" stroke="#ffffff" strokeWidth="0.5">
-            <path d="M48 0 L96 48 L48 96 L0 48 Z" />
-            <path d="M48 12 L84 48 L48 84 L12 48 Z" />
-          </svg>
-        </div>
-
-        <div className="container-page relative z-10 py-10 md:py-14">
+        <div className="container-page relative z-10 py-12 md:py-16">
           {/* Breadcrumb */}
           <motion.nav
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex items-center gap-1.5 text-xs font-medium text-white/75 mb-5 flex-wrap"
+            className="flex items-center gap-1.5 text-xs font-medium text-white/70 mb-8 flex-wrap"
           >
             <Link to="/" className="inline-flex items-center gap-1 hover:text-white transition-colors">
               <Home size={13} />
@@ -122,19 +105,16 @@ export function DepartmentDetailPage() {
             <span className="text-white font-semibold truncate max-w-[200px]">{localize(department.name, lang)}</span>
           </motion.nav>
 
-          <div className="flex flex-col md:flex-row items-center gap-5 md:gap-7">
-            {/* Logo medallion — clean and compact */}
+          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+            {/* Logo medallion — clean circle */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="relative shrink-0"
+              className="shrink-0"
             >
-              <div className="relative w-20 h-20 md:w-24 md:h-24">
-                <div className="absolute inset-0 rounded-full border-2 border-white/30" />
-                <div className="absolute inset-1.5 rounded-full bg-white shadow-xl flex items-center justify-center p-2">
-                  <DepartmentLogo slug={department.slug} size="xl" />
-                </div>
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white shadow-xl flex items-center justify-center p-2.5">
+                <DepartmentLogo slug={department.slug} size="xl" />
               </div>
             </motion.div>
 
@@ -146,8 +126,7 @@ export function DepartmentDetailPage() {
               className="flex-1 text-center md:text-start"
             >
               {/* Established badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/25 mb-2.5">
-                <Sparkles size={12} className="text-white" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/20 mb-3">
                 <span className="text-[11px] font-semibold text-white tracking-wide">
                   {t.common.established} {department.establishedDate}
                 </span>
@@ -156,15 +135,15 @@ export function DepartmentDetailPage() {
               <h1 className="text-2xl md:text-4xl font-bold leading-tight text-white mb-2">
                 {localize(department.name, lang)}
               </h1>
-              <p className="text-white/85 text-sm md:text-base leading-relaxed max-w-2xl md:mx-0 mx-auto">
+              <p className="text-white/80 text-sm md:text-base leading-relaxed max-w-2xl md:mx-0 mx-auto">
                 {localize(department.shortDescription, lang)}
               </p>
             </motion.div>
           </div>
         </div>
 
-        {/* Solid accent bottom strip */}
-        <div className="h-1.5" style={{ backgroundColor: department.accentColor.accent }} />
+        {/* Accent bottom line */}
+        <div className="h-1" style={{ backgroundColor: department.accentColor.accent }} />
       </section>
 
       {/* Description */}

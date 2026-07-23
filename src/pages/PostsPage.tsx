@@ -98,6 +98,7 @@ export function PostsPage() {
         subtitle={t.posts.subtitle}
         icon={Newspaper}
         accentColor={accent}
+        variant="editorial"
       >
         <button
           onClick={() => setSelectedDept(null)}
