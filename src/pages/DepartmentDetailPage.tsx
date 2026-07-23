@@ -76,36 +76,17 @@ export function DepartmentDetailPage() {
 
   return (
     <div className="pt-16">
-      {/* Cover Header — photo with accent-color overlay */}
+      {/* Cover Header — premium accent-color design, no photo */}
       <section
         className="relative overflow-hidden"
         style={{ backgroundColor: accent }}
       >
-        {/* Cover photo */}
-        <div className="absolute inset-0">
-          <img
-            src={department.coverImage}
-            alt=""
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
-          {/* Accent-color gradient overlay for readability */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `linear-gradient(135deg, ${accent}f2 0%, ${accent}cc 60%, ${accent}99 100%)`,
-            }}
-          />
-        </div>
+        {/* Subtle pattern texture */}
+        <div className="absolute inset-0 pattern-bg-gold opacity-[0.08]" />
 
-        {/* Pattern texture */}
-        <div className="absolute inset-0 pattern-bg-gold opacity-[0.10]" />
-
-        {/* Solid accent shape — decorative, no blur */}
-        <div
-          className="absolute -bottom-16 -start-10 w-56 h-56 rounded-full opacity-20"
-          style={{ backgroundColor: department.accentColor.accent }}
-        />
+        {/* Soft radial glows */}
+        <div className="absolute top-1/4 end-0 w-80 h-80 rounded-full opacity-20" style={{ backgroundColor: department.accentColor.accent }} />
+        <div className="absolute bottom-0 start-0 w-64 h-64 rounded-full bg-white/5 blur-3xl" />
 
         {/* Geometric corner ornament */}
         <div className="absolute top-0 end-0 w-32 h-32 opacity-[0.12] pointer-events-none">
@@ -116,8 +97,14 @@ export function DepartmentDetailPage() {
             <circle cx="80" cy="80" r="16" />
           </svg>
         </div>
+        <div className="absolute bottom-4 start-4 w-24 h-24 opacity-[0.08] pointer-events-none">
+          <svg viewBox="0 0 96 96" fill="none" stroke="#ffffff" strokeWidth="0.5">
+            <path d="M48 0 L96 48 L48 96 L0 48 Z" />
+            <path d="M48 12 L84 48 L48 84 L12 48 Z" />
+          </svg>
+        </div>
 
-        <div className="container-page relative z-10 py-8 md:py-12">
+        <div className="container-page relative z-10 py-10 md:py-14">
           {/* Breadcrumb */}
           <motion.nav
             initial={{ opacity: 0, y: -8 }}

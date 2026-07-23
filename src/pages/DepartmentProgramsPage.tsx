@@ -40,11 +40,15 @@ export function DepartmentProgramsPage() {
 
   return (
     <div className="pt-16">
-      {/* Header — no colored background, color on text */}
-      <section className="relative overflow-hidden bg-brand-bg-alt/30" style={{ borderInlineStart: `4px solid ${accent}` }}>
+      {/* Header — premium, no photo, clean accent design */}
+      <section className="relative overflow-hidden bg-white border-b border-brand-line/60">
         <div className="absolute inset-0 pattern-bg-gold opacity-[0.03]" />
-        <div className="absolute top-1/4 end-0 w-80 h-80 rounded-full blur-3xl" style={{ backgroundColor: accent + '08' }} />
-        <div className="container-page relative py-12 md:py-16">
+        <div className="absolute top-0 end-0 w-72 h-72 rounded-full blur-3xl" style={{ backgroundColor: accent + '06' }} />
+
+        {/* Top accent line */}
+        <div className="h-1" style={{ background: `linear-gradient(90deg, ${accent}, ${gold})` }} />
+
+        <div className="container-page relative py-10 md:py-14">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

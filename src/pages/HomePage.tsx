@@ -52,21 +52,32 @@ export function HomePage() {
 
   return (
     <div>
-      {/* Hero — full-width Quran image with parallax + dark overlay */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
-        <motion.div style={{ y: heroY }} className="absolute inset-0 w-full h-[120%]">
-          <img
-            src={siteSettings?.heroImage || "https://images.pexels.com/photos/15403114/pexels-photo-15403114/free-photo-of-empty-interior-of-a-mosque.jpeg?auto=compress&cs=tinysrgb&w=1920"}
-            alt=""
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
-        </motion.div>
-        {/* Dark gradient overlay for readability */}
-        <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 bg-gradient-to-b from-brand-primary-dark/85 via-brand-primary-dark/70 to-brand-primary-dark/90" />
-        {/* Gold accent glows */}
+      {/* Hero — premium, no photo, elegant gradient background */}
+      <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden bg-brand-primary-dark">
+        {/* Subtle geometric pattern overlay */}
+        <div className="absolute inset-0 pattern-bg-gold opacity-[0.06]" />
+
+        {/* Soft radial glows — no photos, just light */}
         <div className="absolute top-1/4 end-0 w-96 h-96 rounded-full bg-brand-secondary/10 blur-3xl" />
         <div className="absolute bottom-0 start-0 w-96 h-96 rounded-full bg-brand-secondary/5 blur-3xl" />
+        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-brand-primary-light/5 blur-3xl" />
+
+        {/* Decorative geometric corner ornaments */}
+        <div className="absolute top-8 end-8 w-40 h-40 opacity-[0.08] pointer-events-none">
+          <svg viewBox="0 0 200 200" fill="none" stroke="#C9A227" strokeWidth="0.5">
+            <path d="M100 0 L200 100 L100 200 L0 100 Z" />
+            <path d="M100 25 L175 100 L100 175 L25 100 Z" />
+            <path d="M100 50 L150 100 L100 150 L50 100 Z" />
+            <circle cx="100" cy="100" r="20" />
+          </svg>
+        </div>
+        <div className="absolute bottom-8 start-8 w-32 h-32 opacity-[0.06] pointer-events-none">
+          <svg viewBox="0 0 160 160" fill="none" stroke="#ffffff" strokeWidth="0.5">
+            <path d="M80 0 L160 80 L80 160 L0 80 Z" />
+            <path d="M80 20 L140 80 L80 140 L20 80 Z" />
+            <circle cx="80" cy="80" r="16" />
+          </svg>
+        </div>
 
         <motion.div
           style={{ opacity: heroOpacity }}

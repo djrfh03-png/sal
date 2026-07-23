@@ -1,20 +1,14 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  BookOpen, GraduationCap, Users, Heart,
-  ArrowRight, ArrowLeft, FileText, Sparkles, ArrowUpRight, Loader2,
+  BookOpen,
+  ArrowRight, ArrowLeft, FileText, Sparkles, Loader2,
 } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { useDepartments } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { DepartmentLogo } from '../components/ui/DepartmentLogo';
-
-const deptIcons: Record<string, typeof BookOpen> = {
-  'center-hifz': BookOpen,
-  'school': GraduationCap,
-  'halqa': Users,
-  'charity': Heart,
-};
+import { DepartmentCard } from '../components/DepartmentCard';
 
 export function DepartmentsPage() {
   const { t, lang, dir } = useI18n();
@@ -155,110 +149,21 @@ export function DepartmentsPage() {
         </div>
       </section>
 
-      {/* Department tiles — smart, attractive cards that link to each department's programs */}
+      {/* Department tiles — clean, photo-free cards */}
       <section className="section-pad">
         <div className="container-page">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {departments.map((dept, i) => {
-              const Icon = deptIcons[dept.slug] ?? BookOpen;
-              const accent = dept.accentColor.base;
-              const gold = dept.accentColor.accent;
-              return (
-                <motion.div
-                  key={dept.slug}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
-                >
-                  <Link
-                    to={`/departments/${dept.slug}/programs`}
-                    className="group relative block bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500 hover:-translate-y-2 h-full"
-                  >
-                    {/* Top gradient banner */}
-                    <div
-                      className="relative h-28 overflow-hidden"
-                      style={{ background: `linear-gradient(135deg, ${accent}, ${accent}dd)` }}
-                    >
-                      {/* Decorative geometric pattern */}
-                      <div className="absolute top-0 end-0 w-28 h-28 opacity-[0.1] pointer-events-none">
-                        <svg viewBox="0 0 128 128" fill="none" stroke={gold} strokeWidth="0.5">
-                          <path d="M64 0 L128 64 L64 128 L0 64 Z" />
-                          <path d="M64 16 L112 64 L64 112 L16 64 Z" />
-                          <path d="M64 32 L96 64 L64 96 L32 64 Z" />
-                          <circle cx="64" cy="64" r="12" />
-                        </svg>
-                      </div>
-                      <div className="absolute bottom-0 start-0 w-20 h-20 opacity-[0.08] pointer-events-none">
-                        <svg viewBox="0 0 96 96" fill="none" stroke="#ffffff" strokeWidth="0.5">
-                          <path d="M48 0 L96 48 L48 96 L0 48 Z" />
-                          <path d="M48 12 L84 48 L48 84 L12 48 Z" />
-                        </svg>
-                      </div>
-
-                      {/* Floating logo disc */}
-                      <div className="absolute -bottom-7 start-6 z-10">
-                        <div
-                          className="rounded-2xl bg-white shadow-card flex items-center justify-center ring-1 ring-brand-line p-1.5"
-                          style={{ width: '4.25rem', height: '4.25rem' }}
-                        >
-                          <DepartmentLogo slug={dept.slug} size="md" />
-                        </div>
-                      </div>
-
-                      {/* Touch-to-explore hint */}
-                      <div className="absolute top-3 end-3 z-10">
-                        <div
-                          className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-semibold tracking-wide backdrop-blur-sm"
-                          style={{ backgroundColor: 'rgba(255,255,255,0.18)', color: '#fff' }}
-                        >
-                          <Sparkles size={9} className="text-brand-secondary" />
-                          <span>{lang === 'ar' ? 'اضغط للبرامج' : 'Tap for programs'}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="px-6 pt-10 pb-5">
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <Icon size={13} style={{ color: accent }} />
-                        <span className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>
-                          {dept.establishedDate}
-                        </span>
-                      </div>
-                      <h3 className="text-base font-bold text-brand-ink leading-snug mb-1.5 line-clamp-2 min-h-[2.6em]">
-                        {localize(dept.name, lang)}
-                      </h3>
-                      <p className="text-xs text-brand-ink-muted leading-relaxed line-clamp-2 mb-4 min-h-[2.6em]">
-                        {localize(dept.shortDescription, lang)}
-                      </p>
-
-                      {/* CTA pill */}
-                      <div
-                        className="flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl transition-all duration-300 group-hover:gap-3"
-                        style={{ backgroundColor: accent + '0d' }}
-                      >
-                        <span className="text-xs font-semibold tracking-wide" style={{ color: accent }}>
-                          {lang === 'ar' ? 'استكشف البرامج' : 'Explore Programs'}
-                        </span>
-                        <div
-                          className="flex items-center justify-center w-7 h-7 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:rotate-12"
-                          style={{ backgroundColor: accent, color: '#fff' }}
-                        >
-                          <ArrowUpRight size={14} />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom accent line that grows on hover */}
-                    <div
-                      className="absolute bottom-0 inset-x-0 h-1 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"
-                      style={{ background: `linear-gradient(90deg, ${accent}, ${gold})` }}
-                    />
-                  </Link>
-                </motion.div>
-              );
-            })}
+            {departments.map((dept, i) => (
+              <motion.div
+                key={dept.slug}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
+              >
+                <DepartmentCard department={dept} />
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

@@ -89,7 +89,6 @@ interface SiteSettingsRow {
   id: number;
   hero_title: SiteSettings['heroTitle'];
   hero_subtitle: SiteSettings['heroSubtitle'];
-  hero_image: string;
   contact_email: string;
   contact_location: SiteSettings['contactLocation'];
   org_telegram: string;
@@ -188,7 +187,6 @@ function mapSettings(r: SiteSettingsRow): SiteSettings {
   return {
     heroTitle: r.hero_title,
     heroSubtitle: r.hero_subtitle,
-    heroImage: r.hero_image ?? '',
     contactEmail: r.contact_email,
     contactLocation: r.contact_location,
     orgTelegram: r.org_telegram,

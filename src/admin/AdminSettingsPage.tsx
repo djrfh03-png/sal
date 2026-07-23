@@ -1,8 +1,8 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Save, Image, Type, Mail, MapPin, Send, Globe, Settings2,
-  Sparkles, MessageCircle, Facebook, Upload,
+  Sparkles, MessageCircle, Facebook,
 } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { useAdminStore } from '../admin/AdminStore';
@@ -15,20 +15,10 @@ export function AdminSettingsPage() {
   const { settings, updateSettings } = useAdminStore();
   const { showToast } = useToast();
   const [localSettings, setLocalSettings] = useState<SiteSettings>(settings);
-  const heroInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
     updateSettings(localSettings);
     showToast(t.admin.saved, 'success');
-  };
-
-  const handleHeroUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setLocalSettings((prev) => ({ ...prev, heroImage: reader.result as string }));
-      reader.readAsDataURL(file);
-    }
   };
 
   const inputClass =
@@ -77,50 +67,9 @@ export function AdminSettingsPage() {
           </div>
         </SettingsSection>
 
-        {/* Hero Image + Settings */}
+        {/* Hero Settings */}
         <SettingsSection icon={Type} title={t.admin.heroTitle} eyebrow={lang === 'ar' ? 'الواجهة' : 'Homepage'}>
           <div className="space-y-4">
-            {/* Hero photo upload */}
-            <div>
-              <label className="block text-sm font-semibold text-brand-ink mb-1.5">
-                {lang === 'ar' ? 'صورة الواجهة' : 'Hero Image'}
-              </label>
-              <div className="relative h-32 rounded-xl overflow-hidden border border-brand-line mb-2">
-                {localSettings.heroImage ? (
-                  <>
-                    <img src={localSettings.heroImage} alt="" className="w-full h-full object-cover" />
-                    <button
-                      onClick={() => setLocalSettings((prev) => ({ ...prev, heroImage: '' }))}
-                      className="absolute top-2 end-2 w-7 h-7 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors"
-                    >
-                      ×
-                    </button>
-                  </>
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-brand-bg-alt text-brand-ink-muted text-xs">
-                    {lang === 'ar' ? 'لا توجد صورة' : 'No image'}
-                  </div>
-                )}
-              </div>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => heroInputRef.current?.click()}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-dashed border-brand-line hover:border-brand-primary transition-colors text-sm font-medium text-brand-ink-soft"
-                >
-                  <Upload size={15} />
-                  {lang === 'ar' ? 'رفع صورة' : 'Upload'}
-                </button>
-                <input ref={heroInputRef} type="file" accept="image/*" onChange={handleHeroUpload} className="hidden" />
-                <input
-                  type="text"
-                  value={localSettings.heroImage.startsWith('data:') ? '' : localSettings.heroImage}
-                  onChange={(e) => setLocalSettings((prev) => ({ ...prev, heroImage: e.target.value }))}
-                  placeholder={lang === 'ar' ? 'أو رابط صورة' : 'Or image URL'}
-                  className="flex-1 px-3 py-2 rounded-lg border border-brand-line bg-white focus:outline-none focus:border-brand-primary transition-colors text-sm"
-                />
-              </div>
-            </div>
-
             <Field label={`${t.admin.heroTitle} (${lang})`}>
               <input
                 type="text"
