@@ -98,6 +98,7 @@ function settingsToRow(s: Partial<SiteSettings>): Record<string, unknown> {
   const row: Record<string, unknown> = {};
   if (s.heroTitle !== undefined) row.hero_title = s.heroTitle;
   if (s.heroSubtitle !== undefined) row.hero_subtitle = s.heroSubtitle;
+  if (s.heroImage !== undefined) row.hero_image = s.heroImage;
   if (s.contactEmail !== undefined) row.contact_email = s.contactEmail;
   if (s.contactLocation !== undefined) row.contact_location = s.contactLocation;
   if (s.orgTelegram !== undefined) row.org_telegram = s.orgTelegram;
@@ -323,6 +324,7 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
   const safeSettings: SiteSettings = settings ?? {
     heroTitle: { ar: '', en: '', am: '', om: '' },
     heroSubtitle: { ar: '', en: '', am: '', om: '' },
+    heroImage: '',
     contactEmail: '',
     contactLocation: { ar: '', en: '', am: '', om: '' },
     orgTelegram: '',

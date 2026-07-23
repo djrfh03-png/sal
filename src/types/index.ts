@@ -117,6 +117,7 @@ export interface SocialLinks {
 export interface SiteSettings {
   heroTitle: LocalizedName;
   heroSubtitle: LocalizedName;
+  heroImage: string;
   contactEmail: string;
   contactLocation: LocalizedName;
   orgTelegram: string;

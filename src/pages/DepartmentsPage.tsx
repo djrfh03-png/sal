@@ -59,99 +59,93 @@ export function DepartmentsPage() {
 
   return (
     <div className="pt-16">
-      {/* Hero — smart split layout: text + visual cluster of the four department logos */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-brand-bg-alt/60 to-transparent">
-        <div className="absolute inset-0 pattern-bg-gold opacity-[0.05]" />
-        <div className="absolute top-0 end-0 w-96 h-96 rounded-full bg-brand-secondary/8 blur-3xl" />
-        <div className="absolute bottom-0 start-0 w-80 h-80 rounded-full bg-brand-primary/6 blur-3xl" />
+      {/* Hero — clean, professional, minimal */}
+      <section className="relative overflow-hidden bg-white border-b border-brand-line/60">
+        <div className="absolute inset-0 pattern-bg-gold opacity-[0.03]" />
+        <div className="absolute top-0 end-0 w-72 h-72 rounded-full bg-brand-primary/5 blur-3xl" />
 
-        <div className="container-page relative z-10 py-16 md:py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-            className="text-center max-w-3xl mx-auto"
-          >
+        <div className="container-page relative z-10 py-14 md:py-20">
+          <div className="max-w-2xl mx-auto text-center">
             {/* Eyebrow */}
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="h-px w-12 bg-brand-secondary/60" />
-              <span className="text-brand-secondary text-xs font-semibold tracking-widest uppercase">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center justify-center gap-3 mb-5"
+            >
+              <div className="h-px w-10 bg-brand-secondary/50" />
+              <span className="text-brand-secondary text-[11px] font-semibold tracking-[0.2em] uppercase">
                 {lang === 'ar' ? 'أقسامنا' : 'Our Departments'}
               </span>
-              <div className="h-px w-12 bg-brand-secondary/60" />
-            </div>
+              <div className="h-px w-10 bg-brand-secondary/50" />
+            </motion.div>
 
-            <h1 className="text-3xl md:text-5xl font-bold mb-5 text-brand-ink leading-tight">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.05 }}
+              className="text-2xl md:text-4xl font-bold text-brand-ink leading-tight mb-4"
+            >
               {t.departments.title}
-            </h1>
-            <p className="text-base md:text-lg text-brand-ink-soft max-w-2xl mx-auto leading-relaxed mb-8">
-              {t.departments.subtitle}
-            </p>
+            </motion.h1>
 
-            {/* Quick legend — the four departments as a compact inline list */}
-            <div className="flex flex-wrap gap-2.5 justify-center mb-8">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-sm md:text-base text-brand-ink-soft leading-relaxed mb-8"
+            >
+              {t.departments.subtitle}
+            </motion.p>
+
+            {/* Quick legend — pills */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="flex flex-wrap gap-2 justify-center"
+            >
               {departments.map((dept) => (
                 <Link
                   key={dept.slug}
                   to={`/departments/${dept.slug}/programs`}
-                  className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-brand-line/70 shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-300"
+                  className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-brand-bg-alt border border-brand-line/70 hover:border-brand-primary/40 hover:shadow-soft transition-all duration-300"
                 >
                   <DepartmentLogo slug={dept.slug} size="sm" />
-                  <span className="text-xs font-semibold text-brand-ink leading-none">
+                  <span className="text-xs font-semibold text-brand-ink-soft group-hover:text-brand-ink transition-colors leading-none">
                     {localize(dept.name, lang)}
                   </span>
                 </Link>
               ))}
-            </div>
-
-            <div className="flex items-center justify-center gap-2">
-              <div className="h-px w-16 bg-brand-secondary/40" />
-              <div className="w-2 h-2 rotate-45 bg-brand-secondary/60" />
-              <div className="h-px w-16 bg-brand-secondary/40" />
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
 
-        {/* Stats strip — mirrors the HomePage impact-stats design */}
-        <div className="container-page relative z-10 pb-16">
+        {/* Stats strip — clean, minimal, no heavy colors */}
+        <div className="container-page relative z-10 pb-14">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 bg-white rounded-3xl shadow-card p-8 md:p-10 border border-brand-line/60"
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-brand-line/40 rounded-2xl overflow-hidden border border-brand-line/60"
           >
             {deptStats.map((stat, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 + i * 0.08 }}
-                className="text-center relative group"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.3 + i * 0.06 }}
+                className="bg-white p-5 md:p-6 text-center"
               >
-                <div className="relative inline-flex items-center justify-center mb-3">
-                  <div
-                    className="absolute inset-0 -m-3 rounded-full opacity-10 blur-md"
-                    style={{ backgroundColor: stat.color }}
-                  />
-                  <div
-                    className="relative text-4xl md:text-5xl font-bold font-display tabular-nums"
-                    style={{ color: stat.color }}
-                    dir={dir}
-                  >
-                    {stat.value.toLocaleString()}
-                    {stat.value > 0 && <span className="text-2xl md:text-3xl ms-0.5">+</span>}
-                  </div>
+                <div className="text-3xl md:text-4xl font-bold font-display tabular-nums text-brand-ink leading-none" dir={dir}>
+                  {stat.value.toLocaleString()}
+                  {stat.value > 0 && <span className="text-xl md:text-2xl text-brand-ink-muted">+</span>}
                 </div>
-                <div className="flex items-center justify-center gap-1.5 mb-1">
-                  <span className="h-px w-4" style={{ backgroundColor: stat.color, opacity: 0.4 }} />
-                  <Sparkles size={11} style={{ color: stat.color }} />
-                  <span className="h-px w-4" style={{ backgroundColor: stat.color, opacity: 0.4 }} />
-                </div>
-                <div className="text-sm md:text-base text-brand-ink font-semibold leading-snug">
+                <div className="mt-2 text-xs md:text-sm font-semibold text-brand-ink-soft leading-snug">
                   {stat.label}
                 </div>
                 {stat.hint && (
-                  <div className="mt-1 text-[11px] text-brand-ink-muted leading-snug">
+                  <div className="mt-0.5 text-[11px] text-brand-ink-muted leading-snug">
                     {stat.hint}
                   </div>
                 )}

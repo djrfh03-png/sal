@@ -153,16 +153,47 @@ function SettingsTab({ department, accent, lang, t, showToast, store }: {
   const [statDrafts, setStatDrafts] = useState<number[]>(department.stats.map((s) => s.value));
   const [reqDrafts, setReqDrafts] = useState<LocalizedName>({ ...department.requirements });
   const [tgDraft, setTgDraft] = useState<string>(department.telegramChatId);
+  const [coverDraft, setCoverDraft] = useState<string>(department.coverImage);
+  const coverInputRef = useRef<HTMLInputElement>(null);
 
   const save = () => {
     statDrafts.forEach((val, i) => store.updateDepartmentStat(department.id, i, val));
     (Object.keys(reqDrafts) as (keyof LocalizedName)[]).forEach((l) => store.updateDepartmentRequirements(department.id, l, reqDrafts[l]));
     store.updateDepartmentTelegram(department.id, tgDraft);
+    if (coverDraft !== department.coverImage) store.updateDepartment(department.id, { coverImage: coverDraft });
     showToast(t.admin.saved, 'success');
+  };
+
+  const handleCoverUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) { const reader = new FileReader(); reader.onloadend = () => setCoverDraft(reader.result as string); reader.readAsDataURL(file); }
   };
 
   return (
     <div className="space-y-5">
+      {/* Cover Photo */}
+      <SettingsCard accent={accent} icon={ImageIcon} title={lang === 'ar' ? 'صورة الغلاف' : 'Cover Photo'}>
+        <div className="space-y-3">
+          <div className="relative h-32 rounded-xl overflow-hidden border border-brand-line">
+            {coverDraft ? (
+              <>
+                <img src={coverDraft} alt="" className="w-full h-full object-cover" />
+                <button onClick={() => setCoverDraft('')} className="absolute top-2 end-2 w-7 h-7 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors"><X size={13} /></button>
+              </>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-brand-bg-alt text-brand-ink-muted text-xs">{lang === 'ar' ? 'لا توجد صورة' : 'No image'}</div>
+            )}
+          </div>
+          <div className="flex items-center gap-3">
+            <button onClick={() => coverInputRef.current?.click()} className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-dashed border-brand-line hover:border-brand-primary transition-colors text-sm font-medium text-brand-ink-soft">
+              <Upload size={15} />{lang === 'ar' ? 'رفع صورة' : 'Upload'}
+            </button>
+            <input ref={coverInputRef} type="file" accept="image/*" onChange={handleCoverUpload} className="hidden" />
+            <input type="text" value={coverDraft.startsWith('data:') ? '' : coverDraft} onChange={(e) => setCoverDraft(e.target.value)} placeholder={lang === 'ar' ? 'أو رابط صورة' : 'Or image URL'} className="flex-1 px-3 py-2 rounded-lg border border-brand-line bg-white focus:outline-none focus:border-brand-primary transition-colors text-sm" />
+          </div>
+        </div>
+      </SettingsCard>
+
       {/* Registration status */}
       <SettingsCard accent={accent} icon={Settings2} title={lang === 'ar' ? 'حالة التسجيل' : 'Registration Status'}>
         <div className="flex gap-2 flex-wrap">

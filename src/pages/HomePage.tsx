@@ -56,7 +56,7 @@ export function HomePage() {
       <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0 w-full h-[120%]">
           <img
-            src="https://images.pexels.com/photos/15403114/pexels-photo-15403114/free-photo-of-empty-interior-of-a-mosque.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            src={siteSettings?.heroImage || "https://images.pexels.com/photos/15403114/pexels-photo-15403114/free-photo-of-empty-interior-of-a-mosque.jpeg?auto=compress&cs=tinysrgb&w=1920"}
             alt=""
             className="w-full h-full object-cover"
             loading="eager"
