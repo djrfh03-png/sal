@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
-import { Target, Eye, Gem, Award } from 'lucide-react';
+import { Target, Eye, Gem, Award, Building2 } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { Timeline } from '../components/Timeline';
 import { OrgStructureChart } from '../components/OrgStructureChart';
+import { PageHero } from '../components/PageHero';
 import { useTimelineEvents } from '../hooks/useApiData';
 import { Loader2 } from 'lucide-react';
 
@@ -19,20 +20,13 @@ export function AboutPage() {
 
   return (
     <div className="pt-20">
-      {/* Header */}
-      <section className="section-pad pattern-bg">
-        <div className="container-page">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <h1 className="text-3xl md:text-5xl font-bold text-brand-ink mb-4">{t.about.title}</h1>
-            <p className="text-lg text-brand-ink-soft leading-relaxed">{t.orgDescription}</p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHero
+        eyebrow={lang === 'ar' ? 'من نحن' : 'About Us'}
+        title={t.about.title}
+        subtitle={t.orgDescription}
+        icon={Building2}
+        accentColor="#1E5A8E"
+      />
 
       {/* History */}
       <section className="section-pad">

@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Send, MessageCircle, Facebook } from 'lucide-react';
+import { Mail, MapPin, Send, MessageCircle, Facebook, Phone } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { useDepartments, useSiteSettings } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
+import { PageHero } from '../components/PageHero';
 import { LogoPlaceholder } from '../components/ui/LogoPlaceholder';
 import { DepartmentLogo } from '../components/ui/DepartmentLogo';
 import { TelegramIcon, WhatsAppIcon, TikTokIcon } from '../components/ui/SocialIcons';
@@ -23,18 +24,16 @@ export function ContactPage() {
 
   return (
     <div className="pt-20">
-      <section className="section-pad pattern-bg">
-        <div className="container-page">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
-          >
-            <h1 className="text-3xl md:text-5xl font-bold text-brand-ink mb-4">{t.contact.title}</h1>
-            <p className="text-lg text-brand-ink-soft">{t.contact.subtitle}</p>
-          </motion.div>
+      <PageHero
+        eyebrow={lang === 'ar' ? 'تواصل معنا' : 'Get in Touch'}
+        title={t.contact.title}
+        subtitle={t.contact.subtitle}
+        icon={Phone}
+        accentColor="#047857"
+      />
 
+      <section className="section-pad">
+        <div className="container-page">
           {/* Organization Contact — with all social media */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

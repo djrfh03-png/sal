@@ -9,6 +9,7 @@ import { useDepartments } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { DepartmentLogo } from '../components/ui/DepartmentLogo';
 import { DepartmentCard } from '../components/DepartmentCard';
+import { PageHero } from '../components/PageHero';
 
 export function DepartmentsPage() {
   const { t, lang, dir } = useI18n();
@@ -53,101 +54,62 @@ export function DepartmentsPage() {
 
   return (
     <div className="pt-16">
-      {/* Hero — clean, professional, minimal */}
-      <section className="relative overflow-hidden bg-white border-b border-brand-line/60">
-        <div className="absolute inset-0 pattern-bg-gold opacity-[0.03]" />
-        <div className="absolute top-0 end-0 w-72 h-72 rounded-full bg-brand-primary/5 blur-3xl" />
-
-        <div className="container-page relative z-10 py-14 md:py-20">
-          <div className="max-w-2xl mx-auto text-center">
-            {/* Eyebrow */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center justify-center gap-3 mb-5"
+      <PageHero
+        eyebrow={lang === 'ar' ? 'أقسامنا' : 'Our Departments'}
+        title={t.departments.title}
+        subtitle={t.departments.subtitle}
+        icon={BookOpen}
+        accentColor="#1E5A8E"
+      >
+        {/* Quick legend — pills */}
+        <div className="flex flex-wrap gap-2 justify-center mt-6">
+          {departments.map((dept) => (
+            <Link
+              key={dept.slug}
+              to={`/departments/${dept.slug}/programs`}
+              className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-brand-bg-alt border border-brand-line/70 hover:border-brand-primary/40 hover:shadow-soft transition-all duration-300"
             >
-              <div className="h-px w-10 bg-brand-secondary/50" />
-              <span className="text-brand-secondary text-[11px] font-semibold tracking-[0.2em] uppercase">
-                {lang === 'ar' ? 'أقسامنا' : 'Our Departments'}
+              <DepartmentLogo slug={dept.slug} size="sm" />
+              <span className="text-xs font-semibold text-brand-ink-soft group-hover:text-brand-ink transition-colors leading-none">
+                {localize(dept.name, lang)}
               </span>
-              <div className="h-px w-10 bg-brand-secondary/50" />
-            </motion.div>
+            </Link>
+          ))}
+        </div>
+      </PageHero>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.05 }}
-              className="text-2xl md:text-4xl font-bold text-brand-ink leading-tight mb-4"
-            >
-              {t.departments.title}
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-sm md:text-base text-brand-ink-soft leading-relaxed mb-8"
-            >
-              {t.departments.subtitle}
-            </motion.p>
-
-            {/* Quick legend — pills */}
+      {/* Stats strip */}
+      <div className="container-page -mt-6 pb-10 relative z-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-brand-line/40 rounded-2xl overflow-hidden border border-brand-line/60 shadow-card"
+        >
+          {deptStats.map((stat, i) => (
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="flex flex-wrap gap-2 justify-center"
+              key={i}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.4 + i * 0.06 }}
+              className="bg-white p-5 md:p-6 text-center"
             >
-              {departments.map((dept) => (
-                <Link
-                  key={dept.slug}
-                  to={`/departments/${dept.slug}/programs`}
-                  className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-brand-bg-alt border border-brand-line/70 hover:border-brand-primary/40 hover:shadow-soft transition-all duration-300"
-                >
-                  <DepartmentLogo slug={dept.slug} size="sm" />
-                  <span className="text-xs font-semibold text-brand-ink-soft group-hover:text-brand-ink transition-colors leading-none">
-                    {localize(dept.name, lang)}
-                  </span>
-                </Link>
-              ))}
+              <div className="text-3xl md:text-4xl font-bold font-display tabular-nums text-brand-ink leading-none" dir={dir}>
+                {stat.value.toLocaleString()}
+                {stat.value > 0 && <span className="text-xl md:text-2xl text-brand-ink-muted">+</span>}
+              </div>
+              <div className="mt-2 text-xs md:text-sm font-semibold text-brand-ink-soft leading-snug">
+                {stat.label}
+              </div>
+              {stat.hint && (
+                <div className="mt-0.5 text-[11px] text-brand-ink-muted leading-snug">
+                  {stat.hint}
+                </div>
+              )}
             </motion.div>
-          </div>
-        </div>
-
-        {/* Stats strip — clean, minimal, no heavy colors */}
-        <div className="container-page relative z-10 pb-14">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-brand-line/40 rounded-2xl overflow-hidden border border-brand-line/60"
-          >
-            {deptStats.map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.3 + i * 0.06 }}
-                className="bg-white p-5 md:p-6 text-center"
-              >
-                <div className="text-3xl md:text-4xl font-bold font-display tabular-nums text-brand-ink leading-none" dir={dir}>
-                  {stat.value.toLocaleString()}
-                  {stat.value > 0 && <span className="text-xl md:text-2xl text-brand-ink-muted">+</span>}
-                </div>
-                <div className="mt-2 text-xs md:text-sm font-semibold text-brand-ink-soft leading-snug">
-                  {stat.label}
-                </div>
-                {stat.hint && (
-                  <div className="mt-0.5 text-[11px] text-brand-ink-muted leading-snug">
-                    {stat.hint}
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+          ))}
+        </motion.div>
+      </div>
 
       {/* Department tiles — clean, photo-free cards */}
       <section className="section-pad">

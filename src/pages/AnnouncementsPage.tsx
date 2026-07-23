@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowRight, ArrowLeft, Pin } from 'lucide-react';
+import { Calendar, ArrowRight, ArrowLeft, Pin, Megaphone } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { useAnnouncements, useDepartments, useAnnouncement } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { Button } from '../components/ui/Button';
+import { PageHero } from '../components/PageHero';
 import { Loader2 } from 'lucide-react';
 import type { DepartmentSlug } from '../types';
 
@@ -29,18 +30,16 @@ export function AnnouncementsPage() {
 
   return (
     <div className="pt-20">
-      <section className="section-pad pattern-bg">
-        <div className="container-page">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
-          >
-            <h1 className="text-3xl md:text-5xl font-bold text-brand-ink mb-4">{t.nav.announcements}</h1>
-            <p className="text-lg text-brand-ink-soft">{t.common.latestAnnouncements}</p>
-          </motion.div>
+      <PageHero
+        eyebrow={t.common.latestAnnouncements}
+        title={t.nav.announcements}
+        subtitle={lang === 'ar' ? 'إعلانات المؤسسة العامة وأقسامها' : 'General institution & department announcements'}
+        icon={Megaphone}
+        accentColor="#047857"
+      />
 
+      <section className="section-pad">
+        <div className="container-page">
           {/* Filter Tabs */}
           <div className="flex flex-wrap justify-center gap-2 mb-10">
             <button

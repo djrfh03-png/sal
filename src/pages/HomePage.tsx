@@ -123,27 +123,42 @@ export function HomePage() {
         </motion.div>
       </section>
 
-      {/* Quran Verses Strip — auto-sliding verses over a Quran backdrop, layered below hero */}
+      {/* Quran Verses Strip — premium dark card, no photo */}
       <section className="relative -mt-12 z-20">
         <div className="container-page">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative rounded-3xl overflow-hidden shadow-card-hover"
+            className="relative rounded-3xl overflow-hidden shadow-card-hover bg-brand-primary-dark"
           >
-            <div className="absolute inset-0 rounded-3xl border-2 border-brand-secondary/40 z-30 pointer-events-none" />
-            {/* Background Quran image */}
-            <img
-              src="https://images.pexels.com/photos/17753204/pexels-photo-17753204/free-photo-of-stand-with-koran-in-mosque.jpeg?auto=compress&cs=tinysrgb&w=1920"
-              alt=""
-              className="w-full h-40 md:h-60 object-cover"
-              loading="lazy"
-            />
-            {/* Dark overlay for verse readability */}
-            <div className="absolute inset-0 z-10 bg-gradient-to-b from-brand-primary-dark/80 via-brand-primary-dark/75 to-brand-primary-dark/85" />
+            {/* Pattern texture */}
+            <div className="absolute inset-0 pattern-bg-gold opacity-[0.06]" />
+
+            {/* Soft radial glows */}
+            <div className="absolute top-0 end-0 w-64 h-64 rounded-full bg-brand-secondary/10 blur-3xl" />
+            <div className="absolute bottom-0 start-0 w-48 h-48 rounded-full bg-brand-primary-light/5 blur-3xl" />
+
+            {/* Gold border accent */}
+            <div className="absolute inset-0 rounded-3xl border-2 border-brand-secondary/30 z-30 pointer-events-none" />
+
+            {/* Geometric ornaments */}
+            <div className="absolute top-3 end-3 w-16 h-16 opacity-[0.08] pointer-events-none">
+              <svg viewBox="0 0 64 64" fill="none" stroke="#C9A227" strokeWidth="0.5">
+                <path d="M32 0 L64 32 L32 64 L0 32 Z" />
+                <path d="M32 8 L56 32 L32 56 L8 32 Z" />
+                <circle cx="32" cy="32" r="8" />
+              </svg>
+            </div>
+            <div className="absolute bottom-3 start-3 w-12 h-12 opacity-[0.06] pointer-events-none">
+              <svg viewBox="0 0 48 48" fill="none" stroke="#ffffff" strokeWidth="0.5">
+                <path d="M24 0 L48 24 L24 48 L0 24 Z" />
+                <path d="M24 6 L42 24 L24 42 L6 24 Z" />
+              </svg>
+            </div>
+
             {/* Auto-sliding verses */}
-            <div className="absolute inset-0 z-20 py-6">
+            <div className="relative z-20 py-6">
               <QuranVersesSlider />
             </div>
           </motion.div>

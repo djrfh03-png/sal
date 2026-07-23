@@ -7,6 +7,7 @@ import { useI18n } from '../i18n/I18nContext';
 import { useDepartments } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { ProgramCard } from '../components/ProgramCard';
+import { PageHero } from '../components/PageHero';
 import { Loader2 } from 'lucide-react';
 
 const deptIcons: Record<string, typeof BookOpen> = {
@@ -31,54 +32,40 @@ export function ProgramsPage() {
 
   return (
     <div className="pt-16">
-      {/* Header */}
-      <section className="relative overflow-hidden bg-brand-bg-alt/30" style={{ borderInlineStart: '4px solid var(--color-brand-primary, #1E5A8E)' }}>
-        <div className="absolute inset-0 pattern-bg-gold opacity-[0.03]" />
-        <div className="absolute top-1/4 end-0 w-80 h-80 rounded-full blur-3xl bg-brand-primary/5" />
-        <div className="container-page relative py-12 md:py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center border bg-brand-primary/10 border-brand-primary/20">
-                <BookOpen size={24} className="text-brand-primary" />
-              </div>
-              <h1 className="text-2xl md:text-4xl font-bold text-brand-primary">
-                {t.common.programs}
-              </h1>
-            </div>
-            <p className="max-w-2xl leading-relaxed text-brand-ink-soft">
-              {lang === 'ar'
-                ? 'برامج متكاملة تجمع بين العلم والتربية والإتقان، لكل الأقسام والمراحل'
-                : 'Integrated programs combining knowledge, nurturing, and mastery across all departments and stages'}
-            </p>
-            <div className="flex items-center gap-2 mt-4">
-              <Sparkles size={16} className="text-brand-secondary" />
-              <span className="text-sm font-semibold text-brand-primary">
-                {departments.reduce((sum, d) => sum + d.programs.length, 0)} {lang === 'ar' ? 'برنامج متاح' : 'programs available'}
-              </span>
-            </div>
-
-            {/* Department count pills */}
-            <div className="flex flex-wrap gap-2 mt-4">
-              {departments.map((dept) => (
-                <Link
-                  key={dept.slug}
-                  to={`/departments/${dept.slug}/programs`}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:-translate-y-0.5"
-                  style={{ backgroundColor: dept.accentColor.base + '12', color: dept.accentColor.base }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: dept.accentColor.base }} />
-                  {localize(dept.name, lang)}
-                  <span className="font-bold tabular-nums">{dept.programs.length}</span>
-                </Link>
-              ))}
-            </div>
-          </motion.div>
+      <PageHero
+        eyebrow={lang === 'ar' ? 'برامجنا' : 'Our Programs'}
+        title={t.common.programs}
+        subtitle={lang === 'ar'
+          ? 'برامج متكاملة تجمع بين العلم والتربية والإتقان، لكل الأقسام والمراحل'
+          : 'Integrated programs combining knowledge, nurturing, and mastery across all departments and stages'}
+        icon={BookOpen}
+        accentColor="#1E5A8E"
+      >
+        <div className="flex flex-wrap gap-2 justify-center mt-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-secondary/10 border border-brand-secondary/20">
+            <Sparkles size={14} className="text-brand-secondary" />
+            <span className="text-sm font-semibold text-brand-ink">
+              {departments.reduce((sum, d) => sum + d.programs.length, 0)} {lang === 'ar' ? 'برنامج متاح' : 'programs available'}
+            </span>
+          </div>
         </div>
-      </section>
+
+        {/* Department count pills */}
+        <div className="flex flex-wrap gap-2 justify-center mt-4">
+          {departments.map((dept) => (
+            <Link
+              key={dept.slug}
+              to={`/departments/${dept.slug}/programs`}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:-translate-y-0.5"
+              style={{ backgroundColor: dept.accentColor.base + '12', color: dept.accentColor.base }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: dept.accentColor.base }} />
+              {localize(dept.name, lang)}
+              <span className="font-bold tabular-nums">{dept.programs.length}</span>
+            </Link>
+          ))}
+        </div>
+      </PageHero>
 
       {/* Programs by department */}
       {departments.map((dept, idx) => {

@@ -7,6 +7,7 @@ import { useDepartment } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { Button } from '../components/ui/Button';
 import { ProgramCard } from '../components/ProgramCard';
+import { PageHero } from '../components/PageHero';
 import { Loader2 } from 'lucide-react';
 
 export function DepartmentProgramsPage() {
@@ -40,62 +41,31 @@ export function DepartmentProgramsPage() {
 
   return (
     <div className="pt-16">
-      {/* Header — premium, no photo, clean accent design */}
-      <section className="relative overflow-hidden bg-white border-b border-brand-line/60">
-        <div className="absolute inset-0 pattern-bg-gold opacity-[0.03]" />
-        <div className="absolute top-0 end-0 w-72 h-72 rounded-full blur-3xl" style={{ backgroundColor: accent + '06' }} />
-
-        {/* Top accent line */}
-        <div className="h-1" style={{ background: `linear-gradient(90deg, ${accent}, ${gold})` }} />
-
-        <div className="container-page relative py-10 md:py-14">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+      <PageHero
+        eyebrow={lang === 'ar' ? 'برامج القسم' : 'Department Programs'}
+        title={t.common.programs}
+        subtitle={localize(department.shortDescription, lang)}
+        icon={BookOpen}
+        accentColor={accent}
+      >
+        <div className="flex items-center gap-3 justify-center mt-6">
+          <div
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
+            style={{ backgroundColor: accent + '12', color: accent }}
           >
-            <Link
-              to={`/departments/${department.slug}`}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold mb-6 transition-colors"
-              style={{ color: accent }}
-            >
-              <Arrow size={16} />
-              {localize(department.name, lang)}
-            </Link>
-            <div className="flex items-center gap-3 mb-3">
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center border"
-                style={{ backgroundColor: accent + '15', borderColor: accent + '30' }}
-              >
-                <BookOpen size={24} style={{ color: accent }} />
-              </div>
-              <h1 className="text-2xl md:text-4xl font-bold" style={{ color: accent }}>
-                {t.common.programs}
-              </h1>
-            </div>
-            <p className="max-w-2xl leading-relaxed text-brand-ink-soft">
-              {localize(department.shortDescription, lang)}
-            </p>
-            <div className="flex items-center gap-3 mt-4">
-              <div
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-sm font-semibold"
-                style={{ backgroundColor: accent + '12', color: accent }}
-              >
-                <Sparkles size={14} style={{ color: gold }} />
-                <span className="tabular-nums font-bold">{department.programs.length}</span>
-                <span>{lang === 'ar' ? 'برنامج متاح' : 'programs available'}</span>
-              </div>
-              <Link
-                to={`/departments/${department.slug}`}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm font-semibold bg-brand-bg-alt text-brand-ink-soft hover:bg-brand-line transition-colors"
-              >
-                {lang === 'ar' ? 'عن القسم' : 'About department'}
-                <Arrow size={14} />
-              </Link>
-            </div>
-          </motion.div>
+            <Sparkles size={14} style={{ color: gold }} />
+            <span className="tabular-nums font-bold">{department.programs.length}</span>
+            <span>{lang === 'ar' ? 'برنامج متاح' : 'programs available'}</span>
+          </div>
+          <Link
+            to={`/departments/${department.slug}`}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold bg-brand-bg-alt text-brand-ink-soft hover:bg-brand-line transition-colors"
+          >
+            {lang === 'ar' ? 'عن القسم' : 'About department'}
+            <Arrow size={14} />
+          </Link>
         </div>
-      </section>
+      </PageHero>
 
       {/* Programs listing */}
       <section className="section-pad">

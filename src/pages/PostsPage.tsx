@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowRight, ArrowLeft, ImageIcon, Video, FileText, ArrowLeftCircle } from 'lucide-react';
+import { Calendar, ArrowRight, ArrowLeft, ImageIcon, Video, FileText, ArrowLeftCircle, Newspaper } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { usePosts, usePost, useDepartments } from '../hooks/useApiData';
 import { localize } from '../utils/localize';
 import { Button } from '../components/ui/Button';
+import { PageHero } from '../components/PageHero';
 import { LogoPlaceholder } from '../components/ui/LogoPlaceholder';
 import { Loader2 } from 'lucide-react';
 import type { DepartmentSlug } from '../types';
@@ -33,18 +34,16 @@ export function PostsPage() {
   if (!selectedDept) {
     return (
       <div className="pt-20">
-        <section className="section-pad pattern-bg">
-          <div className="container-page">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-center mb-12"
-            >
-              <h1 className="text-3xl md:text-5xl font-bold text-brand-ink mb-4">{t.posts.title}</h1>
-              <p className="text-lg text-brand-ink-soft">{lang === 'ar' ? 'اختر القسم لعرض منشوراته' : 'Select a department to view its posts'}</p>
-            </motion.div>
+        <PageHero
+          eyebrow={lang === 'ar' ? 'الأخبار والأنشطة' : 'News & Activities'}
+          title={t.posts.title}
+          subtitle={lang === 'ar' ? 'اختر القسم لعرض منشوراته' : 'Select a department to view its posts'}
+          icon={Newspaper}
+          accentColor="#1E5A8E"
+        />
 
+        <section className="section-pad">
+          <div className="container-page">
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {departments.map((dept) => {
                 const postCount = posts.filter((p) => p.departmentSlug === dept.slug).length;
@@ -93,25 +92,24 @@ export function PostsPage() {
 
   return (
     <div className="pt-20">
-      <section className="section-pad pattern-bg">
+      <PageHero
+        eyebrow={lang === 'ar' ? 'الأخبار والأنشطة' : 'News & Activities'}
+        title={localize(dept?.name ?? { ar: '', en: '', am: '', om: '' }, lang)}
+        subtitle={t.posts.subtitle}
+        icon={Newspaper}
+        accentColor={accent}
+      >
+        <button
+          onClick={() => setSelectedDept(null)}
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold bg-brand-bg-alt text-brand-ink-soft hover:bg-brand-line transition-colors"
+        >
+          <ArrowLeftCircle size={16} />
+          {lang === 'ar' ? 'كل الأقسام' : 'All Departments'}
+        </button>
+      </PageHero>
+
+      <section className="section-pad">
         <div className="container-page">
-          {/* Back button + header */}
-          <div className="mb-8">
-            <button
-              onClick={() => setSelectedDept(null)}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-ink-muted hover:text-brand-primary transition-colors mb-4"
-            >
-              <ArrowLeftCircle size={18} />
-              {lang === 'ar' ? 'كل الأقسام' : 'All Departments'}
-            </button>
-            <div className="flex items-center gap-4">
-              {dept && <LogoPlaceholder slug={dept.slug} size="lg" color={accent} />}
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-brand-ink">{localize(dept?.name ?? { ar: '', en: '', am: '', om: '' }, lang)}</h1>
-                <p className="text-sm text-brand-ink-soft">{t.posts.subtitle}</p>
-              </div>
-            </div>
-          </div>
 
           {filtered.length === 0 ? (
             <p className="text-center text-brand-ink-muted py-12">{t.posts.noPosts}</p>
